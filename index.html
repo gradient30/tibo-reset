@@ -1,0 +1,1431 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tibo Reset 追踪 · Codex/ChatGPT 额度重置</title>
+<style>
+:root{--bg:#eef1f8;--fg:#141724;--mut:#5d6578;--glass:rgba(255,255,255,.62);--bd:rgba(20,30,60,.10);--acc:#6d5efc;--acc2:#00b4d8;--ok:#0fb981;--warn:#e08a00;--sh:0 10px 30px rgba(40,50,90,.10)}
+@media(prefers-color-scheme:dark){:root{--bg:#07080d;--fg:#e9ecf5;--mut:#9aa3b8;--glass:rgba(24,28,42,.55);--bd:rgba(255,255,255,.08);--acc:#9b8cff;--acc2:#3fd5f5;--ok:#34d399;--warn:#fbbf24;--sh:0 10px 40px rgba(0,0,0,.45)}}
+*{box-sizing:border-box}html,body{margin:0}
+body{font:14px/1.6 -apple-system,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;color:var(--fg);background:var(--bg);min-height:100vh;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:-20%;z-index:-1;background:radial-gradient(40% 35% at 15% 10%,color-mix(in srgb,var(--acc) 30%,transparent),transparent 70%),radial-gradient(35% 30% at 90% 20%,color-mix(in srgb,var(--acc2) 25%,transparent),transparent 70%),radial-gradient(40% 40% at 60% 95%,color-mix(in srgb,var(--ok) 15%,transparent),transparent 70%)}
+.w{max-width:1200px;margin:auto;padding:28px 20px 40px}
+.top{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+h1{font-size:28px;margin:0;letter-spacing:-.02em}h1 b{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:15px;margin:0 0 12px;display:flex;gap:8px;align-items:center}
+.sub,.q{color:var(--mut)}.q{font-size:12px}
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.c{position:relative;grid-column:span 12;background:var(--glass);border:1px solid var(--bd);border-radius:22px;padding:20px 22px;backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);box-shadow:var(--sh);transform:perspective(900px) rotateX(var(--rx,0)) rotateY(var(--ry,0)) translate(var(--tx,0),var(--ty,0));transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;overflow:hidden;min-width:0}
+.c:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .25s;background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--acc) 22%,transparent),transparent 60%)}
+.c:hover:after{opacity:1}.c:hover{box-shadow:var(--sh),0 0 0 1px color-mix(in srgb,var(--acc) 40%,transparent),0 0 40px color-mix(in srgb,var(--acc) 18%,transparent)}
+.s8{grid-column:span 8}.s4{grid-column:span 4}.s3{grid-column:span 3}.s6{grid-column:span 6}
+@media(max-width:900px){.s8,.s4,.s6{grid-column:span 12}.s3{grid-column:span 6}}
+@media(max-width:520px){.s3{grid-column:span 12}.w{padding:18px 12px}h1{font-size:23px}}
+.hero{background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 22%,var(--glass)),color-mix(in srgb,var(--acc2) 14%,var(--glass)))}
+.big{font-size:clamp(24px,4vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.15;margin:6px 0 10px}
+.grad{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.k{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.06em}.v{font-size:24px;font-weight:750}
+.tag{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn);border:1px solid color-mix(in srgb,var(--warn) 35%,transparent)}
+.pill{display:inline-flex;gap:6px;align-items:center;padding:4px 12px;border-radius:99px;background:var(--glass);border:1px solid var(--bd);font-size:12px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok)}
+.bar{height:8px;border-radius:9px;background:color-mix(in srgb,var(--fg) 10%,transparent);overflow:hidden;margin:10px 0 4px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:9px}
+.hl{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px}.hl>div{min-width:130px}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+.u{color:var(--mut);font-style:italic;opacity:.85}
+.tl{max-height:640px;overflow:auto;margin:0 -6px;padding:0 6px}
+.ev{display:grid;grid-template-columns:150px 1fr 1fr 110px;gap:12px;padding:12px;border-radius:14px;border:1px solid var(--bd);margin-bottom:8px;background:color-mix(in srgb,var(--glass) 60%,transparent)}
+.ev.ch{border-color:color-mix(in srgb,var(--ok) 40%,transparent)}
+@media(max-width:760px){.ev{grid-template-columns:1fr 1fr}.ev>.d{grid-column:span 2}}
+.ev .t{font-weight:700}.lab{font-size:11px;color:var(--mut)}
+.chip{display:inline-block;font-size:11px;padding:0 7px;border-radius:99px;background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok);margin-left:4px}
+svg text{fill:var(--mut);font-size:10px}ul{margin:4px 0;padding-left:18px}li{margin:3px 0}
+.bk{display:flex;flex-direction:column;gap:8px;max-height:340px;overflow:auto}.bk div{font-size:12.5px;padding:8px 10px;border-radius:10px;border:1px solid var(--bd)}
+.flt{display:flex;gap:6px;flex-wrap:wrap}.flt button{font:inherit;font-size:12px;padding:3px 12px;border-radius:99px;border:1px solid var(--bd);background:var(--glass);color:var(--fg);cursor:pointer}.flt button.on{background:var(--acc);color:#fff;border-color:transparent}
+
+.nav{position:sticky;top:10px;z-index:50;display:flex;gap:6px;padding:6px;margin:0 0 18px;border-radius:99px;background:var(--glass);border:1px solid var(--bd);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);box-shadow:var(--sh);overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:0 0 auto;padding:7px 16px;border-radius:99px;color:var(--fg);font-weight:600;font-size:13px;text-decoration:none;transition:background .2s,color .2s}
+.nav a:hover{background:color-mix(in srgb,var(--acc) 12%,transparent);text-decoration:none}
+.nav a.on{background:linear-gradient(90deg,var(--acc),var(--acc2));color:#fff;box-shadow:0 0 18px color-mix(in srgb,var(--acc) 45%,transparent)}
+@media(max-width:600px){.nav{position:fixed;top:auto;bottom:10px;left:10px;right:10px;margin:0}.w{padding-bottom:84px}}
+[data-tab]{display:none}[data-tab].show{display:block;animation:tin .32s ease both}.bento>[data-tab].show{display:block}
+@keyframes tin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.more{display:inline-block;margin-top:10px;font-size:12px;font-weight:600}
+.foot{margin-top:18px;text-align:center}
+@media(prefers-reduced-motion:reduce){[data-tab].show{animation:none}.c{transition:none!important;transform:none!important}.c:after{display:none}}
+</style></head><body><div class="w">
+<div class="top"><div><h1>🔄 <b>Tibo Reset</b> 追踪</h1><div class="sub">Codex / ChatGPT Work 全局额度重置（@thsottiaux 官宣）· 时间均为北京时间 UTC+8</div></div><span class="pill"><span class="dot"></span>生成于 <span id="gen"></span></span></div>
+<nav class="nav" aria-label="分类"><a href="#overview">✨ 概览</a><a href="#forecast">🧭 预测依据</a><a href="#trend">📈 趋势</a><a href="#history">🗂 历史记录</a><a href="#other">📎 其他</a></nav>
+<main class="bento">
+ <section data-tab="overview" class="c hero s8 mag" id="hero"></section>
+ <section data-tab="overview" class="c s4 mag" id="status"></section>
+ <div data-tab="overview" class="s3 c mag kpi" id="k1"></div><div data-tab="overview" class="s3 c mag kpi" id="k2"></div><div data-tab="overview" class="s3 c mag kpi" id="k3"></div><div data-tab="overview" class="s3 c mag kpi" id="k4"></div>
+ <section data-tab="forecast" class="c s8 mag" id="basis"></section>
+ <section data-tab="forecast" class="c s4 mag" id="lag"></section>
+ <section data-tab="trend" class="c mag"><h2>📈 重置间隔趋势（天）</h2><div id="chart"></div><div class="q">柱 = 与上一次全局重置的间隔（近 40 次）；虚线 = 近 30 天中位数；<span style="color:var(--ok)">绿色</span> = 28 天挑战期内；超过 20 天的柱被截断。banked reset 不计入。</div></section>
+ <section data-tab="history" class="c"><h2>🗂 历史记录 <span class="q" id="cnt"></span></h2>
+  <div class="flt" style="margin-bottom:12px"><button class="on" data-f="all">全部</button><button data-f="ch">有预告帖</button><button data-f="win">有官方窗口</button></div>
+  <div class="tl" id="tb"></div></section>
+ <section data-tab="other" class="c s6 mag"><h2>🏦 Banked reset 记录 <span class="q">（不计入间隔）</span></h2><div class="bk" id="bk"></div></section>
+ <section data-tab="other" class="c s6 mag"><h2>⚠️ 数据缺口</h2><ul id="gaps"></ul></section>
+ <section data-tab="other" class="c q mag" id="ft"></section>
+</main><footer class="foot q" id="sf"></footer></div>
+<script>
+const D={
+ "generated_at_bj": "2026-10-20 13:21",
+ "sources": [
+  "https://x.com/thsottiaux",
+  "https://codex-reset.com/api/timeline",
+  "https://status.openai.com"
+ ],
+ "last_reset": {
+  "id": "2111492738025959922",
+  "radar_url": "https://x.com/thsottiaux/status/2111492738025959922",
+  "radar_summary": "Day 13 of the 28-day ship-or-reset series: the global reset promised “by EOD PST” landed at 20:41 UTC on our checks; Tibo then posted: “Done.”",
+  "reasons": [],
+  "actual_utc": "2026-10-17T20:41:01+00:00",
+  "actual_bj": "2026-10-18 04:41",
+  "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+  "window": null,
+  "label": "Day 13",
+  "teaser": {
+   "url": "https://x.com/thsottiaux/status/2111492673890824348",
+   "time_bj": "2026-10-18 00:20",
+   "quote": "Day 13/ Le limit reset — Landing sometime today by EOD PST"
+  },
+  "predicted_bj": "2026-10-18 15:00（截止）",
+  "pred_note": "\"by EOD PST\"（按 PDT 当日 24:00）",
+  "lag_teaser_h": 4.33,
+  "dev_h": -10.32,
+  "confirmation": {
+   "url": "https://x.com/thsottiaux/status/2111566005684289735",
+   "time_bj": "2026-10-18 05:12",
+   "quote": "Done"
+  },
+  "gap_days": 2.6
+ },
+ "days_since_last": 2.36,
+ "stats_30d": {
+  "n": 7,
+  "mean": 5.07,
+  "median": 4.02,
+  "min": 2.04,
+  "max": 14.42
+ },
+ "stats_all": {
+  "n": 54,
+  "mean": 7.33,
+  "median": 3.75,
+  "min": 0.5,
+  "max": 67.74
+ },
+ "teaser_lag_hours_challenge": [
+  6.45,
+  5.75,
+  4.0,
+  1.28,
+  4.33
+ ],
+ "forecast": {
+  "window_start_bj": "2026-10-20 15:00",
+  "window_end_bj": "2026-10-23 15:00",
+  "confidence": "低-中",
+  "basis": "28 天 ship-or-reset 挑战（2026-10-04 公布，Day1≈10-05 PT，约至 11-01）期内已兑现 Day2/6/8/10/13，间隔 4.0/2.0/2.0/2.6 天；近 30 天 7 个间隔中位数 4.02 天、均值 5.07 天。距 Day13 已 2.4 天，Day14/15 为功能发布。窗口取 Day16–Day18（PT 10-20 至 10-22）≈ 中位间隔 + 散布余量。挑战期内，判据是 Tibo 当日的「Day N/ Reset」帖，预告到落地中位约 4.3 小时。",
+  "change": "出现「Day N/ Reset」帖即改为当日 PT 结束前（北京时间次日 15:00 前）；窗口过去无帖则撤回本预测，不顺延。",
+  "hour_note": "近 30 天落地时刻（北京）：[2, 4, 5, 11, 12, 13, 14] — 分散，不给固定时点"
+ },
+ "events": [
+  {
+   "id": "1968163721034994139",
+   "radar_url": "https://x.com/thsottiaux/status/1968163721034994139",
+   "radar_summary": "We have reset everyone's limits for gpt-5-codex to allow you all to benefit more from it today and as a way to make up for the slowdowns earlier while we were provisioning…",
+   "reasons": [
+    "incident",
+    "launch"
+   ],
+   "actual_utc": "2025-09-17T04:02:52+00:00",
+   "actual_bj": "2025-09-17 12:02",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": null
+  },
+  {
+   "id": "1986166501435711936",
+   "radar_url": "https://x.com/thsottiaux/status/1986166501435711936",
+   "radar_summary": "Codex outage resolved. We suffered a minor outage for last 45 minutes which turned into a global outage for last 30 minutes, this is now resolved and we have reset the rate…",
+   "reasons": [
+    "incident"
+   ],
+   "actual_utc": "2025-11-05T20:19:29+00:00",
+   "actual_bj": "2025-11-06 04:19",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": {
+    "label": "within 30 minutes",
+    "start_at": "2025-11-05T20:19:29.000Z",
+    "end_at": "2025-11-05T20:49:29.000Z",
+    "target_kind": "deadline",
+    "target_at": "2025-11-05T20:49:29.000Z"
+   },
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "2025-11-06 04:49（截止）",
+   "pred_note": "官方窗口：within 30 minutes",
+   "lag_teaser_h": null,
+   "dev_h": -0.5,
+   "confirmation": null,
+   "gap_days": 49.68
+  },
+  {
+   "id": "1992370994028388670",
+   "radar_url": "https://x.com/thsottiaux/status/1992370994028388670",
+   "radar_summary": "We have reset rate limits for all Codex users to compensate for the unusual high latencies in or near the US in the previous hours. Grateful for the team working hard behind the…",
+   "reasons": [
+    "compensation"
+   ],
+   "actual_utc": "2025-11-22T23:13:56+00:00",
+   "actual_bj": "2025-11-23 07:13",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 17.12
+  },
+  {
+   "id": "1995988609896513743",
+   "radar_url": "https://x.com/thsottiaux/status/1995988609896513743",
+   "radar_summary": "We have reset the usage limits for everyone in Codex, which helps us mitigate the issue the fastest and the team will continue to work on the underlying cause. This should…",
+   "reasons": [
+    "incident"
+   ],
+   "actual_utc": "2025-12-02T22:49:02+00:00",
+   "actual_bj": "2025-12-03 06:49",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 9.98
+  },
+  {
+   "id": "2001114683047317723",
+   "radar_url": "https://x.com/thsottiaux/status/2001114683047317723",
+   "radar_summary": "Didn’t need to do this in a while, but you know the drill. We have reset everyone’s usage limits, enjoy more Codex and apologies for the disruption.",
+   "reasons": [
+    "compensation"
+   ],
+   "actual_utc": "2025-12-17T02:18:14+00:00",
+   "actual_bj": "2025-12-17 10:18",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 14.15
+  },
+  {
+   "id": "2002137269134819610",
+   "radar_url": "https://x.com/thsottiaux/status/2002137269134819610",
+   "radar_summary": "We rewrote the underlying system to track and bill usage in Codex and we have reset usage limits in the process. Backfilling is time consuming and it’s more fun to give free…",
+   "reasons": [],
+   "actual_utc": "2025-12-19T22:01:37+00:00",
+   "actual_bj": "2025-12-20 06:01",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 2.82
+  },
+  {
+   "id": "2004100061933064395",
+   "radar_url": "https://x.com/thsottiaux/status/2004100061933064395",
+   "radar_summary": "Holiday gift: reset rate limits AND lifted usage limits to 2X the usual until Jan 1.",
+   "reasons": [
+    "promo",
+    "unlock"
+   ],
+   "actual_utc": "2025-12-25T08:01:03+00:00",
+   "actual_bj": "2025-12-25 16:01",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 5.42
+  },
+  {
+   "id": "2028649088594436225",
+   "radar_url": "https://x.com/thsottiaux/status/2028649088594436225",
+   "radar_summary": "Codex is back up. We introduced an issue that caused requests to be blocked and rejected as high cyber risk. This was fixed in ~8 mins and we are now back online and fully…",
+   "reasons": [
+    "incident"
+   ],
+   "actual_utc": "2026-03-03T01:50:07+00:00",
+   "actual_bj": "2026-03-03 09:50",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 67.74
+  },
+  {
+   "id": "2029308599835738218",
+   "radar_url": "https://x.com/thsottiaux/status/2029308599835738218",
+   "radar_summary": "Fixed a bug where the 2X promotional limit increase was not applied to ~9% of Plus/Pro users; reset limits to compensate.",
+   "reasons": [
+    "incident",
+    "compensation"
+   ],
+   "actual_utc": "2026-03-04T21:30:47+00:00",
+   "actual_bj": "2026-03-05 05:30",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 1.82
+  },
+  {
+   "id": "2030474136024400173",
+   "radar_url": "https://x.com/thsottiaux/status/2030474136024400173",
+   "radar_summary": "We don’t have evidence of a widespread issue with codex usage being drained faster than it should but there are enough reports and we have reset rate limits for plus & pro…",
+   "reasons": [
+    "incident"
+   ],
+   "actual_utc": "2026-03-08T02:42:13+00:00",
+   "actual_bj": "2026-03-08 10:42",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 3.22
+  },
+  {
+   "id": "2031216405266481489",
+   "radar_url": "https://x.com/thsottiaux/status/2031216405266481489",
+   "radar_summary": "This codex issue is now fully resolved and stable for the last couple of hours. You have come to expect it, but yes, that means we will be reseting rate limits in a bit. Enjoy.",
+   "reasons": [
+    "incident"
+   ],
+   "actual_utc": "2026-03-10T03:51:43+00:00",
+   "actual_bj": "2026-03-10 11:51",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": {
+    "label": "official hint — timing unspecified",
+    "start_at": "2026-03-10T03:51:43.000Z",
+    "end_at": "2026-03-11T03:51:43.000Z"
+   },
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "2026-03-11 11:51（截止）",
+   "pred_note": "官方窗口：official hint — timing unspecified",
+   "lag_teaser_h": null,
+   "dev_h": -24.0,
+   "confirmation": null,
+   "gap_days": 2.05
+  },
+  {
+   "id": "2031605592352313567",
+   "radar_url": "https://x.com/thsottiaux/status/2031605592352313567",
+   "radar_summary": "OK, Codex is back and stable and we should be good for a while. Reset button pressed, should see it in a bit",
+   "reasons": [
+    "incident"
+   ],
+   "actual_utc": "2026-03-11T05:38:13+00:00",
+   "actual_bj": "2026-03-11 13:38",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 1.07
+  },
+  {
+   "id": "2037346989244096581",
+   "radar_url": "https://x.com/thsottiaux/status/2037346989244096581",
+   "radar_summary": "Hello. We have reset Codex usage limits across all plans to let everyone experiment with the magnificent plugins we just launched, and because it had been a while! You can just…",
+   "reasons": [
+    "launch"
+   ],
+   "actual_utc": "2026-03-27T01:52:28+00:00",
+   "actual_bj": "2026-03-27 09:52",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 15.84
+  },
+  {
+   "id": "2039248564967424483",
+   "radar_url": "https://x.com/thsottiaux/status/2039248564967424483",
+   "radar_summary": "Our Codex dashboards are showing increased rate of users hitting rate limits and since we don't fully understand why I have made the cautious decision of resetting the usage…",
+   "reasons": [],
+   "actual_utc": "2026-04-01T07:48:39+00:00",
+   "actual_bj": "2026-04-01 15:48",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 5.25
+  },
+  {
+   "id": "2041655710346572085",
+   "radar_url": "https://x.com/thsottiaux/status/2041655710346572085",
+   "radar_summary": "3M weekly Codex users milestone (up from 2M a month earlier); reset rate limits to celebrate.",
+   "reasons": [
+    "milestone",
+    "promo"
+   ],
+   "actual_utc": "2026-04-07T23:13:48+00:00",
+   "actual_bj": "2026-04-08 07:13",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 6.64
+  },
+  {
+   "id": "2042299371602264319",
+   "radar_url": "https://x.com/thsottiaux/status/2042299371602264319",
+   "radar_summary": "Launched the $100 plan with a lot of included Codex usage; reset limits alongside it.",
+   "reasons": [
+    "launch"
+   ],
+   "actual_utc": "2026-04-09T17:51:28+00:00",
+   "actual_bj": "2026-04-10 01:51",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 1.78
+  },
+  {
+   "id": "2044943514832871564",
+   "radar_url": "https://x.com/thsottiaux/status/2044943514832871564",
+   "radar_summary": "Codex 1-year anniversary: let Codex reset its own rate limits across all plans.",
+   "reasons": [
+    "milestone"
+   ],
+   "actual_utc": "2026-04-17T00:58:21+00:00",
+   "actual_bj": "2026-04-17 08:58",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 7.3
+  },
+  {
+   "id": "2046367145588916687",
+   "radar_url": "https://x.com/thsottiaux/status/2046367145588916687",
+   "radar_summary": "Codex incident is mitigated, seeing recovery. Lasted about 10 mins, Codex itself helped with the remediation, but ultimately the insight came from a human this time. Apologies for…",
+   "reasons": [
+    "incident",
+    "compensation"
+   ],
+   "actual_utc": "2026-04-20T23:15:21+00:00",
+   "actual_bj": "2026-04-21 07:15",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 3.93
+  },
+  {
+   "id": "2048997818673537399",
+   "radar_url": "https://x.com/thsottiaux/status/2048997818673537399",
+   "radar_summary": "Reset Codex rate limits for ALL paid plans to celebrate a good week and let everyone build with GPT-5.5.",
+   "reasons": [
+    "launch",
+    "promo"
+   ],
+   "actual_utc": "2026-04-28T05:28:43+00:00",
+   "actual_bj": "2026-04-28 13:28",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 7.26
+  },
+  {
+   "id": "2055707616605835333",
+   "radar_url": "https://x.com/thsottiaux/status/2055707616605835333",
+   "radar_summary": "Codex usage limits have now been reset across all paid plans. Enjoy the weekend!",
+   "reasons": [
+    "promo"
+   ],
+   "actual_utc": "2026-05-16T17:51:03+00:00",
+   "actual_bj": "2026-05-17 01:51",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 18.52
+  },
+  {
+   "id": "2058280452851638313",
+   "radar_url": "https://x.com/thsottiaux/status/2058280452851638313",
+   "radar_summary": "Some of you noticed limits drained faster in Codex, we root caused it to an optimization that we rolled back that had an impact on cache hit rates when compacting across long…",
+   "reasons": [
+    "incident"
+   ],
+   "actual_utc": "2026-05-23T20:14:35+00:00",
+   "actual_bj": "2026-05-24 04:14",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 7.1
+  },
+  {
+   "id": "2061106703446450392",
+   "radar_url": "https://x.com/thsottiaux/status/2061106703446450392",
+   "radar_summary": "The Codex usage limits have been reset for all paid ChatGPT subscriptions. You should be back to 100% weekly and 100% hourly limits. Let the tokens do incredible things today and…",
+   "reasons": [],
+   "actual_utc": "2026-05-31T15:25:06+00:00",
+   "actual_bj": "2026-05-31 23:25",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 7.8
+  },
+  {
+   "id": "2062329981548802523",
+   "radar_url": "https://x.com/thsottiaux/status/2062329981548802523",
+   "radar_summary": "Hi. Over the last 24 hours we had three separate small incidents that affected Codex reliability. Those are three too many and we are taking active steps for them to not…",
+   "reasons": [
+    "incident"
+   ],
+   "actual_utc": "2026-06-04T00:25:58+00:00",
+   "actual_bj": "2026-06-04 08:25",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 3.38
+  },
+  {
+   "id": "2067399435009622521",
+   "radar_url": "https://x.com/thsottiaux/status/2067399435009622521",
+   "radar_summary": "\"Sneaky double reset\": full reset applied plus an extra reset deposited into the reset bank.",
+   "reasons": [],
+   "actual_utc": "2026-06-18T00:10:10+00:00",
+   "actual_bj": "2026-06-18 08:10",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 13.99
+  },
+  {
+   "id": "2070653282440405046",
+   "radar_url": "https://x.com/thsottiaux/status/2070653282440405046",
+   "radar_summary": "We are giving all Codex users a usage reset on the house. Should be showing in your accounts in the next few hours. We have applied some mitigations, but our investigation hasn't…",
+   "reasons": [
+    "incident",
+    "promo"
+   ],
+   "actual_utc": "2026-06-26T23:39:48+00:00",
+   "actual_bj": "2026-06-27 07:39",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": {
+    "label": "within a few hours",
+    "start_at": "2026-06-26T23:39:48.000Z",
+    "end_at": "2026-06-27T02:39:48.000Z"
+   },
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "2026-06-27 10:39（截止）",
+   "pred_note": "官方窗口：within a few hours",
+   "lag_teaser_h": null,
+   "dev_h": -3.0,
+   "confirmation": null,
+   "gap_days": 8.98
+  },
+  {
+   "id": "2071381664853319742",
+   "radar_url": "https://x.com/thsottiaux/status/2071381664853319742",
+   "radar_summary": "As we are still investigating, I have reset everyone's Codex usage limits. This is a hard reset given some users had stacked up to three banked resets already that they can apply…",
+   "reasons": [],
+   "actual_utc": "2026-06-28T23:54:07+00:00",
+   "actual_bj": "2026-06-29 07:54",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 2.01
+  },
+  {
+   "id": "2071740419030053227",
+   "radar_url": "https://x.com/thsottiaux/status/2071740419030053227",
+   "radar_summary": "Full reset within the hour plus one additional banked reset, after usage was being consumed faster than expected.",
+   "reasons": [
+    "banked",
+    "compensation"
+   ],
+   "actual_utc": "2026-06-29T23:39:41+00:00",
+   "actual_bj": "2026-06-30 07:39",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": {
+    "label": "within an hour",
+    "start_at": "2026-06-29T23:39:41.000Z",
+    "end_at": "2026-06-30T00:39:41.000Z",
+    "target_kind": "deadline",
+    "target_at": "2026-06-30T00:39:41.000Z"
+   },
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "2026-06-30 08:39（截止）",
+   "pred_note": "官方窗口：within an hour",
+   "lag_teaser_h": null,
+   "dev_h": -1.0,
+   "confirmation": null,
+   "gap_days": 0.99
+  },
+  {
+   "id": "2075330198887940337",
+   "radar_url": "https://x.com/thsottiaux/status/2075330198887940337",
+   "radar_summary": "Enjoy a full reset of your usage limits for ChatGPT Work and Codex. Propagating in the next hour. @_rajanagarwal just joined to work on model research and push on coding…",
+   "reasons": [],
+   "actual_utc": "2026-07-09T21:24:11+00:00",
+   "actual_bj": "2026-07-10 05:24",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": {
+    "label": "within an hour",
+    "start_at": "2026-07-09T21:24:11.000Z",
+    "end_at": "2026-07-09T22:24:11.000Z",
+    "target_kind": "deadline",
+    "target_at": "2026-07-09T22:24:11.000Z"
+   },
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "2026-07-10 06:24（截止）",
+   "pred_note": "官方窗口：within an hour",
+   "lag_teaser_h": null,
+   "dev_h": -1.0,
+   "confirmation": null,
+   "gap_days": 9.91
+  },
+  {
+   "id": "2075641131002700120",
+   "radar_url": "https://x.com/thsottiaux/status/2075641131002700120",
+   "radar_summary": "Hello beautiful people! We have reset usage limits across Codex and ChatGPT Work. And another one will come later in the day. Rejoice. Now that I have your attention, a quick…",
+   "reasons": [],
+   "actual_utc": "2026-07-10T17:59:43+00:00",
+   "actual_bj": "2026-07-11 01:59",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": {
+    "label": "later today",
+    "start_at": "2026-07-10T17:59:43.000Z",
+    "end_at": "2026-07-11T06:59:59.999Z",
+    "time_zone": "America/Los_Angeles"
+   },
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "2026-07-11 14:59（截止）",
+   "pred_note": "官方窗口：later today",
+   "lag_teaser_h": null,
+   "dev_h": -13.0,
+   "confirmation": null,
+   "gap_days": 0.86
+  },
+  {
+   "id": "2075820987833274448",
+   "radar_url": "https://x.com/thsottiaux/status/2075820987833274448",
+   "radar_summary": "Introducing... another usage limit reset for all our ChatGPT Work and Codex users. Should land over next 30 minutes. Hope you have an awesome weekend. Thank you for pushing our…",
+   "reasons": [
+    "promo"
+   ],
+   "actual_utc": "2026-07-11T05:54:25+00:00",
+   "actual_bj": "2026-07-11 13:54",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": {
+    "label": "within 30 minutes",
+    "start_at": "2026-07-11T05:54:25.000Z",
+    "end_at": "2026-07-11T06:24:25.000Z",
+    "target_kind": "deadline",
+    "target_at": "2026-07-11T06:24:25.000Z"
+   },
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "2026-07-11 14:24（截止）",
+   "pred_note": "官方窗口：within 30 minutes",
+   "lag_teaser_h": null,
+   "dev_h": -0.5,
+   "confirmation": null,
+   "gap_days": 0.5
+  },
+  {
+   "id": "2077114635308986427",
+   "radar_url": "https://x.com/thsottiaux/status/2077114635308986427",
+   "radar_summary": "8M active users across Codex and ChatGPT Work: reset for all, and still no 5h rate limit, to explore GPT-5.6 Sol.",
+   "reasons": [
+    "milestone",
+    "launch",
+    "unlock"
+   ],
+   "actual_utc": "2026-07-14T19:34:54+00:00",
+   "actual_bj": "2026-07-15 03:34",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 3.57
+  },
+  {
+   "id": "2077607697487188198",
+   "radar_url": "https://x.com/thsottiaux/status/2077607697487188198",
+   "radar_summary": "9M active users: another reset, restoring 100% weekly usage limit.",
+   "reasons": [
+    "milestone"
+   ],
+   "actual_utc": "2026-07-16T04:14:09+00:00",
+   "actual_bj": "2026-07-16 12:14",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 1.36
+  },
+  {
+   "id": "2078320950488297917",
+   "radar_url": "https://x.com/thsottiaux/status/2078320950488297917",
+   "radar_summary": "Oops... I did it again. Enjoy reset usage limits for all paid users for Codex and ChatGPT Work. Super grateful for an incredible team who is iterating at lightspeed and keeping…",
+   "reasons": [],
+   "actual_utc": "2026-07-18T03:28:22+00:00",
+   "actual_bj": "2026-07-18 11:28",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 1.97
+  },
+  {
+   "id": "2079609157934886975",
+   "radar_url": "https://x.com/thsottiaux/status/2079609157934886975",
+   "radar_summary": "10M users: new usage reset for paid Codex and ChatGPT Work users, landing within the hour.",
+   "reasons": [
+    "milestone"
+   ],
+   "actual_utc": "2026-07-21T16:47:15+00:00",
+   "actual_bj": "2026-07-22 00:47",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": {
+    "label": "within an hour",
+    "start_at": "2026-07-21T16:47:15.000Z",
+    "end_at": "2026-07-21T17:47:15.000Z",
+    "target_kind": "deadline",
+    "target_at": "2026-07-21T17:47:15.000Z"
+   },
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "2026-07-22 01:47（截止）",
+   "pred_note": "官方窗口：within an hour",
+   "lag_teaser_h": null,
+   "dev_h": -1.0,
+   "confirmation": null,
+   "gap_days": 3.55
+  },
+  {
+   "id": "2081096447718723984",
+   "radar_url": "https://x.com/thsottiaux/status/2081096447718723984",
+   "radar_summary": "Usage limits reset for all Codex and ChatGPT Work users after an almost-global outage the previous night.",
+   "reasons": [
+    "incident"
+   ],
+   "actual_utc": "2026-07-25T19:17:12.695000+00:00",
+   "actual_bj": "2026-07-26 03:17",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 4.1
+  },
+  {
+   "id": "2081940052154933696",
+   "radar_url": "https://x.com/thsottiaux/status/2081940052154933696",
+   "radar_summary": "Back at the laptop: usage limits reset for all paid users of Codex and ChatGPT Work.",
+   "reasons": [],
+   "actual_utc": "2026-07-28T03:09:23.666000+00:00",
+   "actual_bj": "2026-07-28 11:09",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 2.33
+  },
+  {
+   "id": "2082317452755751098",
+   "radar_url": "https://x.com/thsottiaux/status/2082317452755751098",
+   "radar_summary": "Usage limits reset for all ChatGPT Work and Codex users, alongside an update on GPT-5.6 Sol using Codex limits faster than expected.",
+   "reasons": [
+    "launch"
+   ],
+   "actual_utc": "2026-07-29T04:09:02.981000+00:00",
+   "actual_bj": "2026-07-29 12:09",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 1.04
+  },
+  {
+   "id": "2083395449814229287",
+   "radar_url": "https://x.com/thsottiaux/status/2083395449814229287",
+   "radar_summary": "Usage limits reset for Codex and ChatGPT Work to celebrate a week of efficiency and GPT-5.6 Luna throughput.",
+   "reasons": [
+    "launch",
+    "promo"
+   ],
+   "actual_utc": "2026-08-01T03:32:37.508000+00:00",
+   "actual_bj": "2026-08-01 11:32",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 2.97
+  },
+  {
+   "id": "2086188036493344823",
+   "radar_url": "https://x.com/thsottiaux/status/2086188036493344823",
+   "radar_summary": "Usage limits reset for all paid users of ChatGPT Work and Codex to celebrate GPT-5.6 Sol availability.",
+   "reasons": [
+    "launch",
+    "promo"
+   ],
+   "actual_utc": "2026-08-08T20:29:22.056000+00:00",
+   "actual_bj": "2026-08-09 04:29",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 7.71
+  },
+  {
+   "id": "2086972802457063486",
+   "radar_url": "https://x.com/thsottiaux/status/2086972802457063486",
+   "radar_summary": "Hi. It is done. This completed the reset promised for Monday; the reference weekly-usage card returned to 100% remaining.",
+   "reasons": [],
+   "actual_utc": "2026-08-11T00:27:44.842000+00:00",
+   "actual_bj": "2026-08-11 08:27",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 2.17
+  },
+  {
+   "id": "2087706104814023111",
+   "radar_url": "https://x.com/thsottiaux/status/2087706104814023111",
+   "radar_summary": "Crossed 15M active users: a celebratory reset for everyone, landing within the hour — announced late as old news from a bunch of days ago.",
+   "reasons": [
+    "milestone"
+   ],
+   "actual_utc": "2026-08-13T01:01:37+00:00",
+   "actual_bj": "2026-08-13 09:01",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": {
+    "label": "within an hour",
+    "start_at": "2026-08-13T01:01:37.000Z",
+    "end_at": "2026-08-13T02:01:37.000Z",
+    "target_kind": "deadline",
+    "target_at": "2026-08-13T02:01:37.000Z"
+   },
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "2026-08-13 10:01（截止）",
+   "pred_note": "官方窗口：within an hour",
+   "lag_teaser_h": null,
+   "dev_h": -1.0,
+   "confirmation": null,
+   "gap_days": 2.02
+  },
+  {
+   "id": "2091688655828246890",
+   "radar_url": "https://x.com/thsottiaux/status/2091688655828246890",
+   "radar_summary": "Good Sunday reset propagated to accounts, alongside usage fixes for the issues found the day before — \"you should feel a positive difference.\"",
+   "reasons": [
+    "incident"
+   ],
+   "actual_utc": "2026-08-24T00:46:51+00:00",
+   "actual_bj": "2026-08-24 08:46",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 10.99
+  },
+  {
+   "id": "2092311059197808936",
+   "radar_url": "https://x.com/thsottiaux/status/2092311059197808936",
+   "radar_summary": "Quiet reset for all paid plans — weekly usage back to 100% from ~14:00 UTC. Tibo confirmed it only in replies (\"Ah yeah, forgot to say\") ahead of the Plus 5h-limit return.",
+   "reasons": [],
+   "actual_utc": "2026-08-25T14:15:00+00:00",
+   "actual_bj": "2026-08-25 22:15",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 1.56
+  },
+  {
+   "id": "2093014447833116908",
+   "radar_url": "https://x.com/thsottiaux/status/2093014447833116908",
+   "radar_summary": "Reset for all ChatGPT Work and Codex users: “Never slept better and feeling reseted. Brand new me and brand new usage for all ChatGPT Work and Codex users.”",
+   "reasons": [],
+   "actual_utc": "2026-08-27T16:35:05.348000+00:00",
+   "actual_bj": "2026-08-28 00:35",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 2.1
+  },
+  {
+   "id": "2093801758665715784",
+   "radar_url": "https://x.com/thsottiaux/status/2093801758665715784",
+   "radar_summary": "Usage reset for all paid Codex and ChatGPT Work users, with usage fixes (compaction, memory, goals, subagents, MCP) that stretch limits 10–50% further.",
+   "reasons": [],
+   "actual_utc": "2026-08-29T20:43:34.878000+00:00",
+   "actual_bj": "2026-08-30 04:43",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 2.17
+  },
+  {
+   "id": "2094252447271366730",
+   "radar_url": "https://x.com/thsottiaux/status/2094252447271366730",
+   "radar_summary": "25M active users: to celebrate, usage reset for every paid ChatGPT Work and Codex subscription — the reset promised for 6pm PT the previous day.",
+   "reasons": [
+    "milestone",
+    "promo"
+   ],
+   "actual_utc": "2026-08-31T02:34:27+00:00",
+   "actual_bj": "2026-08-31 10:34",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 1.24
+  },
+  {
+   "id": "2097043464538264003",
+   "radar_url": "https://x.com/thsottiaux/status/2097043464538264003",
+   "radar_summary": "Global reset landed around 01:34 UTC, seen in usage meters before any announcement; Tibo confirmed at 04:05 UTC: “All reset for everyone. Enjoy the week with Astra.”",
+   "reasons": [],
+   "actual_utc": "2026-09-08T01:34:00+00:00",
+   "actual_bj": "2026-09-08 09:34",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": "Astra 周",
+   "teaser": {
+    "url": "https://x.com/thsottiaux/status/2097043464538264003",
+    "time_bj": "2026-09-08 03:24",
+    "quote": "…We will do a global reset of the usage for all paid subscriptions"
+   },
+   "predicted_bj": "unknown",
+   "pred_note": "未给时间",
+   "lag_teaser_h": 6.15,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 7.96
+  },
+  {
+   "id": "2098685367058612394",
+   "radar_url": "https://x.com/thsottiaux/status/2098685367058612394",
+   "radar_summary": "Reset for every paid Codex and ChatGPT Work user, announced with that morning's Astra quality update and confirmed fully propagated: “Reset all propagated. Sweet dreams.”",
+   "reasons": [],
+   "actual_utc": "2026-09-12T08:09:17+00:00",
+   "actual_bj": "2026-09-12 16:09",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": null,
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无独立预告帖记录（多为直接官宣即落地）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": null,
+   "gap_days": 4.27
+  },
+  {
+   "id": "2103911959544610829",
+   "radar_url": "https://x.com/thsottiaux/status/2103911959544610829",
+   "radar_summary": "Reset for every paid Codex and ChatGPT Work user, promised after a brief disruption and confirmed fully propagated that evening: “Resets all propagated. That will be all.”",
+   "reasons": [],
+   "actual_utc": "2026-09-26T18:17:54+00:00",
+   "actual_bj": "2026-09-27 02:17",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": "短暂中断补偿",
+   "teaser": {
+    "url": "https://x.com/thsottiaux/status/2103637477760311522",
+    "time_bj": "2026-09-26 08:07",
+    "quote": "we're back in action and we'll reset usage limits for all paid users"
+   },
+   "predicted_bj": "unknown",
+   "pred_note": "未给时间",
+   "lag_teaser_h": 18.18,
+   "dev_h": null,
+   "confirmation": {
+    "url": "https://x.com/thsottiaux/status/2103911959544610829",
+    "time_bj": "2026-09-27 02:17",
+    "quote": "Resets all propagated. That will be all."
+   },
+   "gap_days": 14.42
+  },
+  {
+   "id": "2106131810921136451",
+   "radar_url": "https://x.com/thsottiaux/status/2106131810921136451",
+   "radar_summary": "Global reset for all paid ChatGPT accounts, promised the evening before after GPT-6.1 Sol’s slow start and confirmed that afternoon: “Reset all propagated. Enjoy.”",
+   "reasons": [
+    "incident"
+   ],
+   "actual_utc": "2026-10-02T21:18:48+00:00",
+   "actual_bj": "2026-10-03 05:18",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": "GPT-6.1 Sol 补偿",
+   "teaser": {
+    "url": "https://x.com/thsottiaux/status/2105843926221660585",
+    "time_bj": "2026-10-02 10:14",
+    "quote": "Global reset landing tomorrow 10am PST for all paid ChatGPT accounts."
+   },
+   "predicted_bj": "2026-10-03 01:00（截止）",
+   "pred_note": "\"tomorrow 10am PST\"（按 PDT 10:00；字面 PST 则为 18:00Z）",
+   "lag_teaser_h": 19.07,
+   "dev_h": 4.31,
+   "confirmation": {
+    "url": "https://x.com/thsottiaux/status/2106131810921136451",
+    "time_bj": "2026-10-03 05:18",
+    "quote": "Reset all propagated. Enjoy."
+   },
+   "gap_days": 6.13
+  },
+  {
+   "id": "2107676072871600470",
+   "radar_url": "https://x.com/thsottiaux/status/2107676072871600470",
+   "radar_summary": "Full reset for Codex and ChatGPT Work users, picked by community vote in the 28-day ship-or-reset series: “the reset has been processed. Enjoy!”",
+   "reasons": [],
+   "actual_utc": "2026-10-07T03:35:09+00:00",
+   "actual_bj": "2026-10-07 11:35",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": "Day 2（社区投票）",
+   "teaser": {
+    "url": "https://x.com/thsottiaux/status/2107578625419866469",
+    "time_bj": "2026-10-07 05:07",
+    "quote": "Four updates or a reset. Or both. How was day 2."
+   },
+   "predicted_bj": "unknown",
+   "pred_note": "投票决定，无明确时间",
+   "lag_teaser_h": 6.45,
+   "dev_h": null,
+   "confirmation": {
+    "url": "https://x.com/thsottiaux/status/2107676072871600470",
+    "time_bj": "2026-10-07 11:35",
+    "quote": "…the vote is clear and the community demands a reset… the reset has been processed"
+   },
+   "gap_days": 4.26
+  },
+  {
+   "id": "2109132167112782291",
+   "radar_url": "https://x.com/thsottiaux/status/2109132167112782291",
+   "radar_summary": "Day 6 of the 28-day ship-or-reset series: the global reset promised that afternoon landed by evening: “Put the reset in the bag. All propagated.”",
+   "reasons": [],
+   "actual_utc": "2026-10-11T04:01:09+00:00",
+   "actual_bj": "2026-10-11 12:01",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": "Day 6",
+   "teaser": {
+    "url": "https://x.com/thsottiaux/status/2109045392684032299",
+    "time_bj": "2026-10-11 06:16",
+    "quote": "Day 6/ Reset — Global reset by EOD."
+   },
+   "predicted_bj": "2026-10-11 15:00（截止）",
+   "pred_note": "\"by EOD\"（PDT 当日 24:00）",
+   "lag_teaser_h": 5.75,
+   "dev_h": -2.98,
+   "confirmation": {
+    "url": "https://x.com/thsottiaux/status/2109132167112782291",
+    "time_bj": "2026-10-11 12:01",
+    "quote": "Put the reset in the bag. All propagated."
+   },
+   "gap_days": 4.02
+  },
+  {
+   "id": "2109812360596865224",
+   "radar_url": "https://x.com/thsottiaux/status/2109812360596865224",
+   "radar_summary": "Day 8 of the 28-day ship-or-reset series: the global reset promised “by EOD PST” landed at 05:03 UTC on our checks, and Tibo confirmed: “It’s done.”",
+   "reasons": [],
+   "actual_utc": "2026-10-13T05:03:51+00:00",
+   "actual_bj": "2026-10-13 13:03",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": "Day 8",
+   "teaser": {
+    "url": "https://x.com/thsottiaux/status/2109812360596865224",
+    "time_bj": "2026-10-13 09:03",
+    "quote": "Day 8/ Reset — Global reset landing by EOD PST time."
+   },
+   "predicted_bj": "2026-10-13 15:00（截止）",
+   "pred_note": "\"by EOD PST\"（按 PDT 当日 24:00）",
+   "lag_teaser_h": 4.0,
+   "dev_h": -1.94,
+   "confirmation": {
+    "url": "https://x.com/thsottiaux/status/2109873287853707513",
+    "time_bj": "2026-10-13 13:06",
+    "quote": "What would you like with your side of reset? It's done."
+   },
+   "gap_days": 2.04
+  },
+  {
+   "id": "2110595554036400151",
+   "radar_url": "https://x.com/thsottiaux/status/2110595554036400151",
+   "radar_summary": "Day 10 of the 28-day ship-or-reset series: the global reset promised to land “within the next 2 hours” arrived at 06:13 UTC on our checks; Tibo: “Done and dusted.”",
+   "reasons": [],
+   "actual_utc": "2026-10-15T06:13:01+00:00",
+   "actual_bj": "2026-10-15 14:13",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": "Day 10",
+   "teaser": {
+    "url": "https://x.com/thsottiaux/status/2110595554036400151",
+    "time_bj": "2026-10-15 12:56",
+    "quote": "Day 10/ Reset — Landing within the next 2 hours"
+   },
+   "predicted_bj": "2026-10-15 14:56（截止）",
+   "pred_note": "\"within the next 2 hours\"",
+   "lag_teaser_h": 1.28,
+   "dev_h": -0.72,
+   "confirmation": null,
+   "gap_days": 2.05
+  },
+  {
+   "id": "2111492738025959922",
+   "radar_url": "https://x.com/thsottiaux/status/2111492738025959922",
+   "radar_summary": "Day 13 of the 28-day ship-or-reset series: the global reset promised “by EOD PST” landed at 20:41 UTC on our checks; Tibo then posted: “Done.”",
+   "reasons": [],
+   "actual_utc": "2026-10-17T20:41:01+00:00",
+   "actual_bj": "2026-10-18 04:41",
+   "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+   "window": null,
+   "label": "Day 13",
+   "teaser": {
+    "url": "https://x.com/thsottiaux/status/2111492673890824348",
+    "time_bj": "2026-10-18 00:20",
+    "quote": "Day 13/ Le limit reset — Landing sometime today by EOD PST"
+   },
+   "predicted_bj": "2026-10-18 15:00（截止）",
+   "pred_note": "\"by EOD PST\"（按 PDT 当日 24:00）",
+   "lag_teaser_h": 4.33,
+   "dev_h": -10.32,
+   "confirmation": {
+    "url": "https://x.com/thsottiaux/status/2111566005684289735",
+    "time_bj": "2026-10-18 05:12",
+    "quote": "Done"
+   },
+   "gap_days": 2.6
+  }
+ ],
+ "gaps": [
+  "status.openai.com 未纳入（仅作故障线，本页未抓取）",
+  "多数早期事件只有确认/官宣时间，无独立预告帖，预测时间=unknown",
+  "Day 10 未在 X 找到 Tibo 完成帖；实际时间取 Radar 实测 06:13Z",
+  "Radar 归档的 Day 8/10/13 时间为 Radar 实测落地时间，非确认帖时间",
+  "2026-03-04 的事件仅覆盖约 9% 用户，Radar 仍记为 reset，保留",
+  "静默重置仅 2026-08-25 一次被 Radar 收录；其他静默重置未知",
+  "banked reset 单独列出，不计入间隔"
+ ],
+ "banked": [
+  {
+   "date_bj": "2026-10-08 07:24",
+   "summary": "The banked reset Tibo announced landed on our monitoring accounts.",
+   "url": null
+  },
+  {
+   "date_bj": "2026-10-08 03:19",
+   "summary": "40M active users milestone: one banked reset loaded into every paid Codex and ChatGPT Work account on Day 3 of the 28-day series, alongside GPT-6 in Chat.",
+   "url": "https://x.com/thsottiaux/status/2107913674593644711"
+  },
+  {
+   "date_bj": "2026-09-30 02:53",
+   "summary": "A new banked Codex reset landed on our monitoring accounts. Tibo has not announced it on X yet.",
+   "url": null
+  },
+  {
+   "date_bj": "2026-09-23 02:23",
+   "summary": "GPT-6 Sol and Luna launch: one banked reset loaded into every Plus, Pro and Business account, alongside a permanent 50% API price cut.",
+   "url": "https://x.com/thsottiaux/status/2102463847714247142"
+  },
+  {
+   "date_bj": "2026-09-10 02:23",
+   "summary": "Some banked resets did not fully apply in ChatGPT Work and Codex that morning; everyone who used one in the affected window gets another one plus an apology email.",
+   "url": "https://x.com/thsottiaux/status/2097752790177370535"
+  },
+  {
+   "date_bj": "2026-09-05 08:39",
+   "summary": "Astra rolled out ahead of schedule, and every Plus, Pro and Business user still gets a full banked reset that day, landing by end of day.",
+   "url": "https://x.com/thsottiaux/status/2096035437299237298"
+  },
+  {
+   "date_bj": "2026-09-05 04:57",
+   "summary": "Astra access compensation, second day: a banked reset for the Plus and Business users still without Astra, landing by end of day.",
+   "url": "https://x.com/thsottiaux/status/2095979536043401428"
+  },
+  {
+   "date_bj": "2026-09-04 07:12",
+   "summary": "Astra access compensation: one banked reset for every day without Astra on a paid ChatGPT plan, starting that day — the first drop promised about three hours later.",
+   "url": "https://x.com/thsottiaux/status/2095651088502591861"
+  },
+  {
+   "date_bj": "2026-08-22 08:50",
+   "summary": "The 20M-milestone banked reset landed in accounts for all paid Codex and ChatGPT Work users, redeemable on demand.",
+   "url": "https://x.com/thsottiaux/status/2090964822422949999"
+  },
+  {
+   "date_bj": "2026-08-22 07:40",
+   "summary": "Banked reset delivery window: arriving by 8pm PST for all paid ChatGPT Work and Codex users.",
+   "url": "https://x.com/thsottiaux/status/2090947196107764189"
+  },
+  {
+   "date_bj": "2026-08-21 19:43",
+   "summary": "20M active users milestone: announced one banked reset for every Codex and ChatGPT Work user, credited during the day for on-demand use.",
+   "url": "https://x.com/thsottiaux/status/2090766694897619318"
+  },
+  {
+   "date_bj": "2026-07-14 02:29",
+   "summary": "7M active users milestone: added a banked reset to every account, appliable on demand from desktop/web.",
+   "url": "https://x.com/thsottiaux/status/2076735790567338203"
+  },
+  {
+   "date_bj": "2026-07-13 05:28",
+   "summary": "Added a banked reset to 500k ChatGPT Work/Codex users; shipped banked-reset redemption on web and mobile.",
+   "url": "https://x.com/thsottiaux/status/2076418567143408112"
+  }
+ ]
+};const $=s=>document.querySelector(s);const U='<span class="u">unknown</span>';const L=D.last_reset,F=D.forecast,S=D.stats_30d,A=D.stats_all;
+const lk=(u,t)=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`;
+$('#gen').textContent=D.generated_at_bj;
+$('#hero').innerHTML=`<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><div class="k">🔮 下次全局重置 · 预测窗口</div><span class="tag">估计，非官方 · 信心 ${F.confidence}</span></div>
+<div class="big grad">${F.window_start_bj}<br>→ ${F.window_end_bj}</div>
+<div class="q">${F.hour_note}</div><div class="q" style="margin-top:6px">⚡ 改判条件：${F.change}</div><a class="more" href="#forecast">查看预测依据 →</a>`;
+const pct=Math.min(100,D.days_since_last/S.median*100);
+$('#status').innerHTML=`<div class="k">● 当前状态</div><div class="q" style="margin-top:6px">最近一次全局重置</div><div class="v">${L.actual_bj}</div><div class="q">${L.label||''} · ${lk(L.teaser.url,'预告帖')} · ${lk(L.confirmation.url,'“'+L.confirmation.quote+'”')} · ${lk(L.radar_url,'Radar')}</div>
+<div class="bar"><i style="width:${pct}%"></i></div><div class="q">已过 <b>${D.days_since_last.toFixed(1)} 天</b> / 近 30 天中位间隔 ${S.median} 天</div><a class="more" href="#trend">查看间隔趋势 →</a>`;
+[['距上次重置',D.days_since_last.toFixed(1)+' 天','截至 '+D.generated_at_bj],['近30天中位间隔',S.median+' 天',`均值 ${S.mean} · 范围 ${S.min}–${S.max} · n=${S.n}`],['全历史中位间隔',A.median+' 天',`均值 ${A.mean} · 范围 ${A.min}–${A.max} · n=${A.n}`],['已收录',D.events.length+' 次','全局重置 + '+D.banked.length+' 条 banked']]
+ .forEach(([k,v,s],i)=>$('#k'+(i+1)).innerHTML=`<div class="k">${k}</div><div class="v">${v}</div><div class="q">${s}</div>${i==3?'<a class="more" href="#history">查看历史记录 →</a> · <a class="more" href="#other">banked / 缺口 →</a>':''}`);
+$('#basis').innerHTML=`<h2>🧭 预测依据 <span class="tag">估计</span></h2><p style="margin:0 0 8px">${F.basis}</p><div class="q">信息源：${lk(L.teaser.url,'Day 13 预告')} · ${lk(L.confirmation.url,'Day 13 “Done”')} · ${lk('https://codex-reset.com','Tibo Radar')} · ${lk('https://x.com/thsottiaux','@thsottiaux')}</div>`;
+const lags=D.teaser_lag_hours_challenge,ml=Math.max(...lags);
+$('#lag').innerHTML=`<h2>⏱ 挑战期 预告→落地</h2>${lags.map(h=>`<div class="q" style="display:flex;gap:8px;align-items:center"><span style="width:50px">${h} h</span><div class="bar" style="flex:1;margin:6px 0"><i style="width:${h/ml*100}%"></i></div></div>`).join('')}<div class="q">Day 2 / 6 / 8 / 10 / 13（按时间顺序）</div>`;
+const fmt=h=>h==null?U:(h>0?'+':'')+h.toFixed(1)+' h';
+function rows(f){const ev=[...D.events].reverse().filter(r=>f=='all'||(f=='ch'?r.teaser:r.window));$('#cnt').textContent=`显示 ${ev.length} / ${D.events.length}`;
+$('#tb').innerHTML=ev.map(r=>`<div class="ev ${r.label&&r.label.startsWith('Day')?'ch':''}">
+<div class="d"><div class="t">${r.actual_bj.slice(0,10)}${r.label?`<span class="chip">${r.label}</span>`:''}</div><div class="q">${lk(r.radar_url,r.radar_summary.slice(0,80)+'…')}</div></div>
+<div><div class="lab">预测依据（信息源）</div>${r.teaser?`${lk(r.teaser.url,r.teaser.time_bj)}<div class="q">“${r.teaser.quote}”</div>`:''}<div class="q">${r.pred_note}</div><div class="lab" style="margin-top:4px">预测时间</div>${r.predicted_bj=='unknown'?U:r.predicted_bj}</div>
+<div><div class="lab">实际时间</div>${r.actual_bj}<div class="q">${r.actual_basis}</div>${r.confirmation?`<div class="q">确认 ${lk(r.confirmation.url,r.confirmation.time_bj)}</div>`:''}${r.lag_teaser_h!=null?`<div class="q">预告后 ${r.lag_teaser_h} h</div>`:''}</div>
+<div><div class="lab">偏差</div>${fmt(r.dev_h)}<div class="lab" style="margin-top:4px">间隔</div>${r.gap_days!=null?r.gap_days+' 天':'—'}</div></div>`).join('')}
+rows('all');document.querySelectorAll('.flt button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.flt button').forEach(x=>x.classList.remove('on'));b.classList.add('on');rows(b.dataset.f)});
+const g=D.events.filter(r=>r.gap_days!=null).slice(-40),W=1100,H=240,pl=30,pb=34,mx=Math.min(20,Math.max(...g.map(r=>r.gap_days))),bw=(W-pl)/g.length,y=v=>H-pb-(Math.min(v,mx)/mx)*(H-pb-10);
+let s=`<svg viewBox="0 0 ${W} ${H}" width="100%"><defs><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--acc2)"/><stop offset="1" stop-color="var(--acc)"/></linearGradient></defs>`;
+[0,5,10,15,20].filter(t=>t<=mx).forEach(t=>s+=`<line x1=${pl} x2=${W} y1=${y(t)} y2=${y(t)} stroke="currentColor" opacity=".1"/><text x=0 y=${y(t)+3}>${t}</text>`);
+g.forEach((r,i)=>{const x=pl+i*bw;s+=`<rect x=${x+2} y=${y(r.gap_days)} width=${bw-4} height=${H-pb-y(r.gap_days)} rx=4 fill="${r.label&&r.label.startsWith('Day')?'var(--ok)':'url(#gr)'}"><title>${r.actual_bj}：${r.gap_days} 天</title></rect>`;if(i%4==0||i==g.length-1)s+=`<text x=${x} y=${H-18}>${r.actual_bj.slice(5,10)}</text>`});
+s+=`<line x1=${pl} x2=${W} y1=${y(S.median)} y2=${y(S.median)} stroke="var(--warn)" stroke-dasharray="5 4"/><text x=${W-130} y=${y(S.median)-4} style="fill:var(--warn)">30天中位 ${S.median}d</text></svg>`;
+$('#chart').innerHTML=s;
+$('#bk').innerHTML=D.banked.map(b=>`<div><b>${b.date_bj}</b> · ${b.summary}<br>${b.url?lk(b.url,'原帖'):'<span class="u">无 X 原帖（Radar 实测）</span>'}</div>`).join('');
+$('#gaps').innerHTML=D.gaps.map(x=>`<li>${x}</li>`).join('');
+$('#ft').innerHTML=`<h2>🔗 数据源与图例</h2>数据源：${D.sources.map(u=>lk(u,u)).join(' · ')}　|　共 ${D.events.length} 次全局重置（Radar 归档 + X 原帖核验）、${D.banked.length} 条 banked 记录　|　所有预测均为估计；unknown = 未能核实　|　生成于 ${D.generated_at_bj}（北京时间）`;
+$('#sf').innerHTML=`生成于 ${D.generated_at_bj}（北京时间）· 预测均为估计，unknown = 未能核实 · <a href="#other">数据源</a>`;
+const TABS=['overview','forecast','trend','history','other'];
+function route(){let t=location.hash.slice(1);if(!TABS.includes(t))t='overview';
+ document.querySelectorAll('[data-tab]').forEach(e=>e.classList.toggle('show',e.dataset.tab==t));
+ document.querySelectorAll('.nav a').forEach(a=>{const on=a.getAttribute('href')=='#'+t;a.classList.toggle('on',on);on?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current');if(on)a.scrollIntoView({block:'nearest',inline:'nearest'})});
+ window.scrollTo(0,0)}
+addEventListener('hashchange',route);route();
+// magnetic hover
+const rm=matchMedia('(prefers-reduced-motion: reduce)'),fine=matchMedia('(pointer:fine)');
+document.querySelectorAll('.c').forEach(c=>{c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;c.style.setProperty('--mx',px*100+'%');c.style.setProperty('--my',py*100+'%');
+ if(rm.matches||!fine.matches||!c.classList.contains('mag'))return;const k=Math.min(1,600/r.width);c.style.setProperty('--ry',((px-.5)*6*k)+'deg');c.style.setProperty('--rx',((.5-py)*6*k)+'deg');c.style.setProperty('--tx',(px-.5)*6+'px');c.style.setProperty('--ty',(py-.5)*6+'px')});
+ c.addEventListener('pointerleave',()=>['--rx','--ry','--tx','--ty'].forEach(p=>c.style.removeProperty(p)))});
+</script></body></html>
