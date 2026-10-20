@@ -8,6 +8,8 @@ if not (len(sys.argv)>1 and sys.argv[1]=='render'):
   NOW=dt.datetime.now(Z)
   radar=json.load(open('radar.json'))
   # Detailed events verified via X API (teaser + confirmation); times UTC
+  # Radar 'live' entries verified as global resets via X post text (Radar has no observed landing yet)
+  LIVE_OK={'2112432076767289678'}
   detail={
    '2107676072871600470':dict(label='Day 2（社区投票）',teaser=('2107578625419866469','2026-10-06T21:07:55Z','Four updates or a reset. Or both. How was day 2.'),pred=None,pred_note='投票决定，无明确时间',conf=('2107676072871600470','2026-10-07T03:35:09Z','…the vote is clear and the community demands a reset… the reset has been processed')),
    '2109132167112782291':dict(label='Day 6',teaser=('2109045392684032299','2026-10-10T22:16:20Z','Day 6/ Reset — Global reset by EOD.'),pred='2026-10-11T07:00:00Z',pred_note='"by EOD"（PDT 当日 24:00）',conf=('2109132167112782291','2026-10-11T04:01:09Z','Put the reset in the bag. All propagated.')),
@@ -18,19 +20,21 @@ if not (len(sys.argv)>1 and sys.argv[1]=='render'):
    '2103911959544610829':dict(label='短暂中断补偿',teaser=('2103637477760311522','2026-09-26T00:07:13Z',"we're back in action and we'll reset usage limits for all paid users"),pred=None,pred_note='未给时间',conf=('2103911959544610829','2026-09-26T18:17:54Z','Resets all propagated. That will be all.')),
    '2097043464538264003':dict(label='Astra 周',teaser=('2097043464538264003','2026-09-07T19:24:57Z','…We will do a global reset of the usage for all paid subscriptions'),pred=None,pred_note='未给时间',conf=None),
   }
+  detail['2112432076767289678']=dict(label='Day 15',teaser=None,pred=None,pred_note='无预告：官宣即重置（所引用的 03:45「Day 15/ We\'re cooked」不是重置预告）',conf=('2112432076767289678','2026-10-20T06:33:48Z',"Day 15/ Nevermind, we're still cooking... and reset. Enjoy."),quoted=('2112268918681485431','2026-10-19T19:45:00Z',"Day 15/ We're cooked（非重置）"))
   ev=[]
   for e in radar['events']:
-    if e['type']!='reset' or e['source']!='archive': continue
+    if e['type']!='reset' or (e['source']!='archive' and e['id'] not in LIVE_OK): continue
     a=P(e['announced_at']); d=detail.get(e['id'])
     r=dict(id=e['id'],radar_url=e['url'],radar_summary=e['summary'],reasons=e['reason_tags'],
-      actual_utc=a.isoformat(),actual_bj=bj(a),actual_basis='Radar 归档时间（确认帖或实测落地）',
+      actual_utc=a.isoformat(),actual_bj=bj(a),actual_basis=('Tibo 官宣帖时间（Radar 已收录该帖，但无实测落地时间）' if e['id'] in LIVE_OK else 'Radar 归档时间（确认帖或实测落地）'),
       window=e['official_window'],label=None,teaser=None,predicted_bj='unknown',pred_note='无独立预告帖记录（多为直接官宣即落地）',lag_teaser_h=None,dev_h=None,confirmation=None)
     if e['official_window'] and e['official_window'].get('end_at'):
       pe=P(e['official_window']['end_at']); r['predicted_bj']=bj(pe)+'（截止）'; r['pred_note']='官方窗口：'+e['official_window']['label']; r['dev_h']=round((a-pe).total_seconds()/3600,2)
     if d:
-      r['label']=d['label']; t=P(d['teaser'][1])
-      r['teaser']=dict(url=X+d['teaser'][0],time_bj=bj(t),quote=d['teaser'][2])
-      r['lag_teaser_h']=round((a-t).total_seconds()/3600,2)
+      r['label']=d['label']
+      if d['teaser']:
+        t=P(d['teaser'][1]); r['teaser']=dict(url=X+d['teaser'][0],time_bj=bj(t),quote=d['teaser'][2]); r['lag_teaser_h']=round((a-t).total_seconds()/3600,2)
+      if d.get('quoted'): r['quoted']=dict(url=X+d['quoted'][0],time_bj=bj(P(d['quoted'][1])),quote=d['quoted'][2])
       r['pred_note']=d['pred_note']
       if d['pred']: pe=P(d['pred']); r['predicted_bj']=bj(pe)+'（截止）'; r['dev_h']=round((a-pe).total_seconds()/3600,2)
       else: r['predicted_bj']='unknown'
@@ -48,15 +52,21 @@ if not (len(sys.argv)>1 and sys.argv[1]=='render'):
   hrs=[P(r['actual_utc']).astimezone(BJ).hour for r in r30]
   lags=[r['lag_teaser_h'] for r in ev if r['lag_teaser_h'] is not None and r['label'] and r['label'].startswith('Day')]
   since=(NOW-last).total_seconds()/86400
-  # forecast: challenge Day16-18 (PT days Oct 20-22) => BJT Oct 20 15:00 .. Oct 23 15:00, start no earlier than now
-  ws=max(NOW,dt.datetime(2026,10,20,7,0,tzinfo=Z)); we=dt.datetime(2026,10,23,7,0,tzinfo=Z)
-  fc=dict(window_start_bj=bj(ws),window_end_bj=bj(we),confidence='低-中',
-   basis=f"28 天 ship-or-reset 挑战（2026-10-04 公布，Day1≈10-05 PT，约至 11-01）期内已兑现 Day2/6/8/10/13，间隔 4.0/2.0/2.0/2.6 天；近 30 天 {s30['n']} 个间隔中位数 {s30['median']} 天、均值 {s30['mean']} 天。距 Day13 已 {since:.1f} 天，Day14/15 为功能发布。窗口取 Day16–Day18（PT 10-20 至 10-22）≈ 中位间隔 + 散布余量。挑战期内，判据是 Tibo 当日的「Day N/ Reset」帖，预告到落地中位约 {st.median(lags):.1f} 小时。",
-   change='出现「Day N/ Reset」帖即改为当日 PT 结束前（北京时间次日 15:00 前）；窗口过去无帖则撤回本预测，不顺延。',
+  ch=[r for r in ev if r['label'] and r['label'].startswith('Day')]
+  chg=[r['gap_days'] for r in ch[1:]]
+  prev=dict(made_bj='2026-10-20 13:21',window_start_bj='2026-10-20 15:00',window_end_bj='2026-10-23 15:00',
+    actual_bj=ev[-1]['actual_bj'],actual_basis=ev[-1]['actual_basis'],
+    miss_minutes=round((dt.datetime(2026,10,20,7,0,tzinfo=Z)-last).total_seconds()/60,1),
+    verdict='未命中：实际重置早于窗口开始约 26 分钟（窗口从 PT Day16 起算，但 Day15 在 PT 当晚 23:33 就重置了）',
+    lesson='Day 15 原判为「功能发布日」，但 Tibo 在 PT 当日结束前改成了重置；挑战期内同一天可以从 ship 改判为 reset，窗口应覆盖当前 PT 日的剩余时段。')
+  ws=dt.datetime(2026,10,21,7,0,tzinfo=Z); we=dt.datetime(2026,10,24,7,0,tzinfo=Z)
+  fc=dict(window_start_bj=bj(max(NOW,ws)),window_end_bj=bj(we),confidence='低-中',
+   basis=f"28 天 ship-or-reset 挑战（2026-10-04 公布，Day1≈10-05 PT，约至 11-01）期内已兑现 Day2/6/8/10/13/15，间隔 {'/'.join(f'{g:.1f}' for g in chg)} 天（中位 {st.median(chg):.1f}，最短 {min(chg):.1f}）；近 30 天 {s30['n']} 个间隔中位数 {s30['median']} 天、均值 {s30['mean']} 天。最近一次为 Day15，{ev[-1]['actual_bj']}。窗口取 Day17–Day19（PT 10-21 至 10-23）：起点≈上次 + 挑战期最短间隔，宽度 3 天 ≥ 中位间隔 + 散布余量。挑战期内的判据是 Tibo 当天的「Day N/ Reset」帖（PT 当天任何时刻都可能改判），有预告时到落地中位约 {st.median(lags):.1f} 小时。上次预测未命中（见核对），信心维持低-中。",
+   change='出现「Day N/ Reset」帖（包括当天从 ship 改判为 reset）就改为当天 PT 结束前（北京时间次日 15:00 前）；若 Day16（PT 10-20）就重置，本窗口提前失效；窗口过去仍无帖则撤回本预测，不顺延。',
    hour_note=f"近 30 天落地时刻（北京）：{sorted(hrs)} — 分散，不给固定时点")
   data=dict(generated_at_bj=bj(NOW),sources=['https://x.com/thsottiaux','https://codex-reset.com/api/timeline','https://status.openai.com'],
-   last_reset=ev[-1],days_since_last=round(since,2),stats_30d=s30,stats_all=sall,teaser_lag_hours_challenge=lags,forecast=fc,events=ev,
-   gaps=['status.openai.com 未纳入（仅作故障线，本页未抓取）','多数早期事件只有确认/官宣时间，无独立预告帖，预测时间=unknown','Day 10 未在 X 找到 Tibo 完成帖；实际时间取 Radar 实测 06:13Z','Radar 归档的 Day 8/10/13 时间为 Radar 实测落地时间，非确认帖时间','2026-03-04 的事件仅覆盖约 9% 用户，Radar 仍记为 reset，保留','静默重置仅 2026-08-25 一次被 Radar 收录；其他静默重置未知','banked reset 单独列出，不计入间隔'],
+   last_reset=ev[-1],days_since_last=round(since,2),stats_30d=s30,stats_all=sall,teaser_lag_hours_challenge=lags,forecast=fc,forecast_check=prev,events=ev,
+   gaps=['status.openai.com 未纳入（仅作故障线，本页未抓取）','多数早期事件只有确认/官宣时间，无独立预告帖，预测时间=unknown','Day 10 未在 X 找到 Tibo 完成帖；实际时间取 Radar 实测 06:13Z','Radar 归档的 Day 8/10/13 时间为 Radar 实测落地时间，非确认帖时间','2026-03-04 的事件仅覆盖约 9% 用户，Radar 仍记为 reset，保留','静默重置仅 2026-08-25 一次被 Radar 收录；其他静默重置未知','banked reset 单独列出，不计入间隔','Day 15（10-20）Radar 只收录了官宣帖、没有实测落地时间，实际时间取帖子时间'],
    banked=[dict(date_bj=bj(P(e['announced_at'])),summary=e['summary'],url=e['url']) for e in radar['events'] if e['type']=='credits'])
   json.dump(data,open('data.json','w'),ensure_ascii=False,indent=1)
   print(s30,sall,lags,fc,len(ev))

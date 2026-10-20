@@ -50,16 +50,24 @@ svg text{fill:var(--mut);font-size:10px}ul{margin:4px 0;padding-left:18px}li{mar
 @keyframes tin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .more{display:inline-block;margin-top:10px;font-size:12px;font-weight:600}
 .foot{margin-top:18px;text-align:center}
+.flow{display:flex;align-items:stretch;flex-wrap:wrap}.node{flex:1 1 180px;padding:12px 14px;border-radius:16px;border:1px solid var(--bd);background:color-mix(in srgb,var(--glass) 70%,transparent);min-width:0}
+.node b{display:block;font-size:13px}.arr{display:flex;align-items:center;padding:0 6px;color:var(--acc);font-size:20px}
+.st{display:inline-block;font-size:11px;padding:0 8px;border-radius:99px;margin-top:4px}.st.ok{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}.st.mid{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}.st.no{background:color-mix(in srgb,var(--fg) 10%,transparent);color:var(--mut)}
+.ring{display:flex;gap:14px;align-items:center}.miss{color:var(--warn);font-weight:700}
+@media(max-width:700px){.arr{width:100%;justify-content:center;transform:rotate(90deg);padding:2px}}
 @media(prefers-reduced-motion:reduce){[data-tab].show{animation:none}.c{transition:none!important;transform:none!important}.c:after{display:none}}
 </style></head><body><div class="w">
 <div class="top"><div><h1>🔄 <b>Tibo Reset</b> 追踪</h1><div class="sub">Codex / ChatGPT Work 全局额度重置（@thsottiaux 官宣）· 时间均为北京时间 UTC+8</div></div><span class="pill"><span class="dot"></span>生成于 <span id="gen"></span></span></div>
-<nav class="nav" aria-label="分类"><a href="#overview">✨ 概览</a><a href="#forecast">🧭 预测依据</a><a href="#trend">📈 趋势</a><a href="#history">🗂 历史记录</a><a href="#other">📎 其他</a></nav>
+<nav class="nav" aria-label="分类"><a href="#overview">✨ 概览</a><a href="#trend">📈 趋势</a><a href="#history">🗂 历史记录</a><a href="#other">📎 其他</a></nav>
 <main class="bento">
  <section data-tab="overview" class="c hero s8 mag" id="hero"></section>
  <section data-tab="overview" class="c s4 mag" id="status"></section>
+ <section data-tab="overview" class="c s8 mag" id="strip"></section>
+ <section data-tab="overview" class="c s4 mag" id="check"></section>
  <div data-tab="overview" class="s3 c mag kpi" id="k1"></div><div data-tab="overview" class="s3 c mag kpi" id="k2"></div><div data-tab="overview" class="s3 c mag kpi" id="k3"></div><div data-tab="overview" class="s3 c mag kpi" id="k4"></div>
- <section data-tab="forecast" class="c s8 mag" id="basis"></section>
- <section data-tab="forecast" class="c s4 mag" id="lag"></section>
+ <section data-tab="overview" class="c mag" id="flow"></section>
+ <section data-tab="overview" class="c s8 mag" id="basis"></section>
+ <section data-tab="overview" class="c s4 mag" id="lag"></section>
  <section data-tab="trend" class="c mag"><h2>📈 重置间隔趋势（天）</h2><div id="chart"></div><div class="q">柱 = 与上一次全局重置的间隔（近 40 次）；虚线 = 近 30 天中位数；<span style="color:var(--ok)">绿色</span> = 28 天挑战期内；超过 20 天的柱被截断。banked reset 不计入。</div></section>
  <section data-tab="history" class="c"><h2>🗂 历史记录 <span class="q" id="cnt"></span></h2>
   <div class="flt" style="margin-bottom:12px"><button class="on" data-f="all">全部</button><button data-f="ch">有预告帖</button><button data-f="win">有官方窗口</button></div>
@@ -70,50 +78,51 @@ svg text{fill:var(--mut);font-size:10px}ul{margin:4px 0;padding-left:18px}li{mar
 </main><footer class="foot q" id="sf"></footer></div>
 <script>
 const D={
- "generated_at_bj": "2026-10-20 13:21",
+ "generated_at_bj": "2026-10-20 14:49",
  "sources": [
   "https://x.com/thsottiaux",
   "https://codex-reset.com/api/timeline",
   "https://status.openai.com"
  ],
  "last_reset": {
-  "id": "2111492738025959922",
-  "radar_url": "https://x.com/thsottiaux/status/2111492738025959922",
-  "radar_summary": "Day 13 of the 28-day ship-or-reset series: the global reset promised “by EOD PST” landed at 20:41 UTC on our checks; Tibo then posted: “Done.”",
+  "id": "2112432076767289678",
+  "radar_url": "https://x.com/thsottiaux/status/2112432076767289678",
+  "radar_summary": "Day 15/ Nevermind, we're still cooking... and reset. Enjoy. https://t.co/RZ9WhtI802",
   "reasons": [],
-  "actual_utc": "2026-10-17T20:41:01+00:00",
-  "actual_bj": "2026-10-18 04:41",
-  "actual_basis": "Radar 归档时间（确认帖或实测落地）",
+  "actual_utc": "2026-10-20T06:33:48+00:00",
+  "actual_bj": "2026-10-20 14:33",
+  "actual_basis": "Tibo 官宣帖时间（Radar 已收录该帖，但无实测落地时间）",
   "window": null,
-  "label": "Day 13",
-  "teaser": {
-   "url": "https://x.com/thsottiaux/status/2111492673890824348",
-   "time_bj": "2026-10-18 00:20",
-   "quote": "Day 13/ Le limit reset — Landing sometime today by EOD PST"
-  },
-  "predicted_bj": "2026-10-18 15:00（截止）",
-  "pred_note": "\"by EOD PST\"（按 PDT 当日 24:00）",
-  "lag_teaser_h": 4.33,
-  "dev_h": -10.32,
+  "label": "Day 15",
+  "teaser": null,
+  "predicted_bj": "unknown",
+  "pred_note": "无预告：官宣即重置（所引用的 03:45「Day 15/ We're cooked」不是重置预告）",
+  "lag_teaser_h": null,
+  "dev_h": null,
   "confirmation": {
-   "url": "https://x.com/thsottiaux/status/2111566005684289735",
-   "time_bj": "2026-10-18 05:12",
-   "quote": "Done"
+   "url": "https://x.com/thsottiaux/status/2112432076767289678",
+   "time_bj": "2026-10-20 14:33",
+   "quote": "Day 15/ Nevermind, we're still cooking... and reset. Enjoy."
   },
-  "gap_days": 2.6
+  "quoted": {
+   "url": "https://x.com/thsottiaux/status/2112268918681485431",
+   "time_bj": "2026-10-20 03:45",
+   "quote": "Day 15/ We're cooked（非重置）"
+  },
+  "gap_days": 2.41
  },
- "days_since_last": 2.36,
+ "days_since_last": 0.01,
  "stats_30d": {
-  "n": 7,
-  "mean": 5.07,
-  "median": 4.02,
+  "n": 8,
+  "mean": 4.74,
+  "median": 3.31,
   "min": 2.04,
   "max": 14.42
  },
  "stats_all": {
-  "n": 54,
-  "mean": 7.33,
-  "median": 3.75,
+  "n": 55,
+  "mean": 7.24,
+  "median": 3.57,
   "min": 0.5,
   "max": 67.74
  },
@@ -125,12 +134,22 @@ const D={
   4.33
  ],
  "forecast": {
+  "window_start_bj": "2026-10-21 15:00",
+  "window_end_bj": "2026-10-24 15:00",
+  "confidence": "低-中",
+  "basis": "28 天 ship-or-reset 挑战（2026-10-04 公布，Day1≈10-05 PT，约至 11-01）期内已兑现 Day2/6/8/10/13/15，间隔 4.0/2.0/2.0/2.6/2.4 天（中位 2.4，最短 2.0）；近 30 天 8 个间隔中位数 3.31 天、均值 4.74 天。最近一次为 Day15，2026-10-20 14:33。窗口取 Day17–Day19（PT 10-21 至 10-23）：起点≈上次 + 挑战期最短间隔，宽度 3 天 ≥ 中位间隔 + 散布余量。挑战期内的判据是 Tibo 当天的「Day N/ Reset」帖（PT 当天任何时刻都可能改判），有预告时到落地中位约 4.3 小时。上次预测未命中（见核对），信心维持低-中。",
+  "change": "出现「Day N/ Reset」帖（包括当天从 ship 改判为 reset）就改为当天 PT 结束前（北京时间次日 15:00 前）；若 Day16（PT 10-20）就重置，本窗口提前失效；窗口过去仍无帖则撤回本预测，不顺延。",
+  "hour_note": "近 30 天落地时刻（北京）：[2, 4, 5, 11, 12, 13, 14, 14] — 分散，不给固定时点"
+ },
+ "forecast_check": {
+  "made_bj": "2026-10-20 13:21",
   "window_start_bj": "2026-10-20 15:00",
   "window_end_bj": "2026-10-23 15:00",
-  "confidence": "低-中",
-  "basis": "28 天 ship-or-reset 挑战（2026-10-04 公布，Day1≈10-05 PT，约至 11-01）期内已兑现 Day2/6/8/10/13，间隔 4.0/2.0/2.0/2.6 天；近 30 天 7 个间隔中位数 4.02 天、均值 5.07 天。距 Day13 已 2.4 天，Day14/15 为功能发布。窗口取 Day16–Day18（PT 10-20 至 10-22）≈ 中位间隔 + 散布余量。挑战期内，判据是 Tibo 当日的「Day N/ Reset」帖，预告到落地中位约 4.3 小时。",
-  "change": "出现「Day N/ Reset」帖即改为当日 PT 结束前（北京时间次日 15:00 前）；窗口过去无帖则撤回本预测，不顺延。",
-  "hour_note": "近 30 天落地时刻（北京）：[2, 4, 5, 11, 12, 13, 14] — 分散，不给固定时点"
+  "actual_bj": "2026-10-20 14:33",
+  "actual_basis": "Tibo 官宣帖时间（Radar 已收录该帖，但无实测落地时间）",
+  "miss_minutes": 26.2,
+  "verdict": "未命中：实际重置早于窗口开始约 26 分钟（窗口从 PT Day16 起算，但 Day15 在 PT 当晚 23:33 就重置了）",
+  "lesson": "Day 15 原判为「功能发布日」，但 Tibo 在 PT 当日结束前改成了重置；挑战期内同一天可以从 ship 改判为 reset，窗口应覆盖当前 PT 日的剩余时段。"
  },
  "events": [
   {
@@ -1308,6 +1327,33 @@ const D={
     "quote": "Done"
    },
    "gap_days": 2.6
+  },
+  {
+   "id": "2112432076767289678",
+   "radar_url": "https://x.com/thsottiaux/status/2112432076767289678",
+   "radar_summary": "Day 15/ Nevermind, we're still cooking... and reset. Enjoy. https://t.co/RZ9WhtI802",
+   "reasons": [],
+   "actual_utc": "2026-10-20T06:33:48+00:00",
+   "actual_bj": "2026-10-20 14:33",
+   "actual_basis": "Tibo 官宣帖时间（Radar 已收录该帖，但无实测落地时间）",
+   "window": null,
+   "label": "Day 15",
+   "teaser": null,
+   "predicted_bj": "unknown",
+   "pred_note": "无预告：官宣即重置（所引用的 03:45「Day 15/ We're cooked」不是重置预告）",
+   "lag_teaser_h": null,
+   "dev_h": null,
+   "confirmation": {
+    "url": "https://x.com/thsottiaux/status/2112432076767289678",
+    "time_bj": "2026-10-20 14:33",
+    "quote": "Day 15/ Nevermind, we're still cooking... and reset. Enjoy."
+   },
+   "quoted": {
+    "url": "https://x.com/thsottiaux/status/2112268918681485431",
+    "time_bj": "2026-10-20 03:45",
+    "quote": "Day 15/ We're cooked（非重置）"
+   },
+   "gap_days": 2.41
   }
  ],
  "gaps": [
@@ -1317,7 +1363,8 @@ const D={
   "Radar 归档的 Day 8/10/13 时间为 Radar 实测落地时间，非确认帖时间",
   "2026-03-04 的事件仅覆盖约 9% 用户，Radar 仍记为 reset，保留",
   "静默重置仅 2026-08-25 一次被 Radar 收录；其他静默重置未知",
-  "banked reset 单独列出，不计入间隔"
+  "banked reset 单独列出，不计入间隔",
+  "Day 15（10-20）Radar 只收录了官宣帖、没有实测落地时间，实际时间取帖子时间"
  ],
  "banked": [
   {
@@ -1391,20 +1438,42 @@ const lk=(u,t)=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`;
 $('#gen').textContent=D.generated_at_bj;
 $('#hero').innerHTML=`<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><div class="k">🔮 下次全局重置 · 预测窗口</div><span class="tag">估计，非官方 · 信心 ${F.confidence}</span></div>
 <div class="big grad">${F.window_start_bj}<br>→ ${F.window_end_bj}</div>
-<div class="q">${F.hour_note}</div><div class="q" style="margin-top:6px">⚡ 改判条件：${F.change}</div><a class="more" href="#forecast">查看预测依据 →</a>`;
-const pct=Math.min(100,D.days_since_last/S.median*100);
-$('#status').innerHTML=`<div class="k">● 当前状态</div><div class="q" style="margin-top:6px">最近一次全局重置</div><div class="v">${L.actual_bj}</div><div class="q">${L.label||''} · ${lk(L.teaser.url,'预告帖')} · ${lk(L.confirmation.url,'“'+L.confirmation.quote+'”')} · ${lk(L.radar_url,'Radar')}</div>
-<div class="bar"><i style="width:${pct}%"></i></div><div class="q">已过 <b>${D.days_since_last.toFixed(1)} 天</b> / 近 30 天中位间隔 ${S.median} 天</div><a class="more" href="#trend">查看间隔趋势 →</a>`;
+<div class="q">${F.hour_note}</div><div class="q" style="margin-top:6px">⚡ 改判条件：${F.change}</div><a class="more" href="#overview" onclick="event.preventDefault();document.getElementById('basis').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})">查看预测依据 ↓</a>`;
+const NOWT=Date.now(),PT=t=>new Date(t).getTime(),BJT=b=>PT(b.replace(' ','T')+':00+08:00'),last=PT(L.actual_utc),el=(NOWT-last)/864e5,pct=Math.min(1,el/S.median);
+const R=46,C=2*Math.PI*R;
+$('#status').innerHTML=`<div class="k">● 当前状态</div><div class="ring" style="margin-top:8px"><svg width="118" height="118" viewBox="0 0 118 118" role="img" aria-label="已过时间 / 中位间隔" style="flex:0 0 auto"><defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="var(--acc)"/><stop offset="1" stop-color="var(--acc2)"/></linearGradient></defs><circle cx="59" cy="59" r="${R}" fill="none" stroke="currentColor" opacity=".1" stroke-width="10"/><circle cx="59" cy="59" r="${R}" fill="none" stroke="url(#rg)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C*pct} ${C}" transform="rotate(-90 59 59)"/><text x="59" y="56" text-anchor="middle" style="font-size:20px;font-weight:800;fill:var(--fg)">${el.toFixed(1)}</text><text x="59" y="73" text-anchor="middle">天 / ${S.median} 天</text></svg>
+<div><div class="q">最近一次全局重置</div><div class="v" style="font-size:20px">${L.actual_bj}</div><div class="q">${L.label||''} · ${L.confirmation?lk(L.confirmation.url,'官宣帖'):''} · ${lk(L.radar_url,'Radar')}</div><div class="q">${L.actual_basis}</div></div></div>
+<div class="q" style="margin-top:8px">圆环 = 已过时间（实时）/ 近 30 天中位间隔；超过中位数不代表「马上到期」。</div><a class="more" href="#trend">查看间隔趋势 →</a>`;
+{const ch=D.events.filter(r=>PT(r.actual_utc)>Date.now()-16*864e5),t0=PT(ch[0].actual_utc)-864e5/2,F0=BJT(F.window_start_bj),F1=BJT(F.window_end_bj),C0=BJT(D.forecast_check.window_start_bj),C1=BJT(D.forecast_check.window_end_bj),t1=Math.max(F1,NOWT)+864e5/2,W=760,H=120,x=t=>20+(t-t0)/(t1-t0)*(W-40);
+let g=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="近期重置时间轴">`;
+for(let d=BJT(new Date(t0+8*36e5).toISOString().slice(0,10)+' 00:00')+864e5,k=0;d<t1;d+=864e5,k++){g+=`<line x1=${x(d)} x2=${x(d)} y1=30 y2=78 stroke="currentColor" opacity=".07"/>`;if(k%2==0)g+=`<text x=${x(d)} y=94 text-anchor="middle">${new Date(d+8*36e5).toISOString().slice(5,10)}</text>`}
+g+=`<rect x=${x(C0)} y=40 width=${x(C1)-x(C0)} height=28 rx=8 fill="none" stroke="var(--warn)" stroke-dasharray="4 3" opacity=".8"/><text x=${x(C0)+4} y=36 style="fill:var(--warn)">上次预测（未命中）</text>`;
+g+=`<rect x=${x(F0)} y=44 width=${x(F1)-x(F0)} height=20 rx=8 fill="var(--acc)" opacity=".3"/><text x=${x(F1)} y=${H-4} text-anchor="end" style="fill:var(--acc);font-weight:700">新预测窗口（估计）</text>`;
+g+=`<line x1=20 x2=${W-20} y1=54 y2=54 stroke="currentColor" opacity=".25"/>`;
+ch.forEach(r=>{const X=x(PT(r.actual_utc)),c=r.label&&r.label.startsWith('Day');g+=`<circle cx=${X} cy=54 r=6 fill="${c?'var(--ok)':'var(--acc)'}" stroke="var(--bg)" stroke-width=2><title>${r.actual_bj} ${r.label||''}</title></circle><text x=${X} y=22 text-anchor="middle" style="font-size:9px">${(r.label||'').replace('（社区投票）','')}</text>`});
+g+=`<line x1=${x(NOWT)} x2=${x(NOWT)} y1=26 y2=82 stroke="var(--fg)" stroke-width=1.5 /><text x=${x(NOWT)} y=108 text-anchor="middle" style="fill:var(--fg);font-weight:700">现在</text></svg>`;
+$('#strip').innerHTML=`<h2>🛰 近期重置时间轴</h2>${g}<div class="q">点 = 全局重置（<span style="color:var(--ok)">绿</span> = 挑战期 Day N）；紫色带 = 新预测窗口（估计）；虚线框 = 上次预测窗口；竖线 = 现在（北京时间）。</div>`;}
+{const P=D.forecast_check;$('#check').innerHTML=`<h2>🎯 预测核对 <span class="tag">上次预测</span></h2>
+<div class="q">预测（${P.made_bj} 作出，估计）</div><div><b>${P.window_start_bj} → ${P.window_end_bj}</b></div>
+<div class="q" style="margin-top:6px">实际</div><div><b>${P.actual_bj}</b></div><div class="q">${P.actual_basis}</div>
+<div class="miss" style="margin:8px 0 4px">✗ 未命中 · 早于窗口 ${Math.round(P.miss_minutes)} 分钟</div><div class="q">${P.verdict}</div><div class="q" style="margin-top:4px">教训：${P.lesson}</div>`;}
+{const st=(c,t)=>`<span class="st ${c}">${t}</span>`,arr='<div class="arr">→</div>';
+$('#flow').innerHTML=`<h2>🔗 证据链 · 最近一次重置（${L.label||''}）</h2><div class="flow">
+<div class="node"><b>① Tibo X 原帖</b><div class="q">${L.confirmation?lk(L.confirmation.url,L.confirmation.time_bj)+' “'+L.confirmation.quote+'”':U}</div>${L.quoted?`<div class="q">引用：${lk(L.quoted.url,L.quoted.time_bj)} ${L.quoted.quote}</div>`:''}${st('ok','已核实')}</div>${arr}
+<div class="node"><b>② Tibo Radar</b><div class="q">${lk('https://codex-reset.com','codex-reset.com')} 已收录该帖；实测落地时间：${U}</div>${st('mid','部分')}</div>${arr}
+<div class="node"><b>③ status.openai.com</b><div class="q">${lk('https://status.openai.com','状态页')} 本页未抓取（故障线）</div>${st('no','未覆盖')}</div>${arr}
+<div class="node" style="border-color:color-mix(in srgb,var(--acc) 45%,transparent)"><b>④ 结论</b><div class="q">全局重置 #${D.events.length}，实际时间 ${L.actual_bj}</div><div class="q">${L.actual_basis}</div>${st('ok','计入统计')}</div></div>`;}
+function spark(){const g=D.events.filter(r=>r.gap_days!=null).slice(-20).map(r=>Math.min(r.gap_days,20)),W=200,H=36,m=Math.max(...g);return `<svg viewBox="0 0 ${W} ${H}" width="100%" height="36" preserveAspectRatio="none" aria-label="近20次间隔"><polyline fill="none" stroke="var(--acc)" stroke-width="2" vector-effect="non-scaling-stroke" points="${g.map((v,i)=>`${i/(g.length-1)*W},${H-3-v/m*(H-6)}`).join(' ')}"/></svg><div class="q">近 20 次间隔走势（截断于 20 天）</div>`}
 [['距上次重置',D.days_since_last.toFixed(1)+' 天','截至 '+D.generated_at_bj],['近30天中位间隔',S.median+' 天',`均值 ${S.mean} · 范围 ${S.min}–${S.max} · n=${S.n}`],['全历史中位间隔',A.median+' 天',`均值 ${A.mean} · 范围 ${A.min}–${A.max} · n=${A.n}`],['已收录',D.events.length+' 次','全局重置 + '+D.banked.length+' 条 banked']]
- .forEach(([k,v,s],i)=>$('#k'+(i+1)).innerHTML=`<div class="k">${k}</div><div class="v">${v}</div><div class="q">${s}</div>${i==3?'<a class="more" href="#history">查看历史记录 →</a> · <a class="more" href="#other">banked / 缺口 →</a>':''}`);
-$('#basis').innerHTML=`<h2>🧭 预测依据 <span class="tag">估计</span></h2><p style="margin:0 0 8px">${F.basis}</p><div class="q">信息源：${lk(L.teaser.url,'Day 13 预告')} · ${lk(L.confirmation.url,'Day 13 “Done”')} · ${lk('https://codex-reset.com','Tibo Radar')} · ${lk('https://x.com/thsottiaux','@thsottiaux')}</div>`;
+ .forEach(([k,v,s],i)=>$('#k'+(i+1)).innerHTML=`<div class="k">${k}</div><div class="v">${v}</div><div class="q">${s}</div>${i==1?spark():''}${i==3?'<a class="more" href="#history">查看历史记录 →</a> · <a class="more" href="#other">banked / 缺口 →</a>':''}`);
+$('#basis').innerHTML=`<h2>🧭 预测依据 <span class="tag">估计</span></h2><p style="margin:0 0 8px">${F.basis}</p><div class="q">信息源：${lk(L.confirmation.url,(L.label||'')+' 官宣帖')}${L.quoted?' · '+lk(L.quoted.url,'所引用帖（非重置）'):''} · ${lk('https://codex-reset.com','Tibo Radar')} · ${lk('https://x.com/thsottiaux','@thsottiaux')}</div>`;
 const lags=D.teaser_lag_hours_challenge,ml=Math.max(...lags);
 $('#lag').innerHTML=`<h2>⏱ 挑战期 预告→落地</h2>${lags.map(h=>`<div class="q" style="display:flex;gap:8px;align-items:center"><span style="width:50px">${h} h</span><div class="bar" style="flex:1;margin:6px 0"><i style="width:${h/ml*100}%"></i></div></div>`).join('')}<div class="q">Day 2 / 6 / 8 / 10 / 13（按时间顺序）</div>`;
 const fmt=h=>h==null?U:(h>0?'+':'')+h.toFixed(1)+' h';
 function rows(f){const ev=[...D.events].reverse().filter(r=>f=='all'||(f=='ch'?r.teaser:r.window));$('#cnt').textContent=`显示 ${ev.length} / ${D.events.length}`;
 $('#tb').innerHTML=ev.map(r=>`<div class="ev ${r.label&&r.label.startsWith('Day')?'ch':''}">
 <div class="d"><div class="t">${r.actual_bj.slice(0,10)}${r.label?`<span class="chip">${r.label}</span>`:''}</div><div class="q">${lk(r.radar_url,r.radar_summary.slice(0,80)+'…')}</div></div>
-<div><div class="lab">预测依据（信息源）</div>${r.teaser?`${lk(r.teaser.url,r.teaser.time_bj)}<div class="q">“${r.teaser.quote}”</div>`:''}<div class="q">${r.pred_note}</div><div class="lab" style="margin-top:4px">预测时间</div>${r.predicted_bj=='unknown'?U:r.predicted_bj}</div>
+<div><div class="lab">预测依据（信息源）</div>${r.quoted?`<div class="q">引用 ${lk(r.quoted.url,r.quoted.time_bj)}：${r.quoted.quote}</div>`:''}${r.teaser?`${lk(r.teaser.url,r.teaser.time_bj)}<div class="q">“${r.teaser.quote}”</div>`:''}<div class="q">${r.pred_note}</div><div class="lab" style="margin-top:4px">预测时间</div>${r.predicted_bj=='unknown'?U:r.predicted_bj}</div>
 <div><div class="lab">实际时间</div>${r.actual_bj}<div class="q">${r.actual_basis}</div>${r.confirmation?`<div class="q">确认 ${lk(r.confirmation.url,r.confirmation.time_bj)}</div>`:''}${r.lag_teaser_h!=null?`<div class="q">预告后 ${r.lag_teaser_h} h</div>`:''}</div>
 <div><div class="lab">偏差</div>${fmt(r.dev_h)}<div class="lab" style="margin-top:4px">间隔</div>${r.gap_days!=null?r.gap_days+' 天':'—'}</div></div>`).join('')}
 rows('all');document.querySelectorAll('.flt button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.flt button').forEach(x=>x.classList.remove('on'));b.classList.add('on');rows(b.dataset.f)});
@@ -1418,8 +1487,8 @@ $('#bk').innerHTML=D.banked.map(b=>`<div><b>${b.date_bj}</b> · ${b.summary}<br>
 $('#gaps').innerHTML=D.gaps.map(x=>`<li>${x}</li>`).join('');
 $('#ft').innerHTML=`<h2>🔗 数据源与图例</h2>数据源：${D.sources.map(u=>lk(u,u)).join(' · ')}　|　共 ${D.events.length} 次全局重置（Radar 归档 + X 原帖核验）、${D.banked.length} 条 banked 记录　|　所有预测均为估计；unknown = 未能核实　|　生成于 ${D.generated_at_bj}（北京时间）`;
 $('#sf').innerHTML=`生成于 ${D.generated_at_bj}（北京时间）· 预测均为估计，unknown = 未能核实 · <a href="#other">数据源</a>`;
-const TABS=['overview','forecast','trend','history','other'];
-function route(){let t=location.hash.slice(1);if(!TABS.includes(t))t='overview';
+const TABS=['overview','trend','history','other'];
+function route(){let t=location.hash.slice(1);if(t=='forecast'){history.replaceState(null,'','#overview');t='overview'}if(!TABS.includes(t))t='overview';
  document.querySelectorAll('[data-tab]').forEach(e=>e.classList.toggle('show',e.dataset.tab==t));
  document.querySelectorAll('.nav a').forEach(a=>{const on=a.getAttribute('href')=='#'+t;a.classList.toggle('on',on);on?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current');if(on)a.scrollIntoView({block:'nearest',inline:'nearest'})});
  window.scrollTo(0,0)}
