@@ -2,134 +2,210 @@
 <title>Tibo Reset 追踪 · Codex/ChatGPT 额度重置</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
-:root{--bg:#eef1f8;--fg:#141724;--mut:#5d6578;--glass:rgba(255,255,255,.62);--bd:rgba(20,30,60,.10);--acc:#6d5efc;--acc2:#00b4d8;--ok:#0fb981;--warn:#e08a00;--sh:0 10px 30px rgba(40,50,90,.10)}
-@media(prefers-color-scheme:dark){:root{--bg:#07080d;--fg:#e9ecf5;--mut:#9aa3b8;--glass:rgba(24,28,42,.55);--bd:rgba(255,255,255,.08);--acc:#9b8cff;--acc2:#3fd5f5;--ok:#34d399;--warn:#fbbf24;--sh:0 10px 40px rgba(0,0,0,.45)}}
+:root{
+  --bg:#0a0e17;--fg:#e8eef8;--mut:#8b95a8;--glass:rgba(16,22,38,.72);--bd:rgba(100,140,255,.14);
+  --acc:#6d8cff;--acc2:#3de0ff;--ok:#2ee6a6;--warn:#ffb020;--danger:#ff6b7a;
+  --sh:0 0 0 1px rgba(100,140,255,.08),0 12px 40px rgba(0,0,0,.45);
+  --grid:rgba(100,140,255,.05);--scan:rgba(61,224,255,.03);
+}
+@media(prefers-color-scheme:light){:root{
+  --bg:#e8eef8;--fg:#12182a;--mut:#5a6578;--glass:rgba(255,255,255,.78);--bd:rgba(40,60,120,.12);
+  --acc:#4f6ef7;--acc2:#0891b2;--ok:#059669;--warn:#d97706;--danger:#e11d48;
+  --sh:0 8px 28px rgba(40,60,100,.10);--grid:rgba(40,60,120,.06);--scan:rgba(79,110,247,.04);
+}}
 *{box-sizing:border-box}html,body{margin:0}
-body{font:14px/1.6 -apple-system,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;color:var(--fg);background:var(--bg);min-height:100vh;overflow-x:hidden}
-body:before{content:"";position:fixed;inset:-20%;z-index:-1;background:radial-gradient(40% 35% at 15% 10%,color-mix(in srgb,var(--acc) 30%,transparent),transparent 70%),radial-gradient(35% 30% at 90% 20%,color-mix(in srgb,var(--acc2) 25%,transparent),transparent 70%),radial-gradient(40% 40% at 60% 95%,color-mix(in srgb,var(--ok) 15%,transparent),transparent 70%)}
-.w{max-width:1200px;margin:auto;padding:28px 20px 40px}
-.top{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:18px}
-h1{font-size:28px;margin:0;letter-spacing:-.02em}h1 b{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
-h2{font-size:15px;margin:0 0 12px;display:flex;gap:8px;align-items:center}
-.sub,.q{color:var(--mut)}.q{font-size:12px}
-.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-.c{position:relative;grid-column:span 12;background:var(--glass);border:1px solid var(--bd);border-radius:22px;padding:20px 22px;backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);box-shadow:var(--sh);transform:perspective(900px) rotateX(var(--rx,0)) rotateY(var(--ry,0)) translate(var(--tx,0),var(--ty,0));transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;overflow:hidden;min-width:0}
-.c:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .25s;background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--acc) 22%,transparent),transparent 60%)}
-.c:hover:after{opacity:1}.c:hover{box-shadow:var(--sh),0 0 0 1px color-mix(in srgb,var(--acc) 40%,transparent),0 0 40px color-mix(in srgb,var(--acc) 18%,transparent)}
-.s8{grid-column:span 8}.s4{grid-column:span 4}.s3{grid-column:span 3}.s6{grid-column:span 6}
-@media(max-width:900px){.s8,.s4,.s6{grid-column:span 12}.s3{grid-column:span 6}}
-@media(max-width:520px){.s3{grid-column:span 12}.w{padding:18px 12px}h1{font-size:23px}}
-.hero{background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 22%,var(--glass)),color-mix(in srgb,var(--acc2) 14%,var(--glass)))}
-.big{font-size:clamp(24px,4vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.15;margin:6px 0 10px}
+body{font:13px/1.55 "SF Pro Text",-apple-system,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;color:var(--fg);background:var(--bg);min-height:100vh;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;z-index:-2;background:
+  radial-gradient(50% 40% at 12% 0%,color-mix(in srgb,var(--acc) 28%,transparent),transparent 70%),
+  radial-gradient(40% 35% at 95% 8%,color-mix(in srgb,var(--acc2) 20%,transparent),transparent 65%),
+  radial-gradient(45% 40% at 70% 100%,color-mix(in srgb,var(--ok) 10%,transparent),transparent 70%),
+  var(--bg)}
+body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.55;background-image:
+  linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px),
+  repeating-linear-gradient(0deg,transparent,transparent 3px,var(--scan) 3px,var(--scan) 4px);
+  background-size:48px 48px,48px 48px,100% 8px}
+.w{max-width:1280px;margin:auto;padding:18px 18px 36px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;font-size:18px;box-shadow:0 0 24px color-mix(in srgb,var(--acc) 45%,transparent)}
+h1{font-size:20px;margin:0;letter-spacing:.04em;font-weight:700}h1 b{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub,.q{color:var(--mut)}.q{font-size:11.5px}
+.live{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border-radius:8px;border:1px solid var(--bd);background:var(--glass);font-size:11px;letter-spacing:.04em;backdrop-filter:blur(12px)}
+.live .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+h2{font-size:12px;margin:0 0 10px;display:flex;gap:8px;align-items:center;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);font-weight:600}
+h2 .tag{text-transform:none;letter-spacing:0}
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+.c{position:relative;grid-column:span 12;background:var(--glass);border:1px solid var(--bd);border-radius:14px;padding:14px 16px;backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);box-shadow:var(--sh);transform:perspective(900px) rotateX(var(--rx,0)) rotateY(var(--ry,0)) translate(var(--tx,0),var(--ty,0));transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;overflow:hidden;min-width:0}
+.c:before{content:"";position:absolute;top:0;left:12px;right:12px;height:1px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--acc2) 55%,transparent),transparent);opacity:.7;pointer-events:none}
+.c:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .25s;background:radial-gradient(280px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--acc) 18%,transparent),transparent 60%)}
+.c:hover:after{opacity:1}.c:hover{box-shadow:var(--sh),0 0 0 1px color-mix(in srgb,var(--acc) 35%,transparent),0 0 36px color-mix(in srgb,var(--acc) 14%,transparent)}
+.s8{grid-column:span 8}.s4{grid-column:span 4}.s3{grid-column:span 3}.s6{grid-column:span 6}.s2{grid-column:span 2}
+@media(max-width:960px){.s8,.s4,.s6{grid-column:span 12}.s3,.s2{grid-column:span 6}}
+@media(max-width:520px){.s3,.s2{grid-column:span 12}.w{padding:12px 10px 88px}h1{font-size:17px}}
+.kpi-strip{display:contents}
+.kpi{padding:12px 14px}.kpi .k{margin-bottom:4px}.kpi .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.kpi .spark{margin-top:6px;opacity:.9}
+.stage{display:contents}
+.hero{background:linear-gradient(145deg,color-mix(in srgb,var(--acc) 16%,var(--glass)),color-mix(in srgb,var(--acc2) 8%,var(--glass)));padding:18px}
+.big{font-size:clamp(22px,3.4vw,34px);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin:8px 0 10px;font-variant-numeric:tabular-nums}
 .grad{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.k{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.06em}.v{font-size:24px;font-weight:750}
-.tag{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn);border:1px solid color-mix(in srgb,var(--warn) 35%,transparent)}
-.pill{display:inline-flex;gap:6px;align-items:center;padding:4px 12px;border-radius:99px;background:var(--glass);border:1px solid var(--bd);font-size:12px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok)}
-.bar{height:8px;border-radius:9px;background:color-mix(in srgb,var(--fg) 10%,transparent);overflow:hidden;margin:10px 0 4px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:9px}
-.hl{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px}.hl>div{min-width:130px}
-a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+.k{color:var(--mut);font-size:10px;text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.v{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;background:color-mix(in srgb,var(--warn) 16%,transparent);color:var(--warn);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);letter-spacing:.02em}
+.bar{height:6px;border-radius:4px;background:color-mix(in srgb,var(--fg) 8%,transparent);overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:4px}
+a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
 .u{color:var(--mut);font-style:italic;opacity:.85}
-.tl{max-height:640px;overflow:auto;margin:0 -6px;padding:0 6px}
-.ev{display:grid;grid-template-columns:150px 1fr 1fr 110px;gap:12px;padding:12px;border-radius:14px;border:1px solid var(--bd);margin-bottom:8px;background:color-mix(in srgb,var(--glass) 60%,transparent)}
-.ev.ch{border-color:color-mix(in srgb,var(--ok) 40%,transparent)}
+.tl{max-height:640px;overflow:auto;margin:0 -4px;padding:0 4px}
+.ev{display:grid;grid-template-columns:140px 1fr 1fr 100px;gap:10px;padding:10px;border-radius:10px;border:1px solid var(--bd);margin-bottom:6px;background:color-mix(in srgb,var(--glass) 60%,transparent)}
+.ev.ch{border-color:color-mix(in srgb,var(--ok) 35%,transparent)}
 @media(max-width:760px){.ev{grid-template-columns:1fr 1fr}.ev>.d{grid-column:span 2}}
-.ev .t{font-weight:700}.lab{font-size:11px;color:var(--mut)}
-.chip{display:inline-block;font-size:11px;padding:0 7px;border-radius:99px;background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok);margin-left:4px}
-svg text{fill:var(--mut);font-size:10px}ul{margin:4px 0;padding-left:18px}li{margin:3px 0}
-.bk{display:flex;flex-direction:column;gap:8px;max-height:340px;overflow:auto}.bk div{font-size:12.5px;padding:8px 10px;border-radius:10px;border:1px solid var(--bd)}
-.flt{display:flex;gap:6px;flex-wrap:wrap}.flt button{font:inherit;font-size:12px;padding:3px 12px;border-radius:99px;border:1px solid var(--bd);background:var(--glass);color:var(--fg);cursor:pointer}.flt button.on{background:var(--acc);color:#fff;border-color:transparent}
-
-.nav{position:sticky;top:10px;z-index:50;display:flex;gap:6px;padding:6px;margin:0 0 18px;border-radius:99px;background:var(--glass);border:1px solid var(--bd);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);box-shadow:var(--sh);overflow-x:auto;scrollbar-width:none}
+.ev .t{font-weight:700}.lab{font-size:10px;color:var(--mut);letter-spacing:.06em;text-transform:uppercase}
+.chip{display:inline-block;font-size:10px;padding:0 6px;border-radius:4px;background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok);margin-left:4px;font-weight:600}
+svg text{fill:var(--mut);font-size:10px}ul{margin:4px 0;padding-left:16px}li{margin:3px 0}
+.bk{display:flex;flex-direction:column;gap:6px;max-height:340px;overflow:auto}.bk div{font-size:12px;padding:8px 10px;border-radius:8px;border:1px solid var(--bd)}
+.flt{display:flex;gap:6px;flex-wrap:wrap}.flt button{font:inherit;font-size:11px;padding:4px 12px;border-radius:6px;border:1px solid var(--bd);background:var(--glass);color:var(--fg);cursor:pointer}.flt button.on{background:var(--acc);color:#fff;border-color:transparent}
+.nav{position:sticky;top:8px;z-index:50;display:flex;gap:4px;padding:5px;margin:0 0 14px;border-radius:10px;background:var(--glass);border:1px solid var(--bd);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);box-shadow:var(--sh);overflow-x:auto;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
-.nav a{flex:0 0 auto;padding:7px 16px;border-radius:99px;color:var(--fg);font-weight:600;font-size:13px;text-decoration:none;transition:background .2s,color .2s}
-.nav a:hover{background:color-mix(in srgb,var(--acc) 12%,transparent);text-decoration:none}
-.nav a.on{background:linear-gradient(90deg,var(--acc),var(--acc2));color:#fff;box-shadow:0 0 18px color-mix(in srgb,var(--acc) 45%,transparent)}
-@media(max-width:600px){.nav{position:fixed;top:auto;bottom:10px;left:10px;right:10px;margin:0}.w{padding-bottom:84px}}
-[data-tab]{display:none}[data-tab].show{display:block;animation:tin .32s ease both}.bento>[data-tab].show{display:block}
-@keyframes tin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.more{display:inline-block;margin-top:10px;font-size:12px;font-weight:600}
-.foot{margin-top:18px;text-align:center}
-.flow{display:flex;align-items:stretch;flex-wrap:wrap}.node{flex:1 1 180px;padding:12px 14px;border-radius:16px;border:1px solid var(--bd);background:color-mix(in srgb,var(--glass) 70%,transparent);min-width:0}
-.node b{display:block;font-size:13px}.arr{display:flex;align-items:center;padding:0 6px;color:var(--acc);font-size:20px}
-.st{display:inline-block;font-size:11px;padding:0 8px;border-radius:99px;margin-top:4px}.st.ok{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}.st.mid{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}.st.no{background:color-mix(in srgb,var(--fg) 10%,transparent);color:var(--mut)}
-.ring{display:flex;gap:14px;align-items:center}.miss{color:var(--warn);font-weight:700}
-@media(max-width:700px){.arr{width:100%;justify-content:center;transform:rotate(90deg);padding:2px}}
-@media(prefers-reduced-motion:reduce){[data-tab].show{animation:none}.c{transition:none!important;transform:none!important}.c:after{display:none}}
+.nav a{flex:0 0 auto;padding:7px 14px;border-radius:7px;color:var(--mut);font-weight:600;font-size:12px;text-decoration:none;transition:background .2s,color .2s;letter-spacing:.02em}
+.nav a:hover{background:color-mix(in srgb,var(--acc) 12%,transparent);color:var(--fg);text-decoration:none}
+.nav a.on{background:linear-gradient(90deg,var(--acc),var(--acc2));color:#fff;box-shadow:0 0 20px color-mix(in srgb,var(--acc) 40%,transparent)}
+@media(max-width:600px){.nav{position:fixed;top:auto;bottom:8px;left:8px;right:8px;margin:0;border-radius:12px}}
+[data-tab]{display:none}[data-tab].show{display:block;animation:tin .28s ease both}.bento>[data-tab].show{display:block}
+@keyframes tin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.more{display:inline-block;margin-top:8px;font-size:11px;font-weight:600}
+.foot{margin-top:14px;text-align:center;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--glass);backdrop-filter:blur(12px)}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(max-width:900px){.flow{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.flow{grid-template-columns:1fr}}
+.node{padding:10px 12px;border-radius:10px;border:1px solid var(--bd);background:color-mix(in srgb,var(--bg) 40%,var(--glass));min-width:0;position:relative}
+.node b{display:block;font-size:12px;margin-bottom:4px}
+.node:not(:last-child):after{content:"→";position:absolute;right:-10px;top:50%;transform:translateY(-50%);color:var(--acc2);font-size:14px;z-index:1;text-shadow:0 0 8px var(--acc2)}
+@media(max-width:900px){.node:nth-child(2):after{display:none}.node:nth-child(odd):not(:last-child):after{content:"→"}}
+@media(max-width:520px){.node:after{display:none!important}}
+.st{display:inline-block;font-size:10px;padding:1px 7px;border-radius:4px;margin-top:6px;font-weight:700;letter-spacing:.04em}
+.st.ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}.st.mid{background:color-mix(in srgb,var(--warn) 16%,transparent);color:var(--warn)}.st.no{background:color-mix(in srgb,var(--fg) 8%,transparent);color:var(--mut)}
+.ring{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.miss{color:var(--danger);font-weight:700}
+.banner{grid-column:span 12;padding:8px 14px;border-radius:8px;border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);background:color-mix(in srgb,var(--warn) 8%,var(--glass));font-size:12px;display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.banner .tag{flex:0 0 auto}
+.ov-foot{grid-column:span 12;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;padding:10px 14px;border-radius:10px;border:1px solid var(--bd);background:var(--glass);font-size:11px;color:var(--mut)}
+.stage-row{display:contents}
+@media(prefers-reduced-motion:reduce){[data-tab].show{animation:none}.c{transition:none!important;transform:none!important}.c:after{display:none}.live .dot{animation:none}}
 </style></head><body><div class="w">
-<div class="top"><div><h1>🔄 <b>Tibo Reset</b> 追踪</h1><div class="sub">Codex / ChatGPT Work 全局额度重置（@thsottiaux 官宣）· 时间均为北京时间 UTC+8</div></div><span class="pill"><span class="dot"></span>生成于 <span id="gen"></span></span></div>
-<nav class="nav" aria-label="分类"><a href="#overview">✨ 概览</a><a href="#trend">📈 趋势</a><a href="#history">🗂 历史记录</a><a href="#other">📎 其他</a></nav>
+<div class="top">
+  <div class="brand"><div class="mark">↻</div><div><h1><b>TIBO RESET</b> 数据台</h1><div class="sub">Codex / ChatGPT Work 全局额度重置 · @thsottiaux · 北京时间 UTC+8</div></div></div>
+  <span class="live"><span class="dot"></span>BOARD · 生成于 <span id="gen"></span></span>
+</div>
+<nav class="nav" aria-label="分类"><a href="#overview">概览</a><a href="#trend">趋势</a><a href="#history">历史记录</a><a href="#other">其他</a></nav>
 <main class="bento">
+ <!-- KPI strip -->
+ <div data-tab="overview" class="s3 c mag kpi" id="k1"></div>
+ <div data-tab="overview" class="s3 c mag kpi" id="k2"></div>
+ <div data-tab="overview" class="s3 c mag kpi" id="k3"></div>
+ <div data-tab="overview" class="s3 c mag kpi" id="k4"></div>
+ <!-- Main stage -->
  <section data-tab="overview" class="c hero s8 mag" id="hero"></section>
  <section data-tab="overview" class="c s4 mag" id="status"></section>
  <section data-tab="overview" class="c s8 mag" id="strip"></section>
  <section data-tab="overview" class="c s4 mag" id="check"></section>
- <div data-tab="overview" class="s3 c mag kpi" id="k1"></div><div data-tab="overview" class="s3 c mag kpi" id="k2"></div><div data-tab="overview" class="s3 c mag kpi" id="k3"></div><div data-tab="overview" class="s3 c mag kpi" id="k4"></div>
+ <!-- Secondary -->
  <section data-tab="overview" class="c mag" id="flow"></section>
- <section data-tab="overview" class="c s8 mag" id="basis"></section>
  <section data-tab="overview" class="c s4 mag" id="lag"></section>
- <section data-tab="trend" class="c mag"><h2>📈 重置间隔趋势（天）</h2><div id="chart"></div><div class="q">柱 = 与上一次全局重置的间隔（近 40 次）；虚线 = 近 30 天中位数；<span style="color:var(--ok)">绿色</span> = 28 天挑战期内；超过 20 天的柱被截断。banked reset 不计入。</div></section>
- <section data-tab="history" class="c"><h2>🗂 历史记录 <span class="q" id="cnt"></span></h2>
-  <div class="flt" style="margin-bottom:12px"><button class="on" data-f="all">全部</button><button data-f="ch">有预告帖</button><button data-f="win">有官方窗口</button></div>
+ <section data-tab="overview" class="c s4 mag" id="sparkcard"></section>
+ <section data-tab="overview" class="c s4 mag" id="basis"></section>
+ <div data-tab="overview" class="banner" id="note"></div>
+ <div data-tab="overview" class="ov-foot" id="ovfoot"></div>
+ <!-- Other tabs -->
+ <section data-tab="trend" class="c mag"><h2>重置间隔趋势（天）</h2><div id="chart"></div><div class="q">柱 = 与上一次全局重置的间隔（近 40 次）；虚线 = 近 30 天中位数；<span style="color:var(--ok)">绿色</span> = 28 天挑战期内；超过 20 天的柱被截断。banked reset 不计入。</div></section>
+ <section data-tab="history" class="c"><h2>历史记录 <span class="q" id="cnt"></span></h2>
+  <div class="flt" style="margin-bottom:10px"><button class="on" data-f="all">全部</button><button data-f="ch">有预告帖</button><button data-f="win">有官方窗口</button></div>
   <div class="tl" id="tb"></div></section>
- <section data-tab="other" class="c s6 mag"><h2>🏦 Banked reset 记录 <span class="q">（不计入间隔）</span></h2><div class="bk" id="bk"></div></section>
- <section data-tab="other" class="c s6 mag"><h2>⚠️ 数据缺口</h2><ul id="gaps"></ul></section>
+ <section data-tab="other" class="c s6 mag"><h2>Banked reset 记录 <span class="q">（不计入间隔）</span></h2><div class="bk" id="bk"></div></section>
+ <section data-tab="other" class="c s6 mag"><h2>数据缺口</h2><ul id="gaps"></ul></section>
+ <section data-tab="other" class="c mag" id="nr"></section>
  <section data-tab="other" class="c q mag" id="ft"></section>
 </main><footer class="foot q" id="sf"></footer></div>
 <script>
 const D=__DATA__;const $=s=>document.querySelector(s);const U='<span class="u">unknown</span>';const L=D.last_reset,F=D.forecast,S=D.stats_30d,A=D.stats_all;
 const lk=(u,t)=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`;
 $('#gen').textContent=D.generated_at_bj;
-$('#hero').innerHTML=`<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><div class="k">🔮 下次全局重置 · 预测窗口</div><span class="tag">估计，非官方 · 信心 ${F.confidence}</span></div>
-<div class="big grad">${F.window_start_bj}<br>→ ${F.window_end_bj}</div>
-<div class="q">${F.hour_note}</div><div class="q" style="margin-top:6px">⚡ 改判条件：${F.change}</div><a class="more" href="#overview" onclick="event.preventDefault();document.getElementById('basis').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})">查看预测依据 ↓</a>`;
 const NOWT=Date.now(),PT=t=>new Date(t).getTime(),BJT=b=>PT(b.replace(' ','T')+':00+08:00'),last=PT(L.actual_utc),el=(NOWT-last)/864e5,pct=Math.min(1,el/S.median);
-const R=46,C=2*Math.PI*R;
-$('#status').innerHTML=`<div class="k">● 当前状态</div><div class="ring" style="margin-top:8px"><svg width="118" height="118" viewBox="0 0 118 118" role="img" aria-label="已过时间 / 中位间隔" style="flex:0 0 auto"><defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="var(--acc)"/><stop offset="1" stop-color="var(--acc2)"/></linearGradient></defs><circle cx="59" cy="59" r="${R}" fill="none" stroke="currentColor" opacity=".1" stroke-width="10"/><circle cx="59" cy="59" r="${R}" fill="none" stroke="url(#rg)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C*pct} ${C}" transform="rotate(-90 59 59)"/><text x="59" y="56" text-anchor="middle" style="font-size:20px;font-weight:800;fill:var(--fg)">${el.toFixed(1)}</text><text x="59" y="73" text-anchor="middle">天 / ${S.median} 天</text></svg>
-<div><div class="q">最近一次全局重置</div><div class="v" style="font-size:20px">${L.actual_bj}</div><div class="q">${L.label||''} · ${L.confirmation?lk(L.confirmation.url,'官宣帖'):''} · ${lk(L.radar_url,'Radar')}</div><div class="q">${L.actual_basis}</div></div></div>
-<div class="q" style="margin-top:8px">圆环 = 已过时间（实时）/ 近 30 天中位间隔；超过中位数不代表「马上到期」。</div><a class="more" href="#trend">查看间隔趋势 →</a>`;
-{const ch=D.events.filter(r=>PT(r.actual_utc)>Date.now()-16*864e5),t0=PT(ch[0].actual_utc)-864e5/2,F0=BJT(F.window_start_bj),F1=BJT(F.window_end_bj),C0=BJT(D.forecast_check.window_start_bj),C1=BJT(D.forecast_check.window_end_bj),t1=Math.max(F1,NOWT)+864e5/2,W=760,H=120,x=t=>20+(t-t0)/(t1-t0)*(W-40);
+function sparkSVG(h=32){const g=D.events.filter(r=>r.gap_days!=null).slice(-20).map(r=>Math.min(r.gap_days,20)),W=220,H=h,m=Math.max(...g,1);
+ return `<svg viewBox="0 0 ${W} ${H}" width="100%" height="${h}" preserveAspectRatio="none" aria-label="近20次间隔"><defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--acc2)" stop-opacity=".35"/><stop offset="1" stop-color="var(--acc2)" stop-opacity="0"/></linearGradient></defs>
+ <polygon fill="url(#sg)" points="0,${H} ${g.map((v,i)=>`${i/(g.length-1)*W},${H-2-v/m*(H-4)}`).join(' ')} ${W},${H}"/>
+ <polyline fill="none" stroke="var(--acc2)" stroke-width="1.8" vector-effect="non-scaling-stroke" points="${g.map((v,i)=>`${i/(g.length-1)*W},${H-2-v/m*(H-4)}`).join(' ')}"/></svg>`}
+// KPI strip
+const winState=(()=>{const a=BJT(F.window_start_bj),b=BJT(F.window_end_bj);if(NOWT<a)return '未开始';if(NOWT<=b)return '进行中';return '已过期'})();
+[['距上次重置',el.toFixed(1)+' 天',`最近 ${L.label||''} · ${L.actual_bj}`],
+ ['30天中位间隔',S.median+' 天',`均值 ${S.mean} · n=${S.n}`],
+ ['全局重置次数',D.events.length+' 次',`banked ${D.banked.length} 条 · 不计入`],
+ ['下次窗口状态',winState,`${F.window_start_bj.slice(5)} → ${F.window_end_bj.slice(5)} · 估计`]]
+.forEach(([k,v,s],i)=>$('#k'+(i+1)).innerHTML=`<div class="k">${k}</div><div class="v">${v}</div><div class="q">${s}</div>${i==1?`<div class="spark">${sparkSVG(28)}</div>`:''}${i==3?'<div class="q" style="margin-top:4px"><span class="tag">估计，非官方</span></div>':''}`);
+// Hero + ring
+const R=52,C=2*Math.PI*R;
+$('#hero').innerHTML=`<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center"><div class="k">下次全局重置 · 预测窗口</div><span class="tag">估计，非官方 · 信心 ${F.confidence}</span></div>
+<div class="big grad">${F.window_start_bj}<br>→ ${F.window_end_bj}</div>
+<div class="q">${F.hour_note}</div>
+<div class="q" style="margin-top:6px">⚡ 改判条件：${F.change}</div>
+<a class="more" href="#overview" onclick="event.preventDefault();document.getElementById('basis').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})">预测依据 ↓</a> · <a class="more" href="#trend">趋势 →</a>`;
+$('#status').innerHTML=`<div class="k">当前状态 · 实时环</div><div class="ring" style="margin-top:8px"><svg width="130" height="130" viewBox="0 0 130 130" role="img" aria-label="已过时间 / 中位间隔" style="flex:0 0 auto"><defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="var(--acc)"/><stop offset="1" stop-color="var(--acc2)"/></linearGradient></defs>
+<circle cx="65" cy="65" r="${R}" fill="none" stroke="currentColor" opacity=".12" stroke-width="9"/>
+<circle cx="65" cy="65" r="${R}" fill="none" stroke="url(#rg)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C*pct} ${C}" transform="rotate(-90 65 65)" style="filter:drop-shadow(0 0 6px color-mix(in srgb,var(--acc2) 50%,transparent))"/>
+<text x="65" y="60" text-anchor="middle" style="font-size:22px;font-weight:800;fill:var(--fg)">${el.toFixed(1)}</text>
+<text x="65" y="78" text-anchor="middle">/ ${S.median}d</text></svg>
+<div><div class="q">最近全局重置</div><div class="v" style="font-size:18px">${L.actual_bj}</div><div class="q">${L.label||''} · ${L.confirmation?lk(L.confirmation.url,'官宣帖'):''} · ${lk(L.radar_url,'Radar')}</div><div class="q" style="margin-top:4px">${L.actual_basis}</div><div class="q" style="margin-top:6px">环 = 已过 / 30天中位；超中位 ≠ 马上到期</div></div></div>`;
+// Timeline
+{const ch=D.events.filter(r=>PT(r.actual_utc)>Date.now()-16*864e5),t0=PT(ch[0].actual_utc)-864e5/2,F0=BJT(F.window_start_bj),F1=BJT(F.window_end_bj),C0=BJT(D.forecast_check.window_start_bj),C1=BJT(D.forecast_check.window_end_bj),t1=Math.max(F1,NOWT)+864e5/2,W=760,H=118,x=t=>20+(t-t0)/(t1-t0)*(W-40);
 let g=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="近期重置时间轴">`;
-for(let d=BJT(new Date(t0+8*36e5).toISOString().slice(0,10)+' 00:00')+864e5,k=0;d<t1;d+=864e5,k++){g+=`<line x1=${x(d)} x2=${x(d)} y1=30 y2=78 stroke="currentColor" opacity=".07"/>`;if(k%2==0)g+=`<text x=${x(d)} y=94 text-anchor="middle">${new Date(d+8*36e5).toISOString().slice(5,10)}</text>`}
-g+=`<rect x=${x(C0)} y=40 width=${x(C1)-x(C0)} height=28 rx=8 fill="none" stroke="var(--warn)" stroke-dasharray="4 3" opacity=".8"/><text x=${x(C0)+4} y=36 style="fill:var(--warn)">上次预测（未命中）</text>`;
-g+=`<rect x=${x(F0)} y=44 width=${x(F1)-x(F0)} height=20 rx=8 fill="var(--acc)" opacity=".3"/><text x=${x(F1)} y=${H-4} text-anchor="end" style="fill:var(--acc);font-weight:700">新预测窗口（估计）</text>`;
-g+=`<line x1=20 x2=${W-20} y1=54 y2=54 stroke="currentColor" opacity=".25"/>`;
-ch.forEach(r=>{const X=x(PT(r.actual_utc)),c=r.label&&r.label.startsWith('Day');g+=`<circle cx=${X} cy=54 r=6 fill="${c?'var(--ok)':'var(--acc)'}" stroke="var(--bg)" stroke-width=2><title>${r.actual_bj} ${r.label||''}</title></circle><text x=${X} y=22 text-anchor="middle" style="font-size:9px">${(r.label||'').replace('（社区投票）','')}</text>`});
-g+=`<line x1=${x(NOWT)} x2=${x(NOWT)} y1=26 y2=82 stroke="var(--fg)" stroke-width=1.5 /><text x=${x(NOWT)} y=108 text-anchor="middle" style="fill:var(--fg);font-weight:700">现在</text></svg>`;
-$('#strip').innerHTML=`<h2>🛰 近期重置时间轴</h2>${g}<div class="q">点 = 全局重置（<span style="color:var(--ok)">绿</span> = 挑战期 Day N）；紫色带 = 新预测窗口（估计）；虚线框 = 上次预测窗口；竖线 = 现在（北京时间）。</div>`;}
-{const P=D.forecast_check;$('#check').innerHTML=`<h2>🎯 预测核对 <span class="tag">上次预测</span></h2>
-<div class="q">预测（${P.made_bj} 作出，估计）</div><div><b>${P.window_start_bj} → ${P.window_end_bj}</b></div>
-<div class="q" style="margin-top:6px">实际</div><div><b>${P.actual_bj}</b></div><div class="q">${P.actual_basis}</div>
-<div class="miss" style="margin:8px 0 4px">✗ 未命中 · 早于窗口 ${Math.round(P.miss_minutes)} 分钟</div><div class="q">${P.verdict}</div><div class="q" style="margin-top:4px">教训：${P.lesson}</div>`;}
-{const st=(c,t)=>`<span class="st ${c}">${t}</span>`,arr='<div class="arr">→</div>';
-$('#flow').innerHTML=`<h2>🔗 证据链 · 最近一次重置（${L.label||''}）</h2><div class="flow">
-<div class="node"><b>① Tibo X 原帖</b><div class="q">${L.confirmation?lk(L.confirmation.url,L.confirmation.time_bj)+' “'+L.confirmation.quote+'”':U}</div>${L.quoted?`<div class="q">引用：${lk(L.quoted.url,L.quoted.time_bj)} ${L.quoted.quote}</div>`:''}${st('ok','已核实')}</div>${arr}
-<div class="node"><b>② Tibo Radar</b><div class="q">${lk('https://codex-reset.com','codex-reset.com')} 已收录该帖；实测落地时间：${U}</div>${st('mid','部分')}</div>${arr}
-<div class="node"><b>③ status.openai.com</b><div class="q">${lk('https://status.openai.com','状态页')} 本页未抓取（故障线）</div>${st('no','未覆盖')}</div>${arr}
-<div class="node" style="border-color:color-mix(in srgb,var(--acc) 45%,transparent)"><b>④ 结论</b><div class="q">全局重置 #${D.events.length}，实际时间 ${L.actual_bj}</div><div class="q">${L.actual_basis}</div>${st('ok','计入统计')}</div></div>`;}
-function spark(){const g=D.events.filter(r=>r.gap_days!=null).slice(-20).map(r=>Math.min(r.gap_days,20)),W=200,H=36,m=Math.max(...g);return `<svg viewBox="0 0 ${W} ${H}" width="100%" height="36" preserveAspectRatio="none" aria-label="近20次间隔"><polyline fill="none" stroke="var(--acc)" stroke-width="2" vector-effect="non-scaling-stroke" points="${g.map((v,i)=>`${i/(g.length-1)*W},${H-3-v/m*(H-6)}`).join(' ')}"/></svg><div class="q">近 20 次间隔走势（截断于 20 天）</div>`}
-[['距上次重置',D.days_since_last.toFixed(1)+' 天','截至 '+D.generated_at_bj],['近30天中位间隔',S.median+' 天',`均值 ${S.mean} · 范围 ${S.min}–${S.max} · n=${S.n}`],['全历史中位间隔',A.median+' 天',`均值 ${A.mean} · 范围 ${A.min}–${A.max} · n=${A.n}`],['已收录',D.events.length+' 次','全局重置 + '+D.banked.length+' 条 banked']]
- .forEach(([k,v,s],i)=>$('#k'+(i+1)).innerHTML=`<div class="k">${k}</div><div class="v">${v}</div><div class="q">${s}</div>${i==1?spark():''}${i==3?'<a class="more" href="#history">查看历史记录 →</a> · <a class="more" href="#other">banked / 缺口 →</a>':''}`);
-$('#basis').innerHTML=`<h2>🧭 预测依据 <span class="tag">估计</span></h2><p style="margin:0 0 8px">${F.basis}</p><div class="q">信息源：${lk(L.confirmation.url,(L.label||'')+' 官宣帖')}${L.quoted?' · '+lk(L.quoted.url,'所引用帖（非重置）'):''} · ${lk('https://codex-reset.com','Tibo Radar')} · ${lk('https://x.com/thsottiaux','@thsottiaux')}</div>`;
+for(let d=BJT(new Date(t0+8*36e5).toISOString().slice(0,10)+' 00:00')+864e5,k=0;d<t1;d+=864e5,k++){g+=`<line x1=${x(d)} x2=${x(d)} y1=28 y2=76 stroke="currentColor" opacity=".06"/>`;if(k%2==0)g+=`<text x=${x(d)} y=92 text-anchor="middle">${new Date(d+8*36e5).toISOString().slice(5,10)}</text>`}
+g+=`<rect x=${x(C0)} y=38 width=${Math.max(2,x(C1)-x(C0))} height=26 rx=4 fill="none" stroke="var(--warn)" stroke-dasharray="3 2" opacity=".85"/><text x=${x(C0)+3} y=34 style="fill:var(--warn);font-size:9px">上次预测（未命中）</text>`;
+g+=`<rect x=${x(F0)} y=42 width=${Math.max(2,x(F1)-x(F0))} height=18 rx=4 fill="var(--acc)" opacity=".28"/><text x=${x(F1)} y=${H-6} text-anchor="end" style="fill:var(--acc2);font-weight:700;font-size:9px">新窗口（估计）</text>`;
+g+=`<line x1=20 x2=${W-20} y1=52 y2=52 stroke="currentColor" opacity=".2"/>`;
+ch.forEach(r=>{const X=x(PT(r.actual_utc)),c=r.label&&r.label.startsWith('Day');g+=`<circle cx=${X} cy=52 r=5.5 fill="${c?'var(--ok)':'var(--acc)'}" stroke="var(--bg)" stroke-width=2><title>${r.actual_bj} ${r.label||''}</title></circle><text x=${X} y=20 text-anchor="middle" style="font-size:9px">${(r.label||'').replace('（社区投票）','')}</text>`});
+g+=`<line x1=${x(NOWT)} x2=${x(NOWT)} y1=24 y2=80 stroke="var(--acc2)" stroke-width=1.5/><circle cx=${x(NOWT)} cy=52 r=3 fill="var(--acc2)"/><text x=${x(NOWT)} y=106 text-anchor="middle" style="fill:var(--acc2);font-weight:700;font-size:9px">现在</text></svg>`;
+$('#strip').innerHTML=`<h2>近期时间轴</h2>${g}<div class="q">点 = 全局重置（绿 = 挑战期）；紫带 = 新预测窗口（估计）；虚线框 = 上次预测；竖线 = 现在</div>`;}
+// Forecast check
+{const P=D.forecast_check;$('#check').innerHTML=`<h2>预测核对 <span class="tag">上次</span></h2>
+<div class="q">预测（${P.made_bj}，估计）</div><div style="font-weight:700;font-size:13px">${P.window_start_bj} → ${P.window_end_bj}</div>
+<div class="q" style="margin-top:6px">实际</div><div style="font-weight:700">${P.actual_bj}</div><div class="q">${P.actual_basis}</div>
+<div class="miss" style="margin:8px 0 4px">✗ 未命中 · 早 ${Math.round(P.miss_minutes)} 分钟</div><div class="q">${P.verdict}</div><div class="q" style="margin-top:4px">教训：${P.lesson}</div>`;}
+// Evidence pipeline
+{const st=(c,t)=>`<span class="st ${c}">${t}</span>`;
+$('#flow').innerHTML=`<h2>证据链 · ${L.label||'最近一次'}</h2><div class="flow">
+<div class="node"><b>① Tibo X</b><div class="q">${L.confirmation?lk(L.confirmation.url,L.confirmation.time_bj)+'<br>“'+L.confirmation.quote+'”':U}</div>${L.quoted?`<div class="q">引用 ${lk(L.quoted.url,L.quoted.time_bj)}：${L.quoted.quote}</div>`:''}${st('ok','已核实')}</div>
+<div class="node"><b>② Radar</b><div class="q">${lk('https://codex-reset.com','codex-reset.com')} 已收录<br>实测落地：${U}</div>${st('mid','部分')}</div>
+<div class="node"><b>③ Status</b><div class="q">${lk('https://status.openai.com','status.openai.com')}<br>本页未抓取（故障线）</div>${st('no','未覆盖')}</div>
+<div class="node" style="border-color:color-mix(in srgb,var(--acc) 40%,transparent)"><b>④ 结论</b><div class="q">全局重置 #${D.events.length}<br>${L.actual_bj}</div><div class="q">${L.actual_basis}</div>${st('ok','计入')}</div></div>`;}
+// Lag + spark + basis
 const lags=D.teaser_lag_hours_challenge,ml=Math.max(...lags);
-$('#lag').innerHTML=`<h2>⏱ 挑战期 预告→落地</h2>${lags.map(h=>`<div class="q" style="display:flex;gap:8px;align-items:center"><span style="width:50px">${h} h</span><div class="bar" style="flex:1;margin:6px 0"><i style="width:${h/ml*100}%"></i></div></div>`).join('')}<div class="q">Day 2 / 6 / 8 / 10 / 13（按时间顺序）</div>`;
+$('#lag').innerHTML=`<h2>预告→落地延迟</h2>${lags.map((h,i)=>`<div class="q" style="display:flex;gap:8px;align-items:center"><span style="width:64px;font-variant-numeric:tabular-nums">Day ${[2,6,8,10,13][i]} · ${h}h</span><div class="bar" style="flex:1;margin:4px 0"><i style="width:${h/ml*100}%"></i></div></div>`).join('')}<div class="q" style="margin-top:4px">挑战期有预告的 5 次（Day15 无独立预告）</div>`;
+$('#sparkcard').innerHTML=`<h2>间隔走势 · 近 20 次</h2>${sparkSVG(56)}<div class="q" style="margin-top:6px">纵轴截断于 20 天 · 全历史中位 ${A.median}d · <a href="#trend">完整趋势 →</a></div>`;
+$('#basis').innerHTML=`<h2>预测依据 <span class="tag">估计</span></h2><p class="q" style="margin:0 0 6px;color:var(--fg);font-size:12px;line-height:1.55">${F.basis}</p><div class="q">源：${lk(L.confirmation.url,(L.label||'')+' 官宣')}${L.quoted?' · '+lk(L.quoted.url,'引用帖（非重置）'):''} · ${lk('https://codex-reset.com','Radar')} · ${lk('https://x.com/thsottiaux','@thsottiaux')}</div>`;
+// Banner + overview foot
+if(D.non_reset&&D.non_reset.length){$('#note').innerHTML=`<span class="tag">非重置</span><div>${D.non_reset.map(n=>`<b>${n.date_bj}</b> · ${n.summary} ${lk(n.url,'原帖')} · <b>未计入全局次数</b>`).join('<br>')}</div>`}
+else $('#note').style.display='none';
+$('#ovfoot').innerHTML=`<span>生成于 ${D.generated_at_bj}（北京时间）· 预测均为<b>估计</b> · unknown = 未能核实</span><span><a href="#other">数据缺口 / 图例 →</a> · <a href="#history">全部 ${D.events.length} 次 →</a></span>`;
+// History
 const fmt=h=>h==null?U:(h>0?'+':'')+h.toFixed(1)+' h';
 function rows(f){const ev=[...D.events].reverse().filter(r=>f=='all'||(f=='ch'?r.teaser:r.window));$('#cnt').textContent=`显示 ${ev.length} / ${D.events.length}`;
 $('#tb').innerHTML=ev.map(r=>`<div class="ev ${r.label&&r.label.startsWith('Day')?'ch':''}">
 <div class="d"><div class="t">${r.actual_bj.slice(0,10)}${r.label?`<span class="chip">${r.label}</span>`:''}</div><div class="q">${lk(r.radar_url,r.radar_summary.slice(0,80)+'…')}</div></div>
-<div><div class="lab">预测依据（信息源）</div>${r.quoted?`<div class="q">引用 ${lk(r.quoted.url,r.quoted.time_bj)}：${r.quoted.quote}</div>`:''}${r.teaser?`${lk(r.teaser.url,r.teaser.time_bj)}<div class="q">“${r.teaser.quote}”</div>`:''}<div class="q">${r.pred_note}</div><div class="lab" style="margin-top:4px">预测时间</div>${r.predicted_bj=='unknown'?U:r.predicted_bj}</div>
+<div><div class="lab">预测依据</div>${r.quoted?`<div class="q">引用 ${lk(r.quoted.url,r.quoted.time_bj)}：${r.quoted.quote}</div>`:''}${r.teaser?`${lk(r.teaser.url,r.teaser.time_bj)}<div class="q">“${r.teaser.quote}”</div>`:''}<div class="q">${r.pred_note}</div><div class="lab" style="margin-top:4px">预测时间</div>${r.predicted_bj=='unknown'?U:r.predicted_bj}</div>
 <div><div class="lab">实际时间</div>${r.actual_bj}<div class="q">${r.actual_basis}</div>${r.confirmation?`<div class="q">确认 ${lk(r.confirmation.url,r.confirmation.time_bj)}</div>`:''}${r.lag_teaser_h!=null?`<div class="q">预告后 ${r.lag_teaser_h} h</div>`:''}</div>
 <div><div class="lab">偏差</div>${fmt(r.dev_h)}<div class="lab" style="margin-top:4px">间隔</div>${r.gap_days!=null?r.gap_days+' 天':'—'}</div></div>`).join('')}
 rows('all');document.querySelectorAll('.flt button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.flt button').forEach(x=>x.classList.remove('on'));b.classList.add('on');rows(b.dataset.f)});
-const g=D.events.filter(r=>r.gap_days!=null).slice(-40),W=1100,H=240,pl=30,pb=34,mx=Math.min(20,Math.max(...g.map(r=>r.gap_days))),bw=(W-pl)/g.length,y=v=>H-pb-(Math.min(v,mx)/mx)*(H-pb-10);
+// Chart
+const g=D.events.filter(r=>r.gap_days!=null).slice(-40),W=1100,H=220,pl=28,pb=32,mx=Math.min(20,Math.max(...g.map(r=>r.gap_days))),bw=(W-pl)/g.length,y=v=>H-pb-(Math.min(v,mx)/mx)*(H-pb-8);
 let s=`<svg viewBox="0 0 ${W} ${H}" width="100%"><defs><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--acc2)"/><stop offset="1" stop-color="var(--acc)"/></linearGradient></defs>`;
-[0,5,10,15,20].filter(t=>t<=mx).forEach(t=>s+=`<line x1=${pl} x2=${W} y1=${y(t)} y2=${y(t)} stroke="currentColor" opacity=".1"/><text x=0 y=${y(t)+3}>${t}</text>`);
-g.forEach((r,i)=>{const x=pl+i*bw;s+=`<rect x=${x+2} y=${y(r.gap_days)} width=${bw-4} height=${H-pb-y(r.gap_days)} rx=4 fill="${r.label&&r.label.startsWith('Day')?'var(--ok)':'url(#gr)'}"><title>${r.actual_bj}：${r.gap_days} 天</title></rect>`;if(i%4==0||i==g.length-1)s+=`<text x=${x} y=${H-18}>${r.actual_bj.slice(5,10)}</text>`});
-s+=`<line x1=${pl} x2=${W} y1=${y(S.median)} y2=${y(S.median)} stroke="var(--warn)" stroke-dasharray="5 4"/><text x=${W-130} y=${y(S.median)-4} style="fill:var(--warn)">30天中位 ${S.median}d</text></svg>`;
+[0,5,10,15,20].filter(t=>t<=mx).forEach(t=>s+=`<line x1=${pl} x2=${W} y1=${y(t)} y2=${y(t)} stroke="currentColor" opacity=".08"/><text x=0 y=${y(t)+3}>${t}</text>`);
+g.forEach((r,i)=>{const x=pl+i*bw;s+=`<rect x=${x+1.5} y=${y(r.gap_days)} width=${bw-3} height=${H-pb-y(r.gap_days)} rx=2 fill="${r.label&&r.label.startsWith('Day')?'var(--ok)':'url(#gr)'}"><title>${r.actual_bj}：${r.gap_days} 天</title></rect>`;if(i%4==0||i==g.length-1)s+=`<text x=${x} y=${H-16}>${r.actual_bj.slice(5,10)}</text>`});
+s+=`<line x1=${pl} x2=${W} y1=${y(S.median)} y2=${y(S.median)} stroke="var(--warn)" stroke-dasharray="4 3"/><text x=${W-120} y=${y(S.median)-4} style="fill:var(--warn)">30天中位 ${S.median}d</text></svg>`;
 $('#chart').innerHTML=s;
 $('#bk').innerHTML=D.banked.map(b=>`<div><b>${b.date_bj}</b> · ${b.summary}<br>${b.url?lk(b.url,'原帖'):'<span class="u">无 X 原帖（Radar 实测）</span>'}</div>`).join('');
 $('#gaps').innerHTML=D.gaps.map(x=>`<li>${x}</li>`).join('');
-$('#ft').innerHTML=`<h2>🔗 数据源与图例</h2>数据源：${D.sources.map(u=>lk(u,u)).join(' · ')}　|　共 ${D.events.length} 次全局重置（Radar 归档 + X 原帖核验）、${D.banked.length} 条 banked 记录　|　所有预测均为估计；unknown = 未能核实　|　生成于 ${D.generated_at_bj}（北京时间）`;
+$('#nr').innerHTML=`<h2>近期非重置公告</h2>${(D.non_reset||[]).map(n=>`<div class="q" style="margin-bottom:8px"><b>${n.date_bj}</b> · ${n.kind||''}<br>${n.summary}<br>${lk(n.url,'原帖')} · <span class="tag">未计入全局重置</span></div>`).join('')||'<div class="q">暂无</div>'}`;
+$('#ft').innerHTML=`<h2>数据源与图例</h2>数据源：${D.sources.map(u=>lk(u,u)).join(' · ')}　|　共 ${D.events.length} 次全局重置（Radar 归档 + X 原帖核验）、${D.banked.length} 条 banked　|　预测均为估计；unknown = 未能核实　|　生成于 ${D.generated_at_bj}（北京时间）`;
 $('#sf').innerHTML=`生成于 ${D.generated_at_bj}（北京时间）· 预测均为估计，unknown = 未能核实 · <a href="#other">数据源</a>`;
 const TABS=['overview','trend','history','other'];
 function route(){let t=location.hash.slice(1);if(t=='forecast'){history.replaceState(null,'','#overview');t='overview'}if(!TABS.includes(t))t='overview';
@@ -137,9 +213,8 @@ function route(){let t=location.hash.slice(1);if(t=='forecast'){history.replaceS
  document.querySelectorAll('.nav a').forEach(a=>{const on=a.getAttribute('href')=='#'+t;a.classList.toggle('on',on);on?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current');if(on)a.scrollIntoView({block:'nearest',inline:'nearest'})});
  window.scrollTo(0,0)}
 addEventListener('hashchange',route);route();
-// magnetic hover
 const rm=matchMedia('(prefers-reduced-motion: reduce)'),fine=matchMedia('(pointer:fine)');
 document.querySelectorAll('.c').forEach(c=>{c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;c.style.setProperty('--mx',px*100+'%');c.style.setProperty('--my',py*100+'%');
- if(rm.matches||!fine.matches||!c.classList.contains('mag'))return;const k=Math.min(1,600/r.width);c.style.setProperty('--ry',((px-.5)*6*k)+'deg');c.style.setProperty('--rx',((.5-py)*6*k)+'deg');c.style.setProperty('--tx',(px-.5)*6+'px');c.style.setProperty('--ty',(py-.5)*6+'px')});
+ if(rm.matches||!fine.matches||!c.classList.contains('mag'))return;const k=Math.min(1,600/r.width);c.style.setProperty('--ry',((px-.5)*5*k)+'deg');c.style.setProperty('--rx',((.5-py)*5*k)+'deg');c.style.setProperty('--tx',(px-.5)*4+'px');c.style.setProperty('--ty',(py-.5)*4+'px')});
  c.addEventListener('pointerleave',()=>['--rx','--ry','--tx','--ty'].forEach(p=>c.style.removeProperty(p)))});
 </script></body></html>

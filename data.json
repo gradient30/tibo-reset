@@ -1,5 +1,5 @@
 {
- "generated_at_bj": "2026-10-20 14:49",
+ "generated_at_bj": "2026-10-21 09:58",
  "sources": [
   "https://x.com/thsottiaux",
   "https://codex-reset.com/api/timeline",
@@ -8,7 +8,7 @@
  "last_reset": {
   "id": "2112432076767289678",
   "radar_url": "https://x.com/thsottiaux/status/2112432076767289678",
-  "radar_summary": "Day 15/ Nevermind, we're still cooking... and reset. Enjoy. https://t.co/RZ9WhtI802",
+  "radar_summary": "Day 15 of the 28-day ship-or-reset series: hours after “We’re cooked”, Tibo posted the global reset: “Nevermind, we’re still cooking... and reset. Enjoy.”",
   "reasons": [],
   "actual_utc": "2026-10-20T06:33:48+00:00",
   "actual_bj": "2026-10-20 14:33",
@@ -32,7 +32,7 @@
   },
   "gap_days": 2.41
  },
- "days_since_last": 0.01,
+ "days_since_last": 0.81,
  "stats_30d": {
   "n": 8,
   "mean": 4.74,
@@ -1252,7 +1252,7 @@
   {
    "id": "2112432076767289678",
    "radar_url": "https://x.com/thsottiaux/status/2112432076767289678",
-   "radar_summary": "Day 15/ Nevermind, we're still cooking... and reset. Enjoy. https://t.co/RZ9WhtI802",
+   "radar_summary": "Day 15 of the 28-day ship-or-reset series: hours after “We’re cooked”, Tibo posted the global reset: “Nevermind, we’re still cooking... and reset. Enjoy.”",
    "reasons": [],
    "actual_utc": "2026-10-20T06:33:48+00:00",
    "actual_bj": "2026-10-20 14:33",
@@ -1285,7 +1285,8 @@
   "2026-03-04 的事件仅覆盖约 9% 用户，Radar 仍记为 reset，保留",
   "静默重置仅 2026-08-25 一次被 Radar 收录；其他静默重置未知",
   "banked reset 单独列出，不计入间隔",
-  "Day 15（10-20）Radar 只收录了官宣帖、没有实测落地时间，实际时间取帖子时间"
+  "Day 15（10-20）Radar 只收录了官宣帖、没有实测落地时间，实际时间取帖子时间",
+  "2026-10-21 01:10 的 credits 补偿帖（约 4 万账户账单限额错误）不是全局重置，未计入次数"
  ],
  "banked": [
   {
@@ -1352,6 +1353,14 @@
    "date_bj": "2026-07-13 05:28",
    "summary": "Added a banked reset to 500k ChatGPT Work/Codex users; shipped banked-reset redemption on web and mobile.",
    "url": "https://x.com/thsottiaux/status/2076418567143408112"
+  }
+ ],
+ "non_reset": [
+  {
+   "date_bj": "2026-10-21 01:10",
+   "kind": "credits_compensation",
+   "summary": "约 4 万账户周末账单限额配置错误已修复；受影响用户获 credits 补偿。这不是全局重置。",
+   "url": "https://x.com/thsottiaux/status/2112592264686149749"
   }
  ]
 }
