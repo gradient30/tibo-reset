@@ -190,14 +190,14 @@ if(isOff&&Pend){
 <div class="node" style="border-color:color-mix(in srgb,var(--warn) 40%,transparent)"><b>④ 结论</b><div class="q">预告中 · 非 #${D.events.length+1}</div><div class="q">最近已完成仍为 ${L.label} ${L.actual_bj}</div>${st('mid','未计入')}</div></div>`;
 }else{
  $('#flow').innerHTML=`<h2>证据链 · ${L.label||'最近一次'}</h2><div class="flow">
-<div class="node"><b>① Tibo X</b><div class="q">${L.confirmation?lk(L.confirmation.url,L.confirmation.time_bj)+'<br>“'+L.confirmation.quote+'”':U}</div>${L.quoted?`<div class="q">引用 ${lk(L.quoted.url,L.quoted.time_bj)}：${L.quoted.quote}</div>`:''}${st('ok','已核实')}</div>
-<div class="node"><b>② Radar</b><div class="q">${lk('https://codex-reset.com','codex-reset.com')} 已收录<br>实测落地：${U}</div>${st('mid','部分')}</div>
-<div class="node"><b>③ Status</b><div class="q">${lk('https://status.openai.com','status.openai.com')}<br>本页未抓取（故障线）</div>${st('no','未覆盖')}</div>
+${L.user_confirm?`<div class="node"><b>① Tibo 预告</b><div class="q">${lk(L.teaser.url,L.teaser.time_bj)}<br>“${L.teaser.quote}”<br>${lk(L.reply.url,L.reply.time_bj)} “${L.reply.quote}”</div>${st('ok','已核实')}</div><div class="node"><b>② 用户确认</b><div class="q">${L.user_confirm.time_bj}<br>${L.user_confirm.note}<br>Tibo Done 帖：暂无</div>${st('mid','用户确认')}</div>`:`<div class="node"><b>① Tibo X</b><div class="q">${L.confirmation?lk(L.confirmation.url,L.confirmation.time_bj)+'<br>“'+L.confirmation.quote+'”':U}</div>${L.quoted?`<div class="q">引用 ${lk(L.quoted.url,L.quoted.time_bj)}：${L.quoted.quote}</div>`:''}${st('ok','已核实')}</div>`}
+${L.user_confirm?`<div class="node"><b>③ Radar</b><div class="q">${lk('https://codex-reset.com','codex-reset.com')} live 已收录预告<br>实测落地：${U}</div>${st('mid','待补')}</div>`:`<div class="node"><b>② Radar</b><div class="q">${lk('https://codex-reset.com','codex-reset.com')} 已收录<br>实测落地：${U}</div>${st('mid','部分')}</div>`}
+<div class="node"><b>${L.user_confirm?'③b':'③'} Status</b><div class="q">${lk('https://status.openai.com','status.openai.com')}<br>本页未抓取（故障线）</div>${st('no','未覆盖')}</div>
 <div class="node" style="border-color:color-mix(in srgb,var(--acc) 40%,transparent)"><b>④ 结论</b><div class="q">全局重置 #${D.events.length}<br>${L.actual_bj}</div><div class="q">${L.actual_basis}</div>${st('ok','计入')}</div></div>`;
 }}
 // Lag + spark + basis
 const lags=D.teaser_lag_hours_challenge,ml=Math.max(...lags);
-$('#lag').innerHTML=`<h2>预告→落地延迟</h2>${lags.map((h,i)=>`<div class="q" style="display:flex;gap:8px;align-items:center"><span style="width:64px;font-variant-numeric:tabular-nums">Day ${[2,6,8,10,13][i]} · ${h}h</span><div class="bar" style="flex:1;margin:4px 0"><i style="width:${h/ml*100}%"></i></div></div>`).join('')}<div class="q" style="margin-top:4px">挑战期有预告的 5 次（Day15 无独立预告）</div>`;
+$('#lag').innerHTML=`<h2>预告→落地延迟</h2>${lags.map((h,i)=>`<div class="q" style="display:flex;gap:8px;align-items:center"><span style="width:64px;font-variant-numeric:tabular-nums">${(D.teaser_lag_labels||[])[i]||''} · ${h}h</span><div class="bar" style="flex:1;margin:4px 0"><i style="width:${h/ml*100}%"></i></div></div>`).join('')}<div class="q" style="margin-top:4px">挑战期有预告的 ${lags.length} 次（Day15 无独立预告；Day17 取窗口上限）</div>`;
 $('#sparkcard').innerHTML=`<h2>间隔走势 · 近 20 次</h2>${sparkSVG(56)}<div class="q" style="margin-top:6px">纵轴截断于 20 天 · 全历史中位 ${A.median}d · <a href="#trend">完整趋势 →</a></div>`;
 $('#basis').innerHTML=`<h2>预测依据 <span class="tag">${isOff?'官方':'估计'}</span></h2><p class="q" style="margin:0 0 6px;color:var(--fg);font-size:12px;line-height:1.55">${F.basis}</p><div class="q">源：${(F.sources||[]).map(u=>lk(u,u.includes('status/')?u.split('/').pop():u.replace('https://',''))).join(' · ')|| (lk(L.confirmation.url,(L.label||'')+' 官宣')+' · '+lk('https://codex-reset.com','Radar'))}</div>`;
 // Banner + overview foot
