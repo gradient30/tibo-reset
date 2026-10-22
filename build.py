@@ -59,14 +59,42 @@ if not (len(sys.argv)>1 and sys.argv[1]=='render'):
     miss_minutes=round((dt.datetime(2026,10,20,7,0,tzinfo=Z)-last).total_seconds()/60,1),
     verdict='未命中：实际重置早于窗口开始约 26 分钟（窗口从 PT Day16 起算，但 Day15 在 PT 当晚 23:33 就重置了）',
     lesson='Day 15 原判为「功能发布日」，但 Tibo 在 PT 当日结束前改成了重置；挑战期内同一天可以从 ship 改判为 reset，窗口应覆盖当前 PT 日的剩余时段。')
-  ws=dt.datetime(2026,10,21,7,0,tzinfo=Z); we=dt.datetime(2026,10,24,7,0,tzinfo=Z)
-  fc=dict(window_start_bj=bj(max(NOW,ws)),window_end_bj=bj(we),confidence='低-中',
-   basis=f"28 天 ship-or-reset 挑战（2026-10-04 公布，Day1≈10-05 PT，约至 11-01）期内已兑现 Day2/6/8/10/13/15，间隔 {'/'.join(f'{g:.1f}' for g in chg)} 天（中位 {st.median(chg):.1f}，最短 {min(chg):.1f}）；近 30 天 {s30['n']} 个间隔中位数 {s30['median']} 天、均值 {s30['mean']} 天。最近一次为 Day15，{ev[-1]['actual_bj']}。窗口取 Day17–Day19（PT 10-21 至 10-23）：起点≈上次 + 挑战期最短间隔，宽度 3 天 ≥ 中位间隔 + 散布余量。挑战期内的判据是 Tibo 当天的「Day N/ Reset」帖（PT 当天任何时刻都可能改判），有预告时到落地中位约 {st.median(lags):.1f} 小时。上次预测未命中（见核对），信心维持低-中。",
-   change='出现「Day N/ Reset」帖（包括当天从 ship 改判为 reset）就改为当天 PT 结束前（北京时间次日 15:00 前）；若 Day16（PT 10-20）就重置，本窗口提前失效；窗口过去仍无帖则撤回本预测，不顺延。',
-   hour_note=f"近 30 天落地时刻（北京）：{sorted(hrs)} — 分散，不给固定时点")
+  # Day 17 official teaser (preview only — not a completed reset)
+  teaser_at=P('2026-10-22T06:55:22Z'); reply_at=P('2026-10-22T06:55:54Z')
+  # "before 10am PST" tomorrow Pacific: post ~PDT evening Oct21 / BJ afternoon Oct22 → tomorrow=Oct22 PDT
+  # 10:00 PDT (UTC-7) = 17:00Z = BJ 01:00 next day; literal PST (UTC-8) = 18:00Z = BJ 02:00
+  official_deadline=P('2026-10-22T17:00:00Z')  # before 10:00 PDT → BJ 2026-10-23 01:00
+  official_deadline_pst_alt=P('2026-10-22T18:00:00Z')  # literal PST reading → BJ 02:00
+  pending=dict(
+    id='2113162277688070445',label='Day 17',status='pending',
+    teaser=dict(url=X+'2113162277688070445',time_bj=bj(teaser_at),time_utc=teaser_at.isoformat(),
+      quote="Day 17/ Bet you thought we forgot, but no, it's reset day today. Also good time to remind you to get Daybreak Blue access..."),
+    reply=dict(url=X+'2113162413008884099',time_bj=bj(reply_at),time_utc=reply_at.isoformat(),
+      quote='Lands tomorrow before 10am PST.'),
+    predicted_bj='2026-10-23 01:00 前（PDT）',
+    predicted_bj_alt='2026-10-23 02:00 前（字面 PST）',
+    predicted_utc=official_deadline.isoformat(),
+    pred_note='官方窗口：Lands tomorrow before 10am PST（主读 PDT；字面 PST 晚 1 小时）',
+    actual_bj='unknown',actual_basis='尚未落地 — 等待 Tibo Done / Radar 实测',
+    radar_urls=[X+'2113162277688070445',X+'2113162413008884099'],
+    radar_note='Radar live 已收录预告帖与回复，confirmed=false')
+  fc=dict(
+    kind='official',
+    window_start_bj=bj(max(NOW,teaser_at)),
+    window_end_bj='2026-10-23 01:00',
+    window_end_bj_alt='2026-10-23 02:00',
+    confidence='高',
+    label='官方预告窗口',
+    basis='Tibo 官方预告：主帖 Day 17「it\'s reset day today」（'+bj(teaser_at)+'）+ 回复「Lands tomorrow before 10am PST」（'+bj(reply_at)+'）。发帖时刻约为 PDT 10-21 晚 / 北京 10-22 下午，故 Pacific「tomorrow」= 10-22 PDT 上午；before 10:00 PDT（UTC−7）= 2026-10-22 17:00Z = 北京时间 2026-10-23 01:00 前。字面按 PST（UTC−8）则晚 1 小时至 02:00。最近已完成全局重置仍为 Day15（'+ev[-1]['actual_bj']+'）。这是预告，不是已落地确认。',
+    change='出现 Done / “propagated” / Radar 实测落地 → 记为已完成 #57 并退出预告态；窗口（01:00 BJ，或字面 PST 02:00）过后仍无落地证据 → 报「预告窗口已过，落地未核实」，不顺延。',
+    hour_note='官方时点：北京时间 2026-10-23 01:00 前（PDT）；备选字面 PST：02:00 前。',
+    sources=[X+'2113162277688070445',X+'2113162413008884099','https://codex-reset.com'])
+  # prior estimate (Day17–19) superseded by this official teaser
+  estimate_superseded=dict(made_bj='2026-10-21 09:58',window_start_bj='2026-10-21 15:00',window_end_bj='2026-10-24 15:00',
+    verdict='已被 Day17 官方预告取代（估计窗口内出现官方「before 10am PST」）',confidence='低-中')
   data=dict(generated_at_bj=bj(NOW),sources=['https://x.com/thsottiaux','https://codex-reset.com/api/timeline','https://status.openai.com'],
-   last_reset=ev[-1],days_since_last=round(since,2),stats_30d=s30,stats_all=sall,teaser_lag_hours_challenge=lags,forecast=fc,forecast_check=prev,events=ev,
-   gaps=['status.openai.com 未纳入（仅作故障线，本页未抓取）','多数早期事件只有确认/官宣时间，无独立预告帖，预测时间=unknown','Day 10 未在 X 找到 Tibo 完成帖；实际时间取 Radar 实测 06:13Z','Radar 归档的 Day 8/10/13 时间为 Radar 实测落地时间，非确认帖时间','2026-03-04 的事件仅覆盖约 9% 用户，Radar 仍记为 reset，保留','静默重置仅 2026-08-25 一次被 Radar 收录；其他静默重置未知','banked reset 单独列出，不计入间隔','Day 15（10-20）Radar 只收录了官宣帖、没有实测落地时间，实际时间取帖子时间','2026-10-21 01:10 的 credits 补偿帖（约 4 万账户账单限额错误）不是全局重置，未计入次数'],
+   last_reset=ev[-1],days_since_last=round(since,2),stats_30d=s30,stats_all=sall,teaser_lag_hours_challenge=lags,forecast=fc,forecast_check=prev,estimate_superseded=estimate_superseded,pending=pending,events=ev,
+   gaps=['status.openai.com 未纳入（仅作故障线，本页未抓取）','多数早期事件只有确认/官宣时间，无独立预告帖，预测时间=unknown','Day 10 未在 X 找到 Tibo 完成帖；实际时间取 Radar 实测 06:13Z','Radar 归档的 Day 8/10/13 时间为 Radar 实测落地时间，非确认帖时间','2026-03-04 的事件仅覆盖约 9% 用户，Radar 仍记为 reset，保留','静默重置仅 2026-08-25 一次被 Radar 收录；其他静默重置未知','banked reset 单独列出，不计入间隔','Day 15（10-20）Radar 只收录了官宣帖、没有实测落地时间，实际时间取帖子时间','2026-10-21 01:10 的 credits 补偿帖（约 4 万账户账单限额错误）不是全局重置，未计入次数','Day 17（10-22）仅为官方预告，尚未确认落地，未计入全局次数；实际时间=unknown'],
    banked=[dict(date_bj=bj(P(e['announced_at'])),summary=e['summary'],url=e['url']) for e in radar['events'] if e['type']=='credits'],
    non_reset=[dict(date_bj='2026-10-21 01:10',kind='credits_compensation',summary='约 4 万账户周末账单限额配置错误已修复；受影响用户获 credits 补偿。这不是全局重置。',url='https://x.com/thsottiaux/status/2112592264686149749')])
   json.dump(data,open('data.json','w'),ensure_ascii=False,indent=1)
