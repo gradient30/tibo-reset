@@ -127,7 +127,9 @@ details.fold{margin-top:6px}details.fold summary{cursor:pointer;color:var(--mut)
  <div data-tab="overview" class="banner" id="note"></div>
  <div data-tab="overview" class="ov-foot" id="ovfoot"></div>
  <!-- Other tabs -->
- <section data-tab="trend" class="c mag"><h2>重置间隔趋势（天）</h2><div id="chart"></div><div class="q">柱 = 与上一次全局重置的间隔（近 40 次）；虚线 = 近 30 天中位数；<span style="color:var(--ok)">绿色</span> = 28 天挑战期内；超过 20 天的柱被截断。banked reset 不计入。</div></section>
+ <section data-tab="trend" class="c mag s8"><h2>间隔走势（天） <span class="tag ok">节奏</span></h2><div id="chartGap"></div><div class="q">折线 = 与上一次全局重置的间隔；超过 20 天截断显示；虚线 = 近 30 天 / 全史中位；<span style="color:var(--ok)">绿点</span> = 28 天挑战期内。概览火花线只看近 20 次，这里看全史节奏。</div></section>
+ <section data-tab="trend" class="c mag s4"><h2>落地时段 · 北京时间</h2><div id="chartHour"></div><div class="q">柱高 = 该小时落地次数；<span style="color:var(--ok)">绿</span> = 挑战期子集叠在全史上。用于看「通常几点到账」。</div></section>
+ <section data-tab="trend" class="c mag"><h2>节奏摘要</h2><div id="trendSum" class="q"></div></section>
  <section data-tab="history" class="c"><h2>历史记录 <span class="q" id="cnt"></span></h2>
   <div class="flt" style="margin-bottom:10px"><button class="on" data-f="all">全部</button><button data-f="ch">有预告帖</button><button data-f="win">有官方窗口</button></div>
   <div class="tl" id="tb"></div></section>
@@ -275,13 +277,45 @@ $('#tb').innerHTML=pendHtml+ev.map(r=>`<div class="ev ${r.label&&r.label.startsW
 <div><div class="lab">实际时间</div>${r.actual_bj}<div class="q">${r.actual_basis}</div>${r.confirmation?`<div class="q">确认 ${lk(r.confirmation.url,r.confirmation.time_bj)}</div>`:''}${r.lag_teaser_h!=null?`<div class="q">预告后 ${r.lag_teaser_h} h</div>`:''}</div>
 <div><div class="lab">偏差</div>${fmt(r.dev_h)}<div class="lab" style="margin-top:4px">间隔</div>${r.gap_days!=null?r.gap_days+' 天':'—'}</div></div>`).join('')}
 rows('all');document.querySelectorAll('.flt button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.flt button').forEach(x=>x.classList.remove('on'));b.classList.add('on');rows(b.dataset.f)});
-// Chart
-const g=D.events.filter(r=>r.gap_days!=null).slice(-40),W=1100,H=220,pl=28,pb=32,mx=Math.min(20,Math.max(...g.map(r=>r.gap_days))),bw=(W-pl)/g.length,y=v=>H-pb-(Math.min(v,mx)/mx)*(H-pb-8);
-let s=`<svg viewBox="0 0 ${W} ${H}" width="100%"><defs><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--acc2)"/><stop offset="1" stop-color="var(--acc)"/></linearGradient></defs>`;
-[0,5,10,15,20].filter(t=>t<=mx).forEach(t=>s+=`<line x1=${pl} x2=${W} y1=${y(t)} y2=${y(t)} stroke="currentColor" opacity=".08"/><text x=0 y=${y(t)+3}>${t}</text>`);
-g.forEach((r,i)=>{const x=pl+i*bw;s+=`<rect x=${x+1.5} y=${y(r.gap_days)} width=${bw-3} height=${H-pb-y(r.gap_days)} rx=2 fill="${r.label&&r.label.startsWith('Day')?'var(--ok)':'url(#gr)'}"><title>${r.actual_bj}：${r.gap_days} 天</title></rect>`;if(i%4==0||i==g.length-1)s+=`<text x=${x} y=${H-16}>${r.actual_bj.slice(5,10)}</text>`});
-s+=`<line x1=${pl} x2=${W} y1=${y(S.median)} y2=${y(S.median)} stroke="var(--warn)" stroke-dasharray="4 3"/><text x=${W-120} y=${y(S.median)-4} style="fill:var(--warn)">30天中位 ${S.median}d</text></svg>`;
-$('#chart').innerHTML=s;
+// Trend charts — interval line + BJ hour histogram (complement overview; not a duplicate of 对比表)
+{const gaps=D.events.filter(r=>r.gap_days!=null);
+ const W=900,H=210,pl=32,pr=12,pt=12,pb=36,mx=20;
+ const x=i=>pl+i/(gaps.length-1||1)*(W-pl-pr);
+ const y=v=>pt+(1-Math.min(v,mx)/mx)*(H-pt-pb);
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="重置间隔折线">`;
+ [0,5,10,15,20].forEach(t=>s+=`<line x1=${pl} x2=${W-pr} y1=${y(t)} y2=${y(t)} stroke="currentColor" opacity=".08"/><text x=2 y=${y(t)+3}>${t}</text>`);
+ const pts=gaps.map((r,i)=>`${x(i)},${y(r.gap_days)}`).join(' ');
+ s+=`<polyline fill="none" stroke="var(--acc)" stroke-width="1.6" opacity=".55" points="${pts}"/>`;
+ gaps.forEach((r,i)=>{const ch=(r.label||'').startsWith('Day');
+  s+=`<circle cx=${x(i)} cy=${y(r.gap_days)} r="${ch?4.2:2.6}" fill="${ch?'var(--ok)':'var(--acc2)'}" stroke="var(--bg)" stroke-width="1"><title>${r.actual_bj} ${(r.label||'')}：${r.gap_days} 天</title></circle>`;
+  if(i%Math.max(1,Math.floor(gaps.length/8))===0||i===gaps.length-1)s+=`<text x=${x(i)} y=${H-14} text-anchor="middle">${r.actual_bj.slice(5,10)}</text>`;
+ });
+ s+=`<line x1=${pl} x2=${W-pr} y1=${y(S.median)} y2=${y(S.median)} stroke="var(--warn)" stroke-dasharray="4 3"/>`;
+ s+=`<text x=${W-pr} y=${y(S.median)-5} text-anchor="end" style="fill:var(--warn)">30d 中位 ${S.median}d</text>`;
+ s+=`<line x1=${pl} x2=${W-pr} y1=${y(A.median)} y2=${y(A.median)} stroke="var(--mut)" stroke-dasharray="2 4" opacity=".7"/>`;
+ s+=`<text x=${W-pr} y=${y(A.median)+12} text-anchor="end" style="fill:var(--mut)">全史中位 ${A.median}d</text></svg>`;
+ $('#chartGap').innerHTML=s;
+ const chGaps=gaps.filter(r=>(r.label||'').startsWith('Day')).map(r=>r.gap_days);
+ const chMed=chGaps.length?chGaps.slice().sort((a,b)=>a-b)[Math.floor(chGaps.length/2)]:null;
+ $('#trendSum').innerHTML=`全史 n=${gaps.length} · 中位 <b>${A.median}</b>d · 均值 ${A.mean}d（范围 ${A.min}–${A.max}）<br>
+近 30 天 n=${S.n} · 中位 <b>${S.median}</b>d · 均值 ${S.mean}d<br>
+挑战期间隔 n=${chGaps.length}${chMed!=null?` · 中位 <b style="color:var(--ok)">${chMed}</b>d · 均值 ${(chGaps.reduce((a,b)=>a+b,0)/chGaps.length).toFixed(2)}d`:''} — 挑战期明显更密，节奏约 2–4 天一拍。<br>
+<span class="q">预告→落地滞后已在「概览」条形图展示，此处不重复。</span>`;}
+
+{const hours=Array.from({length:24},(_,h)=>h);
+ const all=hours.map(h=>0), ch=hours.map(h=>0);
+ D.events.forEach(r=>{const h=parseInt((r.actual_bj||'').slice(11,13),10);if(isNaN(h))return;all[h]++;if((r.label||'').startsWith('Day'))ch[h]++});
+ const mx=Math.max(...all,1),W=360,H=200,pl=28,pb=28,pt=8,pr=8,bw=(W-pl-pr)/24;
+ const y=v=>pt+(1-v/mx)*(H-pt-pb);
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="北京时间落地小时分布">`;
+ [0,Math.ceil(mx/2),mx].filter((v,i,a)=>a.indexOf(v)===i).forEach(t=>s+=`<line x1=${pl} x2=${W-pr} y1=${y(t)} y2=${y(t)} stroke="currentColor" opacity=".08"/><text x=2 y=${y(t)+3}>${t}</text>`);
+ hours.forEach(h=>{const x=pl+h*bw;
+  s+=`<rect x=${x+1} y=${y(all[h])} width=${bw-2} height=${Math.max(0,H-pb-y(all[h]))} rx=1.5 fill="var(--acc)" opacity=".45"><title>${h}:00 BJ · 全史 ${all[h]} 次</title></rect>`;
+  if(ch[h])s+=`<rect x=${x+1} y=${y(ch[h])} width=${bw-2} height=${Math.max(0,H-pb-y(ch[h]))} rx=1.5 fill="var(--ok)" opacity=".95"><title>${h}:00 BJ · 挑战期 ${ch[h]} 次</title></rect>`;
+  if(h%3===0)s+=`<text x=${x+bw/2} y=${H-10} text-anchor="middle">${h}</text>`;
+ });
+ s+=`</svg>`;
+ $('#chartHour').innerHTML=s;}
 $('#bk').innerHTML=D.banked.map(b=>`<div><b>${b.date_bj}</b> · ${b.summary}<br>${b.url?lk(b.url,'原帖'):'<span class="u">无 X 原帖（Radar 实测）</span>'}</div>`).join('');
 $('#gaps').innerHTML=D.gaps.map(x=>`<li>${x}</li>`).join('');
 $('#nr').innerHTML=`<h2>近期非重置公告</h2>${(D.non_reset||[]).map(n=>`<div class="q" style="margin-bottom:8px"><b>${n.date_bj}</b> · ${n.kind||''}<br>${n.summary}<br>${lk(n.url,'原帖')} · <span class="tag">未计入全局重置</span></div>`).join('')||'<div class="q">暂无</div>'}`;
