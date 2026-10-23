@@ -79,23 +79,46 @@ if not (len(sys.argv)>1 and sys.argv[1]=='render'):
   since=(NOW-last).total_seconds()/86400
   ch=[r for r in ev if r['label'] and r['label'].startswith('Day')]
   chg=[r['gap_days'] for r in ch[1:]]
-  pending=None
-  # Estimate: start = PT-day start (07:00Z) of last + shortest challenge gap; width 3 days (>= median gap + spread)
-  t0=last+dt.timedelta(days=min(chg)); ws=t0.replace(hour=7,minute=0,second=0,microsecond=0)
-  if ws>t0: ws-=dt.timedelta(days=1)
-  we=ws+dt.timedelta(days=3)
-  fc=dict(kind='estimate',window_start_bj=bj(max(NOW,ws)),window_end_bj=bj(we),confidence='低-中',
-   basis=f"估计，非官方。28 天 ship-or-reset 挑战（Day1≈10-05 PT，约至 11-01）期内已兑现 Day2/6/8/10/13/15/17，间隔 {'/'.join(f'{g:.1f}' for g in chg)} 天（中位 {st.median(chg):.1f}，最短 {min(chg):.1f}）；近 30 天 {s30['n']} 个间隔中位数 {s30['median']} 天、均值 {s30['mean']} 天。最近一次为 Day17，{ev[-1]['actual_bj']} 前落地（官方窗口；用户 10-23 03:05 确认，Tibo 尚无 Done 帖）。窗口起点＝上次＋挑战期最短间隔所在 PT 日开始，宽度 3 天 ≥ 中位间隔＋散布余量。有预告时到落地中位约 {st.median(lags):.1f} 小时。",
-   change='出现「Day N/ Reset」帖（含当天从 ship 改判）→ 改为官方窗口；若更早重置，本窗口提前失效；窗口过去仍无帖则撤回，不顺延。',
-   hour_note=f"近 30 天落地时刻（北京）：{sorted(hrs)} — 分散，不给固定时点",
-   sources=['https://x.com/thsottiaux','https://codex-reset.com'])
-  estimate_superseded=dict(made_bj='2026-10-21 09:58',window_start_bj='2026-10-21 15:00',window_end_bj='2026-10-24 15:00',
-    verdict='命中：Day17 于 2026-10-23 01:00 BJ 前落地，位于该估计窗口内（期间被官方预告取代）',confidence='低-中')
+  # Day 18 official teaser (preview only — not a completed reset; Day17 remains #57)
+  d18_teaser_at=P('2026-10-23T04:46:19Z'); d18_reply_at=P('2026-10-23T04:47:34Z')
+  # Same Day17 PDT convention: post BJ 12:46 = PDT Oct22 evening → Pacific tomorrow = Oct23 PDT
+  # before 10:00 PDT (UTC-7) = 17:00Z = BJ 2026-10-24 01:00; literal PST (UTC-8) = 18:00Z = BJ 02:00
+  d18_deadline=P('2026-10-23T17:00:00Z'); d18_deadline_pst=P('2026-10-23T18:00:00Z')
+  pending=dict(
+    id='2113492187770175603',label='Day 18',status='pending',
+    teaser=dict(url=X+'2113492187770175603',time_bj=bj(d18_teaser_at),time_utc=d18_teaser_at.isoformat(),
+      quote="Day 18/ Decisions API is GA, OpenResponses joined the Linux Foundation, we shipped some performance improvements and Uber is going all-in on codex & work. But yes… that's a reset!"),
+    reply=dict(url=X+'2113492502355562875',time_bj=bj(d18_reply_at),time_utc=d18_reply_at.isoformat(),
+      quote='Landing tomorrow before 10am PST together with a small ship.'),
+    predicted_bj='2026-10-24 01:00 前（PDT）',
+    predicted_bj_alt='2026-10-24 02:00 前（字面 PST）',
+    predicted_utc=d18_deadline.isoformat(),
+    pred_note='官方窗口：Landing tomorrow before 10am PST（主读 PDT；字面 PST 晚 1 小时）；「small ship」= 同日小产品发布，非 credits/banked',
+    actual_bj='unknown',actual_basis='尚未落地 — 等待 Tibo Done / Radar 实测 / 用户确认',
+    radar_urls=[X+'2113492187770175603',X+'2113492502355562875'],
+    radar_note='Radar live 已收录预告帖与回复，confirmed=false')
+  fc=dict(
+    kind='official',
+    window_start_bj=bj(max(NOW,d18_teaser_at)),
+    window_end_bj='2026-10-24 01:00',
+    window_end_bj_alt='2026-10-24 02:00',
+    confidence='高',
+    label='官方预告窗口',
+    basis='Tibo 官方预告：主帖 Day 18「that\'s a reset!」（'+bj(d18_teaser_at)+'）+ 回复「Landing tomorrow before 10am PST together with a small ship.」（'+bj(d18_reply_at)+'）。发帖时刻约为 PDT 10-22 晚 / 北京 10-23 中午，故 Pacific「tomorrow」= 10-23 PDT 上午；before 10:00 PDT（UTC−7）= 2026-10-23 17:00Z = 北京时间 2026-10-24 01:00 前。字面按 PST（UTC−8）则晚 1 小时至 02:00。「small ship」指同日小产品发布，不是 credits/banked 额度包。最近已完成全局重置仍为 Day17（'+ev[-1]['actual_bj']+'，#57；用户 10-23 03:05 确认，Tibo 尚无 Done 帖）。这是预告，不是已落地确认；完成次数仍为 57。',
+    change='出现 Done / “propagated” / Radar 实测落地 / 用户额度确认 → 记为已完成 #58 并退出预告态；窗口（01:00 BJ，或字面 PST 02:00）过后仍无落地证据 → 报「预告窗口已过，落地未核实」，不顺延。',
+    hour_note='官方时点：北京时间 2026-10-24 01:00 前（PDT）；备选字面 PST：02:00 前。',
+    sources=[X+'2113492187770175603',X+'2113492502355562875','https://codex-reset.com'])
+  # post-Day17 estimate superseded by Day18 official teaser
+  estimate_superseded=dict(made_bj='2026-10-23 03:06',window_start_bj='2026-10-24 15:00',window_end_bj='2026-10-27 15:00',
+    verdict='已被 Day18 官方预告取代（估计窗口起点前出现官方「before 10am PST」+ small ship）',confidence='低-中',
+    prior_hit=dict(made_bj='2026-10-21 09:58',window_start_bj='2026-10-21 15:00',window_end_bj='2026-10-24 15:00',
+      verdict='命中：Day17 于 2026-10-23 01:00 BJ 前落地，位于该估计窗口内（期间被官方预告取代）',confidence='低-中'))
   data=dict(generated_at_bj=bj(NOW),sources=['https://x.com/thsottiaux','https://codex-reset.com/api/timeline','https://status.openai.com'],
    last_reset=ev[-1],days_since_last=round(since,2),stats_30d=s30,stats_all=sall,teaser_lag_hours_challenge=lags,teaser_lag_labels=lag_labels,forecast=fc,forecast_check=prev,estimate_superseded=estimate_superseded,pending=pending,events=ev,
-   gaps=['status.openai.com 未纳入（仅作故障线，本页未抓取）','多数早期事件只有确认/官宣时间，无独立预告帖，预测时间=unknown','Day 10 未在 X 找到 Tibo 完成帖；实际时间取 Radar 实测 06:13Z','Radar 归档的 Day 8/10/13 时间为 Radar 实测落地时间，非确认帖时间','2026-03-04 的事件仅覆盖约 9% 用户，Radar 仍记为 reset，保留','静默重置仅 2026-08-25 一次被 Radar 收录；其他静默重置未知','banked reset 单独列出，不计入间隔','Day 15（10-20）Radar 只收录了官宣帖、没有实测落地时间，实际时间取帖子时间','2026-10-21 01:10 的 credits 补偿帖（约 4 万账户账单限额错误）不是全局重置，未计入次数','Day 17 已计入 #57：Radar/Tibo 尚无落地确认帖，依据为官方窗口（10:00 PDT = 01:00 BJ 前）＋用户 2026-10-23 03:05 BJ 确认额度刷新；实际时间取窗口上限'],
+   gaps=['status.openai.com 未纳入（仅作故障线，本页未抓取）','多数早期事件只有确认/官宣时间，无独立预告帖，预测时间=unknown','Day 10 未在 X 找到 Tibo 完成帖；实际时间取 Radar 实测 06:13Z','Radar 归档的 Day 8/10/13 时间为 Radar 实测落地时间，非确认帖时间','2026-03-04 的事件仅覆盖约 9% 用户，Radar 仍记为 reset，保留','静默重置仅 2026-08-25 一次被 Radar 收录；其他静默重置未知','banked reset 单独列出，不计入间隔','Day 15（10-20）Radar 只收录了官宣帖、没有实测落地时间，实际时间取帖子时间','2026-10-21 01:10 的 credits 补偿帖（约 4 万账户账单限额错误）不是全局重置，未计入次数','Day 17 已计入 #57：Radar/Tibo 尚无落地确认帖，依据为官方窗口（10:00 PDT = 01:00 BJ 前）＋用户 2026-10-23 03:05 BJ 确认额度刷新；实际时间取窗口上限','Day 18（10-23）仅为官方预告，尚未确认落地，未计入全局次数；「small ship」= 同日产品小发布，非 banked/credits；实际时间=unknown'],
    banked=[dict(date_bj=bj(P(e['announced_at'])),summary=e['summary'],url=e['url']) for e in radar['events'] if e['type']=='credits'],
-   non_reset=[dict(date_bj='2026-10-21 01:10',kind='credits_compensation',summary='约 4 万账户周末账单限额配置错误已修复；受影响用户获 credits 补偿。这不是全局重置。',url='https://x.com/thsottiaux/status/2112592264686149749')])
+   non_reset=[dict(date_bj='2026-10-21 01:10',kind='credits_compensation',summary='约 4 万账户周末账单限额配置错误已修复；受影响用户获 credits 补偿。这不是全局重置。',url='https://x.com/thsottiaux/status/2112592264686149749'),
+              dict(date_bj='2026-10-23 12:47',kind='product_ship_teaser',summary='Day18 回复中的「small ship」指同日小产品发布，不是 credits/banked 额度包；全局重置本身仍待落地确认。',url='https://x.com/thsottiaux/status/2113492502355562875')])
   json.dump(data,open('data.json','w'),ensure_ascii=False,indent=1)
   print(s30,sall,lags,fc,len(ev))
 d=open('data.json').read();open('index.html','w').write(open('tpl.html').read().replace('__DATA__',d));print('rendered index.html')

@@ -128,7 +128,7 @@ svg text{fill:var(--mut);font-size:10px}ul{margin:4px 0;padding-left:16px}li{mar
 </main><footer class="foot q" id="sf"></footer></div>
 <script>
 const D={
- "generated_at_bj": "2026-10-23 03:06",
+ "generated_at_bj": "2026-10-23 13:09",
  "sources": [
   "https://x.com/thsottiaux",
   "https://codex-reset.com/api/timeline",
@@ -168,7 +168,7 @@ const D={
   },
   "gap_days": 2.43
  },
- "days_since_last": 0.09,
+ "days_since_last": 0.51,
  "stats_30d": {
   "n": 9,
   "mean": 4.48,
@@ -200,15 +200,18 @@ const D={
   "Day 17"
  ],
  "forecast": {
-  "kind": "estimate",
-  "window_start_bj": "2026-10-24 15:00",
-  "window_end_bj": "2026-10-27 15:00",
-  "confidence": "低-中",
-  "basis": "估计，非官方。28 天 ship-or-reset 挑战（Day1≈10-05 PT，约至 11-01）期内已兑现 Day2/6/8/10/13/15/17，间隔 4.0/2.0/2.0/2.6/2.4/2.4 天（中位 2.4，最短 2.0）；近 30 天 9 个间隔中位数 2.6 天、均值 4.48 天。最近一次为 Day17，2026-10-23 01:00 前落地（官方窗口；用户 10-23 03:05 确认，Tibo 尚无 Done 帖）。窗口起点＝上次＋挑战期最短间隔所在 PT 日开始，宽度 3 天 ≥ 中位间隔＋散布余量。有预告时到落地中位约 5.0 小时。",
-  "change": "出现「Day N/ Reset」帖（含当天从 ship 改判）→ 改为官方窗口；若更早重置，本窗口提前失效；窗口过去仍无帖则撤回，不顺延。",
-  "hour_note": "近 30 天落地时刻（北京）：[1, 2, 4, 5, 11, 12, 13, 14, 14] — 分散，不给固定时点",
+  "kind": "official",
+  "window_start_bj": "2026-10-23 13:09",
+  "window_end_bj": "2026-10-24 01:00",
+  "window_end_bj_alt": "2026-10-24 02:00",
+  "confidence": "高",
+  "label": "官方预告窗口",
+  "basis": "Tibo 官方预告：主帖 Day 18「that's a reset!」（2026-10-23 12:46）+ 回复「Landing tomorrow before 10am PST together with a small ship.」（2026-10-23 12:47）。发帖时刻约为 PDT 10-22 晚 / 北京 10-23 中午，故 Pacific「tomorrow」= 10-23 PDT 上午；before 10:00 PDT（UTC−7）= 2026-10-23 17:00Z = 北京时间 2026-10-24 01:00 前。字面按 PST（UTC−8）则晚 1 小时至 02:00。「small ship」指同日小产品发布，不是 credits/banked 额度包。最近已完成全局重置仍为 Day17（2026-10-23 01:00，#57；用户 10-23 03:05 确认，Tibo 尚无 Done 帖）。这是预告，不是已落地确认；完成次数仍为 57。",
+  "change": "出现 Done / “propagated” / Radar 实测落地 / 用户额度确认 → 记为已完成 #58 并退出预告态；窗口（01:00 BJ，或字面 PST 02:00）过后仍无落地证据 → 报「预告窗口已过，落地未核实」，不顺延。",
+  "hour_note": "官方时点：北京时间 2026-10-24 01:00 前（PDT）；备选字面 PST：02:00 前。",
   "sources": [
-   "https://x.com/thsottiaux",
+   "https://x.com/thsottiaux/status/2113492187770175603",
+   "https://x.com/thsottiaux/status/2113492502355562875",
    "https://codex-reset.com"
   ]
  },
@@ -223,13 +226,47 @@ const D={
   "lesson": "Day 15 原判为「功能发布日」，但 Tibo 在 PT 当日结束前改成了重置；挑战期内同一天可以从 ship 改判为 reset，窗口应覆盖当前 PT 日的剩余时段。"
  },
  "estimate_superseded": {
-  "made_bj": "2026-10-21 09:58",
-  "window_start_bj": "2026-10-21 15:00",
-  "window_end_bj": "2026-10-24 15:00",
-  "verdict": "命中：Day17 于 2026-10-23 01:00 BJ 前落地，位于该估计窗口内（期间被官方预告取代）",
-  "confidence": "低-中"
+  "made_bj": "2026-10-23 03:06",
+  "window_start_bj": "2026-10-24 15:00",
+  "window_end_bj": "2026-10-27 15:00",
+  "verdict": "已被 Day18 官方预告取代（估计窗口起点前出现官方「before 10am PST」+ small ship）",
+  "confidence": "低-中",
+  "prior_hit": {
+   "made_bj": "2026-10-21 09:58",
+   "window_start_bj": "2026-10-21 15:00",
+   "window_end_bj": "2026-10-24 15:00",
+   "verdict": "命中：Day17 于 2026-10-23 01:00 BJ 前落地，位于该估计窗口内（期间被官方预告取代）",
+   "confidence": "低-中"
+  }
  },
- "pending": null,
+ "pending": {
+  "id": "2113492187770175603",
+  "label": "Day 18",
+  "status": "pending",
+  "teaser": {
+   "url": "https://x.com/thsottiaux/status/2113492187770175603",
+   "time_bj": "2026-10-23 12:46",
+   "time_utc": "2026-10-23T04:46:19+00:00",
+   "quote": "Day 18/ Decisions API is GA, OpenResponses joined the Linux Foundation, we shipped some performance improvements and Uber is going all-in on codex & work. But yes… that's a reset!"
+  },
+  "reply": {
+   "url": "https://x.com/thsottiaux/status/2113492502355562875",
+   "time_bj": "2026-10-23 12:47",
+   "time_utc": "2026-10-23T04:47:34+00:00",
+   "quote": "Landing tomorrow before 10am PST together with a small ship."
+  },
+  "predicted_bj": "2026-10-24 01:00 前（PDT）",
+  "predicted_bj_alt": "2026-10-24 02:00 前（字面 PST）",
+  "predicted_utc": "2026-10-23T17:00:00+00:00",
+  "pred_note": "官方窗口：Landing tomorrow before 10am PST（主读 PDT；字面 PST 晚 1 小时）；「small ship」= 同日小产品发布，非 credits/banked",
+  "actual_bj": "unknown",
+  "actual_basis": "尚未落地 — 等待 Tibo Done / Radar 实测 / 用户确认",
+  "radar_urls": [
+   "https://x.com/thsottiaux/status/2113492187770175603",
+   "https://x.com/thsottiaux/status/2113492502355562875"
+  ],
+  "radar_note": "Radar live 已收录预告帖与回复，confirmed=false"
+ },
  "events": [
   {
    "id": "1968163721034994139",
@@ -1479,7 +1516,8 @@ const D={
   "banked reset 单独列出，不计入间隔",
   "Day 15（10-20）Radar 只收录了官宣帖、没有实测落地时间，实际时间取帖子时间",
   "2026-10-21 01:10 的 credits 补偿帖（约 4 万账户账单限额错误）不是全局重置，未计入次数",
-  "Day 17 已计入 #57：Radar/Tibo 尚无落地确认帖，依据为官方窗口（10:00 PDT = 01:00 BJ 前）＋用户 2026-10-23 03:05 BJ 确认额度刷新；实际时间取窗口上限"
+  "Day 17 已计入 #57：Radar/Tibo 尚无落地确认帖，依据为官方窗口（10:00 PDT = 01:00 BJ 前）＋用户 2026-10-23 03:05 BJ 确认额度刷新；实际时间取窗口上限",
+  "Day 18（10-23）仅为官方预告，尚未确认落地，未计入全局次数；「small ship」= 同日产品小发布，非 banked/credits；实际时间=unknown"
  ],
  "banked": [
   {
@@ -1554,6 +1592,12 @@ const D={
    "kind": "credits_compensation",
    "summary": "约 4 万账户周末账单限额配置错误已修复；受影响用户获 credits 补偿。这不是全局重置。",
    "url": "https://x.com/thsottiaux/status/2112592264686149749"
+  },
+  {
+   "date_bj": "2026-10-23 12:47",
+   "kind": "product_ship_teaser",
+   "summary": "Day18 回复中的「small ship」指同日小产品发布，不是 credits/banked 额度包；全局重置本身仍待落地确认。",
+   "url": "https://x.com/thsottiaux/status/2113492502355562875"
   }
  ]
 };const $=s=>document.querySelector(s);const U='<span class="u">unknown</span>';const L=D.last_reset,F=D.forecast,S=D.stats_30d,A=D.stats_all;
@@ -1596,23 +1640,24 @@ const t0=PT(ch[0].actual_utc)-864e5/2,t1=Math.max(F1,NOWT)+864e5/2,W=760,H=118,x
 let g=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="近期重置时间轴">`;
 for(let d=BJT(new Date(t0+8*36e5).toISOString().slice(0,10)+' 00:00')+864e5,k=0;d<t1;d+=864e5,k++){g+=`<line x1=${x(d)} x2=${x(d)} y1=28 y2=76 stroke="currentColor" opacity=".06"/>`;if(k%2==0)g+=`<text x=${x(d)} y=92 text-anchor="middle">${new Date(d+8*36e5).toISOString().slice(5,10)}</text>`}
 g+=`<rect x=${x(C0)} y=38 width=${Math.max(2,x(C1)-x(C0))} height=26 rx=4 fill="none" stroke="var(--warn)" stroke-dasharray="3 2" opacity=".7"/><text x=${x(C0)+3} y=34 style="fill:var(--warn);font-size:9px">Day15 前估计（未命中）</text>`;
-g+=`<rect x=${x(F0)} y=42 width=${Math.max(2,x(F1)-x(F0))} height=18 rx=4 fill="${isOff?'var(--ok)':'var(--acc)'}" opacity=".32"/><text x=${x(F1)} y=${H-6} text-anchor="end" style="fill:${isOff?'var(--ok)':'var(--acc2)'};font-weight:700;font-size:9px">${isOff?'Day17 官方窗口→01:00 BJ':'估计窗口'}</text>`;
+g+=`<rect x=${x(F0)} y=42 width=${Math.max(2,x(F1)-x(F0))} height=18 rx=4 fill="${isOff?'var(--ok)':'var(--acc)'}" opacity=".32"/><text x=${x(F1)} y=${H-6} text-anchor="end" style="fill:${isOff?'var(--ok)':'var(--acc2)'};font-weight:700;font-size:9px">${isOff?`${Pend.label} 官方窗口→${F.window_end_bj} BJ`:'估计窗口'}</text>`;
 if(isOff&&F.window_end_bj_alt){const Fa=BJT(F.window_end_bj_alt);g+=`<line x1=${x(Fa)} x2=${x(Fa)} y1=40 y2=64 stroke="var(--mut)" stroke-dasharray="2 2"/><text x=${x(Fa)+2} y=38 style="fill:var(--mut);font-size:8px">PST备选</text>`}
 g+=`<line x1=20 x2=${W-20} y1=52 y2=52 stroke="currentColor" opacity=".2"/>`;
 ch.forEach(r=>{const X=x(PT(r.actual_utc)),c=r.label&&r.label.startsWith('Day');g+=`<circle cx=${X} cy=52 r=5.5 fill="${c?'var(--ok)':'var(--acc)'}" stroke="var(--bg)" stroke-width=2><title>${r.actual_bj} ${r.label||''}</title></circle><text x=${X} y=20 text-anchor="middle" style="font-size:9px">${(r.label||'').replace('（社区投票）','')}</text>`});
-if(Pend){const Xt=PT(Pend.teaser.time_utc);g+=`<circle cx=${x(Xt)} cy=52 r=6 fill="none" stroke="var(--warn)" stroke-width="2"><title>Day17 预告 ${Pend.teaser.time_bj}</title></circle><text x=${x(Xt)} y=20 text-anchor="middle" style="fill:var(--warn);font-size:9px;font-weight:700">Day17预告</text>`}
+if(Pend){const Xt=PT(Pend.teaser.time_utc);g+=`<circle cx=${x(Xt)} cy=52 r=6 fill="none" stroke="var(--warn)" stroke-width="2"><title>${Pend.label} 预告 ${Pend.teaser.time_bj}</title></circle><text x=${x(Xt)} y=20 text-anchor="middle" style="fill:var(--warn);font-size:9px;font-weight:700">${Pend.label}预告</text>`}
 g+=`<line x1=${x(NOWT)} x2=${x(NOWT)} y1=24 y2=80 stroke="var(--acc2)" stroke-width=1.5/><circle cx=${x(NOWT)} cy=52 r=3 fill="var(--acc2)"/><text x=${x(NOWT)} y=106 text-anchor="middle" style="fill:var(--acc2);font-weight:700;font-size:9px">现在</text></svg>`;
-$('#strip').innerHTML=`<h2>近期时间轴</h2>${g}<div class="q">实心点 = 已完成全局重置；空心橙点 = Day17 预告（未落地）；绿带 = 官方窗口至 01:00 BJ；竖线 = 现在</div>`;}
+$('#strip').innerHTML=`<h2>近期时间轴</h2>${g}<div class="q">实心点 = 已完成全局重置；空心橙点 = ${Pend?Pend.label+' 预告（未落地）':'预告'}；绿带 = 官方窗口至 ${F.window_end_bj} BJ；竖线 = 现在</div>`;}
 // Forecast check
-{const P=D.forecast_check,Es=D.estimate_superseded;$('#check').innerHTML=`<h2>预测核对</h2>
+{const P=D.forecast_check,Es=D.estimate_superseded,Ph=Es&&Es.prior_hit;$('#check').innerHTML=`<h2>预测核对</h2>
 <div class="q">Day15 前估计（${P.made_bj}）</div><div style="font-size:12px">${P.window_start_bj} → ${P.window_end_bj}</div>
 <div class="miss" style="margin:4px 0">✗ 未命中 · 早 ${Math.round(P.miss_minutes)} 分钟 → 实际 ${P.actual_bj}</div>
-${Es?`<div class="q" style="margin-top:8px">其后估计（${Es.made_bj}）</div><div style="font-size:12px">${Es.window_start_bj} → ${Es.window_end_bj}</div><div class="q">${Es.verdict}</div>`:''}
-<div class="q" style="margin-top:8px"><span class="tag">当前</span> ${isOff?'以 Day17 官方预告为准':'估计窗口'}</div>`;}
+${Ph?`<div class="q" style="margin-top:8px">其后估计（${Ph.made_bj}）</div><div style="font-size:12px">${Ph.window_start_bj} → ${Ph.window_end_bj}</div><div class="q">${Ph.verdict}</div>`:''}
+${Es?`<div class="q" style="margin-top:8px">Day17 后估计（${Es.made_bj}）</div><div style="font-size:12px">${Es.window_start_bj} → ${Es.window_end_bj}</div><div class="q">${Es.verdict}</div>`:''}
+<div class="q" style="margin-top:8px"><span class="tag">当前</span> ${isOff?`以 ${Pend.label} 官方预告为准`:'估计窗口'}</div>`;}
 // Evidence pipeline
 {const st=(c,t)=>`<span class="st ${c}">${t}</span>`;
 if(isOff&&Pend){
- $('#flow').innerHTML=`<h2>证据链 · Day17 预告（未落地）</h2><div class="flow">
+ $('#flow').innerHTML=`<h2>证据链 · ${Pend.label} 预告（未落地）</h2><div class="flow">
 <div class="node"><b>① Tibo 预告</b><div class="q">${lk(Pend.teaser.url,Pend.teaser.time_bj)}<br>“${Pend.teaser.quote}”</div>${st('ok','已核实')}</div>
 <div class="node"><b>② 官方时点</b><div class="q">${lk(Pend.reply.url,Pend.reply.time_bj)}<br>“${Pend.reply.quote}”<br>→ ${Pend.predicted_bj}</div>${st('ok','已核实')}</div>
 <div class="node"><b>③ Radar</b><div class="q">${lk('https://codex-reset.com','codex-reset.com')} live 已收录<br>${Pend.radar_note}<br>实测落地：${U}</div>${st('mid','待落地')}</div>
@@ -1632,7 +1677,7 @@ $('#basis').innerHTML=`<h2>预测依据 <span class="tag">${isOff?'官方':'估�
 // Banner + overview foot
 if(D.non_reset&&D.non_reset.length){$('#note').innerHTML=`<span class="tag">非重置</span><div>${D.non_reset.map(n=>`<b>${n.date_bj}</b> · ${n.summary} ${lk(n.url,'原帖')} · <b>未计入全局次数</b>`).join('<br>')}</div>`}
 else $('#note').style.display='none';
-$('#ovfoot').innerHTML=`<span>生成于 ${D.generated_at_bj}（北京时间）· 预测均为<b>估计</b> · unknown = 未能核实</span><span><a href="#other">数据缺口 / 图例 →</a> · <a href="#history">全部 ${D.events.length} 次 →</a></span>`;
+$('#ovfoot').innerHTML=`<span>生成于 ${D.generated_at_bj}（北京时间）· ${isOff?'当前为<b>官方预告</b>（未计入）':'预测均为<b>估计</b>'} · unknown = 未能核实</span><span><a href="#other">数据缺口 / 图例 →</a> · <a href="#history">全部 ${D.events.length} 次 →</a></span>`;
 // History
 const fmt=h=>h==null?U:(h>0?'+':'')+h.toFixed(1)+' h';
 function rows(f){const ev=[...D.events].reverse().filter(r=>f=='all'||(f=='ch'?r.teaser:r.window));
