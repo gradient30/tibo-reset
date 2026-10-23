@@ -1,5 +1,5 @@
 {
- "generated_at_bj": "2026-10-23 13:09",
+ "generated_at_bj": "2026-10-23 13:38",
  "sources": [
   "https://x.com/thsottiaux",
   "https://codex-reset.com/api/timeline",
@@ -39,7 +39,7 @@
   },
   "gap_days": 2.43
  },
- "days_since_last": 0.51,
+ "days_since_last": 0.53,
  "stats_30d": {
   "n": 9,
   "mean": 4.48,
@@ -72,7 +72,7 @@
  ],
  "forecast": {
   "kind": "official",
-  "window_start_bj": "2026-10-23 13:09",
+  "window_start_bj": "2026-10-23 13:38",
   "window_end_bj": "2026-10-24 01:00",
   "window_end_bj_alt": "2026-10-24 02:00",
   "confidence": "高",

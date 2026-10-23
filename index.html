@@ -43,16 +43,22 @@ h2 .tag{text-transform:none;letter-spacing:0}
 .s8{grid-column:span 8}.s4{grid-column:span 4}.s3{grid-column:span 3}.s6{grid-column:span 6}.s2{grid-column:span 2}
 @media(max-width:960px){.s8,.s4,.s6{grid-column:span 12}.s3,.s2{grid-column:span 6}}
 @media(max-width:520px){.s3,.s2{grid-column:span 12}.w{padding:12px 10px 88px}h1{font-size:17px}}
-.kpi-strip{display:contents}
 .kpi{padding:12px 14px}.kpi .k{margin-bottom:4px}.kpi .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 .kpi .spark{margin-top:6px;opacity:.9}
-.stage{display:contents}
-.hero{background:linear-gradient(145deg,color-mix(in srgb,var(--acc) 16%,var(--glass)),color-mix(in srgb,var(--acc2) 8%,var(--glass)));padding:18px}
-.big{font-size:clamp(22px,3.4vw,34px);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin:8px 0 10px;font-variant-numeric:tabular-nums}
+.hero-done{background:linear-gradient(145deg,color-mix(in srgb,var(--ok) 14%,var(--glass)),color-mix(in srgb,var(--acc) 6%,var(--glass)));padding:16px 18px}
+.hero-next{background:linear-gradient(145deg,color-mix(in srgb,var(--warn) 14%,var(--glass)),color-mix(in srgb,var(--acc2) 8%,var(--glass)));padding:16px 18px}
+.hero-pair{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.hero-pair .meta{flex:1;min-width:140px}
+.big{font-size:clamp(22px,3.2vw,32px);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin:6px 0 4px;font-variant-numeric:tabular-nums}
 .grad{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.grad-ok{background:linear-gradient(90deg,var(--ok),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.grad-warn{background:linear-gradient(90deg,var(--warn),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .k{color:var(--mut);font-size:10px;text-transform:uppercase;letter-spacing:.1em;font-weight:600}
 .v{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
 .tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;background:color-mix(in srgb,var(--warn) 16%,transparent);color:var(--warn);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);letter-spacing:.02em}
+.tag.ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok);border-color:color-mix(in srgb,var(--ok) 30%,transparent)}
+.tag.warn{background:color-mix(in srgb,var(--warn) 16%,transparent);color:var(--warn);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.tag.acc{background:color-mix(in srgb,var(--acc) 16%,transparent);color:var(--acc);border-color:color-mix(in srgb,var(--acc) 30%,transparent)}
 .bar{height:6px;border-radius:4px;background:color-mix(in srgb,var(--fg) 8%,transparent);overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:4px}
 a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
 .u{color:var(--mut);font-style:italic;opacity:.85}
@@ -75,22 +81,24 @@ svg text{fill:var(--mut);font-size:10px}ul{margin:4px 0;padding-left:16px}li{mar
 @keyframes tin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .more{display:inline-block;margin-top:8px;font-size:11px;font-weight:600}
 .foot{margin-top:14px;text-align:center;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--glass);backdrop-filter:blur(12px)}
-.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-@media(max-width:900px){.flow{grid-template-columns:1fr 1fr}}
-@media(max-width:520px){.flow{grid-template-columns:1fr}}
-.node{padding:10px 12px;border-radius:10px;border:1px solid var(--bd);background:color-mix(in srgb,var(--bg) 40%,var(--glass));min-width:0;position:relative}
-.node b{display:block;font-size:12px;margin-bottom:4px}
-.node:not(:last-child):after{content:"→";position:absolute;right:-10px;top:50%;transform:translateY(-50%);color:var(--acc2);font-size:14px;z-index:1;text-shadow:0 0 8px var(--acc2)}
-@media(max-width:900px){.node:nth-child(2):after{display:none}.node:nth-child(odd):not(:last-child):after{content:"→"}}
-@media(max-width:520px){.node:after{display:none!important}}
-.st{display:inline-block;font-size:10px;padding:1px 7px;border-radius:4px;margin-top:6px;font-weight:700;letter-spacing:.04em}
-.st.ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}.st.mid{background:color-mix(in srgb,var(--warn) 16%,transparent);color:var(--warn)}.st.no{background:color-mix(in srgb,var(--fg) 8%,transparent);color:var(--mut)}
 .ring{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .miss{color:var(--danger);font-weight:700}
 .banner{grid-column:span 12;padding:8px 14px;border-radius:8px;border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);background:color-mix(in srgb,var(--warn) 8%,var(--glass));font-size:12px;display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
 .banner .tag{flex:0 0 auto}
 .ov-foot{grid-column:span 12;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;padding:10px 14px;border-radius:10px;border:1px solid var(--bd);background:var(--glass);font-size:11px;color:var(--mut)}
-.stage-row{display:contents}
+.cmp-wrap{overflow:auto;margin:0 -4px;padding:0 4px}
+table.cmp{width:100%;border-collapse:separate;border-spacing:0;font-variant-numeric:tabular-nums;font-size:12px}
+table.cmp th{text-align:left;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--bd);white-space:nowrap;position:sticky;top:0;background:var(--glass);backdrop-filter:blur(8px)}
+table.cmp td{padding:9px 10px;border-bottom:1px solid color-mix(in srgb,var(--bd) 70%,transparent);vertical-align:middle;white-space:nowrap}
+table.cmp tr.hi{background:color-mix(in srgb,var(--ok) 7%,transparent)}
+table.cmp tr.hi td:first-child{box-shadow:inset 3px 0 0 var(--ok)}
+table.cmp tr:hover td{background:color-mix(in srgb,var(--acc) 6%,transparent)}
+table.cmp .num{font-weight:700}
+.tod{display:inline-flex;align-items:center;gap:5px}
+.tod i{width:7px;height:7px;border-radius:50%;display:inline-block}
+.tod.night i{background:var(--acc)}.tod.dawn i{background:var(--warn)}.tod.am i{background:var(--ok)}.tod.pm i{background:var(--acc2)}.tod.eve i{background:var(--danger)}
+.cdown{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:4px}
+details.fold{margin-top:6px}details.fold summary{cursor:pointer;color:var(--mut);font-size:11px;font-weight:600;list-style:none}details.fold summary::-webkit-details-marker{display:none}details.fold summary:before{content:"▸ ";color:var(--acc2)}details.fold[open] summary:before{content:"▾ "}
 @media(prefers-reduced-motion:reduce){[data-tab].show{animation:none}.c{transition:none!important;transform:none!important}.c:after{display:none}.live .dot{animation:none}}
 </style></head><body><div class="w">
 <div class="top">
@@ -104,16 +112,18 @@ svg text{fill:var(--mut);font-size:10px}ul{margin:4px 0;padding-left:16px}li{mar
  <div data-tab="overview" class="s3 c mag kpi" id="k2"></div>
  <div data-tab="overview" class="s3 c mag kpi" id="k3"></div>
  <div data-tab="overview" class="s3 c mag kpi" id="k4"></div>
- <!-- Main stage -->
- <section data-tab="overview" class="c hero s8 mag" id="hero"></section>
- <section data-tab="overview" class="c s4 mag" id="status"></section>
+ <!-- Dual hero: last done vs next preview -->
+ <section data-tab="overview" class="c hero-done s6 mag" id="heroDone"></section>
+ <section data-tab="overview" class="c hero-next s6 mag" id="heroNext"></section>
+ <!-- Timeline -->
  <section data-tab="overview" class="c s8 mag" id="strip"></section>
- <section data-tab="overview" class="c s4 mag" id="check"></section>
- <!-- Secondary -->
- <section data-tab="overview" class="c mag" id="flow"></section>
- <section data-tab="overview" class="c s4 mag" id="lag"></section>
  <section data-tab="overview" class="c s4 mag" id="sparkcard"></section>
- <section data-tab="overview" class="c s4 mag" id="basis"></section>
+ <!-- Comparison table -->
+ <section data-tab="overview" class="c mag" id="cmp"></section>
+ <!-- Compact secondary -->
+ <section data-tab="overview" class="c s4 mag" id="lag"></section>
+ <section data-tab="overview" class="c s4 mag" id="check"></section>
+ <section data-tab="overview" class="c s4 mag" id="flow"></section>
  <div data-tab="overview" class="banner" id="note"></div>
  <div data-tab="overview" class="ov-foot" id="ovfoot"></div>
  <!-- Other tabs -->
@@ -123,12 +133,13 @@ svg text{fill:var(--mut);font-size:10px}ul{margin:4px 0;padding-left:16px}li{mar
   <div class="tl" id="tb"></div></section>
  <section data-tab="other" class="c s6 mag"><h2>Banked reset 记录 <span class="q">（不计入间隔）</span></h2><div class="bk" id="bk"></div></section>
  <section data-tab="other" class="c s6 mag"><h2>数据缺口</h2><ul id="gaps"></ul></section>
+ <section data-tab="other" class="c mag" id="basis"></section>
  <section data-tab="other" class="c mag" id="nr"></section>
  <section data-tab="other" class="c q mag" id="ft"></section>
 </main><footer class="foot q" id="sf"></footer></div>
 <script>
 const D={
- "generated_at_bj": "2026-10-23 13:09",
+ "generated_at_bj": "2026-10-23 13:38",
  "sources": [
   "https://x.com/thsottiaux",
   "https://codex-reset.com/api/timeline",
@@ -168,7 +179,7 @@ const D={
   },
   "gap_days": 2.43
  },
- "days_since_last": 0.51,
+ "days_since_last": 0.53,
  "stats_30d": {
   "n": 9,
   "mean": 4.48,
@@ -201,7 +212,7 @@ const D={
  ],
  "forecast": {
   "kind": "official",
-  "window_start_bj": "2026-10-23 13:09",
+  "window_start_bj": "2026-10-23 13:38",
   "window_end_bj": "2026-10-24 01:00",
   "window_end_bj_alt": "2026-10-24 02:00",
   "confidence": "高",
@@ -1608,87 +1619,131 @@ function sparkSVG(h=32){const g=D.events.filter(r=>r.gap_days!=null).slice(-20).
  return `<svg viewBox="0 0 ${W} ${H}" width="100%" height="${h}" preserveAspectRatio="none" aria-label="近20次间隔"><defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--acc2)" stop-opacity=".35"/><stop offset="1" stop-color="var(--acc2)" stop-opacity="0"/></linearGradient></defs>
  <polygon fill="url(#sg)" points="0,${H} ${g.map((v,i)=>`${i/(g.length-1)*W},${H-2-v/m*(H-4)}`).join(' ')} ${W},${H}"/>
  <polyline fill="none" stroke="var(--acc2)" stroke-width="1.8" vector-effect="non-scaling-stroke" points="${g.map((v,i)=>`${i/(g.length-1)*W},${H-2-v/m*(H-4)}`).join(' ')}"/></svg>`}
-// KPI strip
+function ringSVG(pctVal,labelTop,labelBot,color='ok',size=110){
+  const R=42,C=2*Math.PI*R,p=Math.max(0,Math.min(1,pctVal)),gid='rg'+Math.random().toString(36).slice(2,6);
+  const stroke=color==='ok'?'var(--ok)':color==='warn'?'var(--warn)':'var(--acc2)';
+  return `<svg width="${size}" height="${size}" viewBox="0 0 110 110" role="img" aria-label="${labelTop}" style="flex:0 0 auto"><defs><linearGradient id="${gid}" x1="0" x2="1"><stop offset="0" stop-color="${stroke}"/><stop offset="1" stop-color="var(--acc2)"/></linearGradient></defs>
+  <circle cx="55" cy="55" r="${R}" fill="none" stroke="currentColor" opacity=".12" stroke-width="8"/>
+  <circle cx="55" cy="55" r="${R}" fill="none" stroke="url(#${gid})" stroke-width="8" stroke-linecap="round" stroke-dasharray="${C*p} ${C}" transform="rotate(-90 55 55)" style="filter:drop-shadow(0 0 6px color-mix(in srgb,${stroke} 50%,transparent))"/>
+  <text x="55" y="52" text-anchor="middle" style="font-size:18px;font-weight:800;fill:var(--fg)">${labelTop}</text>
+  <text x="55" y="68" text-anchor="middle" style="font-size:9px">${labelBot}</text></svg>`;
+}
+function todBucket(bj){const h=parseInt((bj||'').slice(11,13),10);if(isNaN(h))return {cls:'',lab:'—'};
+  if(h<5)return{cls:'night',lab:'深夜'};if(h<9)return{cls:'dawn',lab:'清晨'};if(h<12)return{cls:'am',lab:'上午'};if(h<18)return{cls:'pm',lab:'下午'};return{cls:'eve',lab:'晚上'}}
+function srcOf(r){if(r.confirmation)return{t:'官方',c:'ok'};if(r.user_confirm)return{t:'用户确认',c:'warn'};return{t:'Radar',c:'acc'}}
 const Pend=D.pending,isOff=F.kind==='official';
 const winEnd=BJT(F.window_end_bj),winState=(()=>{if(isOff){if(NOWT<winEnd)return '官方预告中';return '窗口已过·未核实'}const a=BJT(F.window_start_bj);if(NOWT<a)return '未开始';if(NOWT<=winEnd)return '进行中';return '已过期'})();
-[['距上次重置',el.toFixed(1)+' 天',`最近已完成 ${L.label||''} · ${L.actual_bj}`],
- ['30天中位间隔',S.median+' 天',`均值 ${S.mean} · n=${S.n}`],
- ['全局重置次数',D.events.length+' 次',`已完成 · banked ${D.banked.length} · 待落地不计`],
- ['下次窗口状态',winState,isOff?`官方 · ${F.window_end_bj} 前（PDT）`:`${F.window_start_bj.slice(5)} → ${F.window_end_bj.slice(5)}`]]
-.forEach(([k,v,s],i)=>$('#k'+(i+1)).innerHTML=`<div class="k">${k}</div><div class="v">${v}</div><div class="q">${s}</div>${i==1?`<div class="spark">${sparkSVG(28)}</div>`:''}${i==3?`<div class="q" style="margin-top:4px"><span class="tag">${isOff?'官方预告 · 信心 '+F.confidence:'估计，非官方'}</span></div>`:''}`);
-// Hero + ring
-const R=52,C=2*Math.PI*R;
-$('#hero').innerHTML=`<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center"><div class="k">${isOff?'下次全局重置 · 官方预告窗口':'下次全局重置 · 预测窗口'}</div><span class="tag">${isOff?'官方 · 信心 '+F.confidence:'估计，非官方 · 信心 '+F.confidence}</span></div>
-<div class="big grad">${isOff?`北京时间 ${F.window_end_bj} 前<br><span style="font-size:.55em;opacity:.85">（PDT · 主读）</span>`:`${F.window_start_bj}<br>→ ${F.window_end_bj}`}</div>
-${isOff&&Pend?`<div class="q"><b>${Pend.label}</b> · ${lk(Pend.teaser.url,'预告帖 '+Pend.teaser.time_bj)} · ${lk(Pend.reply.url,'时点回复')}</div>
-<div class="q">“${Pend.teaser.quote}”</div><div class="q">→ “${Pend.reply.quote}”</div>
-<div class="q" style="margin-top:4px">${F.hour_note}${F.window_end_bj_alt?` · 字面 PST 备选：${F.window_end_bj_alt} 前`:''}</div>
-<div class="q" style="margin-top:4px"><span class="tag">未落地</span> 最近已完成仍为 ${L.label} ${L.actual_bj} · 不计入第 ${D.events.length+1} 次直至确认</div>`:`<div class="q">${F.hour_note}</div>`}
-<div class="q" style="margin-top:6px">⚡ 改判条件：${F.change}</div>
-<a class="more" href="#overview" onclick="event.preventDefault();document.getElementById('basis').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})">预测依据 ↓</a> · <a class="more" href="#trend">趋势 →</a>`;
-$('#status').innerHTML=`<div class="k">当前状态 · 实时环</div><div class="ring" style="margin-top:8px"><svg width="130" height="130" viewBox="0 0 130 130" role="img" aria-label="已过时间 / 中位间隔" style="flex:0 0 auto"><defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="var(--acc)"/><stop offset="1" stop-color="var(--acc2)"/></linearGradient></defs>
-<circle cx="65" cy="65" r="${R}" fill="none" stroke="currentColor" opacity=".12" stroke-width="9"/>
-<circle cx="65" cy="65" r="${R}" fill="none" stroke="url(#rg)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C*pct} ${C}" transform="rotate(-90 65 65)" style="filter:drop-shadow(0 0 6px color-mix(in srgb,var(--acc2) 50%,transparent))"/>
-<text x="65" y="60" text-anchor="middle" style="font-size:22px;font-weight:800;fill:var(--fg)">${el.toFixed(1)}</text>
-<text x="65" y="78" text-anchor="middle">/ ${S.median}d</text></svg>
-<div><div class="q">最近全局重置</div><div class="v" style="font-size:18px">${L.actual_bj}</div><div class="q">${L.label||''} · ${L.confirmation?lk(L.confirmation.url,'官宣帖'):''} · ${lk(L.radar_url,'Radar')}</div><div class="q" style="margin-top:4px">${L.actual_basis}</div><div class="q" style="margin-top:6px">环 = 已过 / 30天中位；超中位 ≠ 马上到期</div></div></div>`;
+const remainMs=Math.max(0,winEnd-NOWT),remainH=(remainMs/36e5),remainLabel=remainMs<=0?'窗口已过':remainH>=24?`${(remainH/24).toFixed(1)} 天`:`${remainH.toFixed(1)} 小时`;
+const winPct=isOff?Math.max(0.05,Math.min(0.95,1-remainMs/Math.max(1,(winEnd-PT(Pend&&Pend.teaser&&Pend.teaser.time_utc||L.actual_utc))))):pct;
+// KPI strip — concise
+[['距上次',el.toFixed(1)+' 天',`${L.label||''} · ${L.actual_bj.slice(5,10)}`],
+ ['30天中位',S.median+' 天',`均值 ${S.mean} · n=${S.n}`],
+ ['已完成',D.events.length+' 次',`banked ${D.banked.length} · 预告不计`],
+ ['下一次',isOff?(Pend?Pend.label:'官方'):'估计',isOff?`${F.window_end_bj.slice(5)} 前`:`→ ${F.window_end_bj.slice(5)}`]]
+.forEach(([k,v,s],i)=>$('#k'+(i+1)).innerHTML=`<div class="k">${k}</div><div class="v">${v}</div><div class="q">${s}</div>${i==1?`<div class="spark">${sparkSVG(28)}</div>`:''}${i==3?`<div style="margin-top:4px"><span class="tag ${isOff?'warn':''}">${isOff?'预测 · 未落地':'估计'}</span></div>`:''}`);
+
+// Dual hero
+$('#heroDone').innerHTML=`<div class="hero-pair">
+${ringSVG(1,'✓','已重置','ok',118)}
+<div class="meta">
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div class="k">最近重置</div><span class="tag ok">已重置 · #${D.events.length}</span></div>
+  <div class="big grad-ok">${(L.label||'—').replace('（社区投票）','')}</div>
+  <div class="v" style="font-size:18px">${L.actual_bj}</div>
+  <div class="q" style="margin-top:4px">北京时间 · 间隔 ${L.gap_days!=null?L.gap_days+' 天':'—'}${L.user_confirm?' · 用户确认 '+L.user_confirm.time_bj.slice(11):''}${L.confirmation?' · '+lk(L.confirmation.url,'官宣'):''} · ${lk(L.radar_url,'Radar')}</div>
+</div></div>`;
+
+$('#heroNext').innerHTML=`<div class="hero-pair">
+${ringSVG(isOff?winPct:pct,isOff?remainLabel:el.toFixed(1)+'d',isOff?'距窗口截止':'/ '+S.median+'d 中位','warn',118)}
+<div class="meta">
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div class="k">下一次</div><span class="tag warn">${isOff?'预测 · 官方窗口':'估计窗口'}</span></div>
+  <div class="big grad-warn">${isOff&&Pend?Pend.label:'预测窗口'}</div>
+  <div class="v" style="font-size:18px">${isOff?`官方窗口 ${F.window_end_bj} 前`:`${F.window_start_bj.slice(5)} → ${F.window_end_bj.slice(5)}`}</div>
+  <div class="q" style="margin-top:4px">${isOff&&Pend?`${lk(Pend.teaser.url,'预告帖')} · ${lk(Pend.reply.url,'时点回复')} · 未计入第 ${D.events.length+1} 次`:F.hour_note||''}</div>
+  ${isOff?`<div class="cdown" style="color:var(--warn)">⏳ ${remainLabel} · 信心 ${F.confidence}</div>`:''}
+</div></div>`;
+
 // Timeline
 {const ch=D.events.filter(r=>PT(r.actual_utc)>Date.now()-16*864e5);
 const F1=BJT(F.window_end_bj),F0=isOff&&Pend?PT(Pend.teaser.time_utc):BJT(F.window_start_bj);
-const C0=BJT(D.forecast_check.window_start_bj),C1=BJT(D.forecast_check.window_end_bj);
-const t0=PT(ch[0].actual_utc)-864e5/2,t1=Math.max(F1,NOWT)+864e5/2,W=760,H=118,x=t=>20+(t-t0)/(t1-t0)*(W-40);
+const t0=PT(ch[0].actual_utc)-864e5/2,t1=Math.max(F1,NOWT)+864e5/2,W=760,H=100,x=t=>20+(t-t0)/(t1-t0)*(W-40);
 let g=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="近期重置时间轴">`;
-for(let d=BJT(new Date(t0+8*36e5).toISOString().slice(0,10)+' 00:00')+864e5,k=0;d<t1;d+=864e5,k++){g+=`<line x1=${x(d)} x2=${x(d)} y1=28 y2=76 stroke="currentColor" opacity=".06"/>`;if(k%2==0)g+=`<text x=${x(d)} y=92 text-anchor="middle">${new Date(d+8*36e5).toISOString().slice(5,10)}</text>`}
-g+=`<rect x=${x(C0)} y=38 width=${Math.max(2,x(C1)-x(C0))} height=26 rx=4 fill="none" stroke="var(--warn)" stroke-dasharray="3 2" opacity=".7"/><text x=${x(C0)+3} y=34 style="fill:var(--warn);font-size:9px">Day15 前估计（未命中）</text>`;
-g+=`<rect x=${x(F0)} y=42 width=${Math.max(2,x(F1)-x(F0))} height=18 rx=4 fill="${isOff?'var(--ok)':'var(--acc)'}" opacity=".32"/><text x=${x(F1)} y=${H-6} text-anchor="end" style="fill:${isOff?'var(--ok)':'var(--acc2)'};font-weight:700;font-size:9px">${isOff?`${Pend.label} 官方窗口→${F.window_end_bj} BJ`:'估计窗口'}</text>`;
-if(isOff&&F.window_end_bj_alt){const Fa=BJT(F.window_end_bj_alt);g+=`<line x1=${x(Fa)} x2=${x(Fa)} y1=40 y2=64 stroke="var(--mut)" stroke-dasharray="2 2"/><text x=${x(Fa)+2} y=38 style="fill:var(--mut);font-size:8px">PST备选</text>`}
-g+=`<line x1=20 x2=${W-20} y1=52 y2=52 stroke="currentColor" opacity=".2"/>`;
-ch.forEach(r=>{const X=x(PT(r.actual_utc)),c=r.label&&r.label.startsWith('Day');g+=`<circle cx=${X} cy=52 r=5.5 fill="${c?'var(--ok)':'var(--acc)'}" stroke="var(--bg)" stroke-width=2><title>${r.actual_bj} ${r.label||''}</title></circle><text x=${X} y=20 text-anchor="middle" style="font-size:9px">${(r.label||'').replace('（社区投票）','')}</text>`});
-if(Pend){const Xt=PT(Pend.teaser.time_utc);g+=`<circle cx=${x(Xt)} cy=52 r=6 fill="none" stroke="var(--warn)" stroke-width="2"><title>${Pend.label} 预告 ${Pend.teaser.time_bj}</title></circle><text x=${x(Xt)} y=20 text-anchor="middle" style="fill:var(--warn);font-size:9px;font-weight:700">${Pend.label}预告</text>`}
-g+=`<line x1=${x(NOWT)} x2=${x(NOWT)} y1=24 y2=80 stroke="var(--acc2)" stroke-width=1.5/><circle cx=${x(NOWT)} cy=52 r=3 fill="var(--acc2)"/><text x=${x(NOWT)} y=106 text-anchor="middle" style="fill:var(--acc2);font-weight:700;font-size:9px">现在</text></svg>`;
-$('#strip').innerHTML=`<h2>近期时间轴</h2>${g}<div class="q">实心点 = 已完成全局重置；空心橙点 = ${Pend?Pend.label+' 预告（未落地）':'预告'}；绿带 = 官方窗口至 ${F.window_end_bj} BJ；竖线 = 现在</div>`;}
-// Forecast check
-{const P=D.forecast_check,Es=D.estimate_superseded,Ph=Es&&Es.prior_hit;$('#check').innerHTML=`<h2>预测核对</h2>
-<div class="q">Day15 前估计（${P.made_bj}）</div><div style="font-size:12px">${P.window_start_bj} → ${P.window_end_bj}</div>
-<div class="miss" style="margin:4px 0">✗ 未命中 · 早 ${Math.round(P.miss_minutes)} 分钟 → 实际 ${P.actual_bj}</div>
-${Ph?`<div class="q" style="margin-top:8px">其后估计（${Ph.made_bj}）</div><div style="font-size:12px">${Ph.window_start_bj} → ${Ph.window_end_bj}</div><div class="q">${Ph.verdict}</div>`:''}
-${Es?`<div class="q" style="margin-top:8px">Day17 后估计（${Es.made_bj}）</div><div style="font-size:12px">${Es.window_start_bj} → ${Es.window_end_bj}</div><div class="q">${Es.verdict}</div>`:''}
-<div class="q" style="margin-top:8px"><span class="tag">当前</span> ${isOff?`以 ${Pend.label} 官方预告为准`:'估计窗口'}</div>`;}
-// Evidence pipeline
-{const st=(c,t)=>`<span class="st ${c}">${t}</span>`;
-if(isOff&&Pend){
- $('#flow').innerHTML=`<h2>证据链 · ${Pend.label} 预告（未落地）</h2><div class="flow">
-<div class="node"><b>① Tibo 预告</b><div class="q">${lk(Pend.teaser.url,Pend.teaser.time_bj)}<br>“${Pend.teaser.quote}”</div>${st('ok','已核实')}</div>
-<div class="node"><b>② 官方时点</b><div class="q">${lk(Pend.reply.url,Pend.reply.time_bj)}<br>“${Pend.reply.quote}”<br>→ ${Pend.predicted_bj}</div>${st('ok','已核实')}</div>
-<div class="node"><b>③ Radar</b><div class="q">${lk('https://codex-reset.com','codex-reset.com')} live 已收录<br>${Pend.radar_note}<br>实测落地：${U}</div>${st('mid','待落地')}</div>
-<div class="node" style="border-color:color-mix(in srgb,var(--warn) 40%,transparent)"><b>④ 结论</b><div class="q">预告中 · 非 #${D.events.length+1}</div><div class="q">最近已完成仍为 ${L.label} ${L.actual_bj}</div>${st('mid','未计入')}</div></div>`;
-}else{
- $('#flow').innerHTML=`<h2>证据链 · ${L.label||'最近一次'}</h2><div class="flow">
-${L.user_confirm?`<div class="node"><b>① Tibo 预告</b><div class="q">${lk(L.teaser.url,L.teaser.time_bj)}<br>“${L.teaser.quote}”<br>${lk(L.reply.url,L.reply.time_bj)} “${L.reply.quote}”</div>${st('ok','已核实')}</div><div class="node"><b>② 用户确认</b><div class="q">${L.user_confirm.time_bj}<br>${L.user_confirm.note}<br>Tibo Done 帖：暂无</div>${st('mid','用户确认')}</div>`:`<div class="node"><b>① Tibo X</b><div class="q">${L.confirmation?lk(L.confirmation.url,L.confirmation.time_bj)+'<br>“'+L.confirmation.quote+'”':U}</div>${L.quoted?`<div class="q">引用 ${lk(L.quoted.url,L.quoted.time_bj)}：${L.quoted.quote}</div>`:''}${st('ok','已核实')}</div>`}
-${L.user_confirm?`<div class="node"><b>③ Radar</b><div class="q">${lk('https://codex-reset.com','codex-reset.com')} live 已收录预告<br>实测落地：${U}</div>${st('mid','待补')}</div>`:`<div class="node"><b>② Radar</b><div class="q">${lk('https://codex-reset.com','codex-reset.com')} 已收录<br>实测落地：${U}</div>${st('mid','部分')}</div>`}
-<div class="node"><b>${L.user_confirm?'③b':'③'} Status</b><div class="q">${lk('https://status.openai.com','status.openai.com')}<br>本页未抓取（故障线）</div>${st('no','未覆盖')}</div>
-<div class="node" style="border-color:color-mix(in srgb,var(--acc) 40%,transparent)"><b>④ 结论</b><div class="q">全局重置 #${D.events.length}<br>${L.actual_bj}</div><div class="q">${L.actual_basis}</div>${st('ok','计入')}</div></div>`;
-}}
-// Lag + spark + basis
-const lags=D.teaser_lag_hours_challenge,ml=Math.max(...lags);
-$('#lag').innerHTML=`<h2>预告→落地延迟</h2>${lags.map((h,i)=>`<div class="q" style="display:flex;gap:8px;align-items:center"><span style="width:64px;font-variant-numeric:tabular-nums">${(D.teaser_lag_labels||[])[i]||''} · ${h}h</span><div class="bar" style="flex:1;margin:4px 0"><i style="width:${h/ml*100}%"></i></div></div>`).join('')}<div class="q" style="margin-top:4px">挑战期有预告的 ${lags.length} 次（Day15 无独立预告；Day17 取窗口上限）</div>`;
-$('#sparkcard').innerHTML=`<h2>间隔走势 · 近 20 次</h2>${sparkSVG(56)}<div class="q" style="margin-top:6px">纵轴截断于 20 天 · 全历史中位 ${A.median}d · <a href="#trend">完整趋势 →</a></div>`;
-$('#basis').innerHTML=`<h2>预测依据 <span class="tag">${isOff?'官方':'估计'}</span></h2><p class="q" style="margin:0 0 6px;color:var(--fg);font-size:12px;line-height:1.55">${F.basis}</p><div class="q">源：${(F.sources||[]).map(u=>lk(u,u.includes('status/')?u.split('/').pop():u.replace('https://',''))).join(' · ')|| (lk(L.confirmation.url,(L.label||'')+' 官宣')+' · '+lk('https://codex-reset.com','Radar'))}</div>`;
-// Banner + overview foot
-if(D.non_reset&&D.non_reset.length){$('#note').innerHTML=`<span class="tag">非重置</span><div>${D.non_reset.map(n=>`<b>${n.date_bj}</b> · ${n.summary} ${lk(n.url,'原帖')} · <b>未计入全局次数</b>`).join('<br>')}</div>`}
+for(let d=BJT(new Date(t0+8*36e5).toISOString().slice(0,10)+' 00:00')+864e5,k=0;d<t1;d+=864e5,k++){g+=`<line x1=${x(d)} x2=${x(d)} y1=24 y2=68 stroke="currentColor" opacity=".06"/>`;if(k%2==0)g+=`<text x=${x(d)} y=84 text-anchor="middle">${new Date(d+8*36e5).toISOString().slice(5,10)}</text>`}
+g+=`<rect x=${x(F0)} y=36 width=${Math.max(2,x(F1)-x(F0))} height=16 rx=4 fill="${isOff?'var(--warn)':'var(--acc)'}" opacity=".28"/><text x=${x(F1)} y=${H-4} text-anchor="end" style="fill:${isOff?'var(--warn)':'var(--acc2)'};font-weight:700;font-size:9px">${isOff?`${Pend.label} 预测→${F.window_end_bj.slice(5)}`:'估计'}</text>`;
+g+=`<line x1=20 x2=${W-20} y1=44 y2=44 stroke="currentColor" opacity=".2"/>`;
+ch.forEach(r=>{const X=x(PT(r.actual_utc)),c=r.label&&r.label.startsWith('Day');g+=`<circle cx=${X} cy=44 r=5.5 fill="${c?'var(--ok)':'var(--acc)'}" stroke="var(--bg)" stroke-width=2><title>${r.actual_bj} ${r.label||''} 已重置</title></circle><text x=${X} y=18 text-anchor="middle" style="font-size:9px">${(r.label||'').replace('（社区投票）','')}</text>`});
+if(Pend){const Xt=PT(Pend.teaser.time_utc);g+=`<circle cx=${x(Xt)} cy=44 r=6 fill="none" stroke="var(--warn)" stroke-width="2"><title>${Pend.label} 预测 ${Pend.teaser.time_bj}</title></circle><text x=${x(Xt)} y=18 text-anchor="middle" style="fill:var(--warn);font-size:9px;font-weight:700">${Pend.label}</text>`}
+g+=`<line x1=${x(NOWT)} x2=${x(NOWT)} y1=20 y2=70 stroke="var(--acc2)" stroke-width=1.5/><circle cx=${x(NOWT)} cy=44 r=3 fill="var(--acc2)"/><text x=${x(NOWT)} y=96 text-anchor="middle" style="fill:var(--acc2);font-weight:700;font-size:9px">现在</text></svg>`;
+$('#strip').innerHTML=`<h2>近期时间轴</h2>${g}<div class="q">实心绿 = 已重置 · 空心橙 = 预测未落地 · 橙带 = 官方窗口</div>`;}
+$('#sparkcard').innerHTML=`<h2>间隔走势 · 近 20 次</h2>${sparkSVG(64)}<div class="q" style="margin-top:6px">截断 20 天 · 全史中位 ${A.median}d · <a href="#trend">趋势 →</a></div>`;
+
+// Comparison table
+{const cut=NOWT-14*864e5;
+ const rows=[...D.events].reverse();
+ const gaps=D.events.filter(r=>r.gap_days!=null).slice(-24).map(r=>Math.min(r.gap_days,20));
+ const spark=(()=>{const W=640,H=36,m=Math.max(...gaps,1);
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" preserveAspectRatio="none" aria-label="间隔火花线"><polyline fill="none" stroke="var(--acc2)" stroke-width="1.6" points="${gaps.map((v,i)=>`${i/(gaps.length-1)*W},${H-2-v/m*(H-4)}`).join(' ')}"/></svg>`})();
+ $('#cmp').innerHTML=`<h2>重置对比 <span class="tag ok">近 2 周高亮</span></h2>
+ <div style="margin-bottom:8px">${spark}<div class="q">近 ${gaps.length} 次间隔（天）火花线</div></div>
+ <div class="cmp-wrap"><table class="cmp"><thead><tr>
+  <th>节点</th><th>实际时间 (BJ)</th><th>间隔 (天)</th><th>时段 (BJ)</th><th>预告→落地</th><th>来源</th>
+ </tr></thead><tbody>
+ ${rows.map(r=>{
+   const hi=PT(r.actual_utc)>=cut?' hi':'';
+   const tod=todBucket(r.actual_bj);
+   const src=srcOf(r);
+   const lab=(r.label||'—').replace('（社区投票）','·投票');
+   const lag=r.lag_teaser_h!=null?`<span class="num">${r.lag_teaser_h} h</span>`:'<span class="u">—</span>';
+   return `<tr class="${hi}"><td><b>${lab}</b></td><td>${r.actual_bj}</td><td class="num">${r.gap_days!=null?r.gap_days:'—'}</td><td><span class="tod ${tod.cls}"><i></i>${tod.lab} ${r.actual_bj.slice(11,16)||''}</span></td><td>${lag}</td><td><span class="tag ${src.c}">${src.t}</span></td></tr>`;
+ }).join('')}
+ </tbody></table></div>
+ <div class="q" style="margin-top:8px">按时间新→旧 · 来源：官方 Done / 用户确认 / Radar 归档 · 预测中的 ${Pend?Pend.label:'下一次'} 未列入（尚未落地）</div>`;}
+
+// Lag — compact
+const lags=D.teaser_lag_hours_challenge,ml=Math.max(...lags,1);
+$('#lag').innerHTML=`<h2>预告→落地</h2>${lags.map((h,i)=>`<div class="q" style="display:flex;gap:8px;align-items:center"><span style="width:72px;font-variant-numeric:tabular-nums">${(D.teaser_lag_labels||[])[i]||''}</span><div class="bar" style="flex:1;margin:3px 0"><i style="width:${h/ml*100}%"></i></div><span style="width:40px;text-align:right">${h}h</span></div>`).join('')}`;
+
+// Forecast check — compact, no long prose
+{const P=D.forecast_check,Es=D.estimate_superseded,Ph=Es&&Es.prior_hit;
+ $('#check').innerHTML=`<h2>预测核对</h2>
+ <div class="q">Day15 估计</div><div class="miss" style="font-size:12px">✗ 早 ${Math.round(P.miss_minutes)} 分 → ${P.actual_bj.slice(5)}</div>
+ ${Ph?`<div class="q" style="margin-top:8px">Day16–17 估计</div><div class="q" style="color:var(--ok)">✓ ${Ph.verdict.slice(0,18)}…</div>`:''}
+ ${Es?`<div class="q" style="margin-top:8px">Day17 后估计</div><div class="q">已被 ${Pend?Pend.label:'官方'} 预告取代</div>`:''}
+ <div style="margin-top:10px"><span class="tag warn">当前</span> <span class="q">${isOff?`${Pend.label} 官方预测 · 未落地`:'估计窗口'}</span></div>`;}
+
+// Evidence — compact chips, no quote walls
+{const st=(c,t)=>`<span class="tag ${c}" style="margin:2px 4px 2px 0">${t}</span>`;
+ if(isOff&&Pend){
+  $('#flow').innerHTML=`<h2>证据 · ${Pend.label}</h2>
+  <div>${st('ok','① 预告核实')} ${st('ok','② 时点核实')} ${st('warn','③ Radar 待落地')} ${st('warn','④ 未计入')}</div>
+  <div class="q" style="margin-top:8px">${lk(Pend.teaser.url,'预告')} · ${lk(Pend.reply.url,'回复')} · 最近已完成仍为 ${L.label}</div>
+  <details class="fold"><summary>改判条件</summary><div class="q" style="margin-top:4px">${F.change}</div></details>`;
+ }else{
+  $('#flow').innerHTML=`<h2>证据 · ${L.label||'最近'}</h2>
+  <div>${st('ok','已计入 #'+D.events.length)} ${L.user_confirm?st('warn','用户确认'):st('ok','官方')} ${st('acc','Radar')}</div>
+  <div class="q" style="margin-top:8px">${L.actual_bj}</div>`;
+ }}
+
+// Basis moved to other tab
+$('#basis').innerHTML=`<h2>预测依据 <span class="tag ${isOff?'warn':''}">${isOff?'官方预告':'估计'}</span></h2>
+<p class="q" style="margin:0 0 6px;color:var(--fg);font-size:12px;line-height:1.55">${F.basis}</p>
+<div class="q">源：${(F.sources||[]).map(u=>lk(u,u.includes('status/')?u.split('/').pop():u.replace('https://',''))).join(' · ')}</div>
+<details class="fold" style="margin-top:10px"><summary>Hour note / 改判</summary><div class="q" style="margin-top:4px">${F.hour_note||''}<br>${F.change||''}</div></details>`;
+
+if(D.non_reset&&D.non_reset.length){$('#note').innerHTML=`<span class="tag">非重置</span><div>${D.non_reset.map(n=>`<b>${n.date_bj}</b> · ${n.summary} ${lk(n.url,'原帖')}`).join('<br>')}</div>`}
 else $('#note').style.display='none';
-$('#ovfoot').innerHTML=`<span>生成于 ${D.generated_at_bj}（北京时间）· ${isOff?'当前为<b>官方预告</b>（未计入）':'预测均为<b>估计</b>'} · unknown = 未能核实</span><span><a href="#other">数据缺口 / 图例 →</a> · <a href="#history">全部 ${D.events.length} 次 →</a></span>`;
+$('#ovfoot').innerHTML=`<span>生成于 ${D.generated_at_bj}（北京时间）· <b style="color:var(--ok)">已重置</b> ≠ <b style="color:var(--warn)">预测</b> · unknown = 未能核实</span><span><a href="#other">依据 / 缺口 →</a> · <a href="#history">全部 ${D.events.length} 次 →</a></span>`;
+
 // History
 const fmt=h=>h==null?U:(h>0?'+':'')+h.toFixed(1)+' h';
 function rows(f){const ev=[...D.events].reverse().filter(r=>f=='all'||(f=='ch'?r.teaser:r.window));
 const pendHtml=(Pend&&(f=='all'||f=='ch'))?`<div class="ev" style="border-color:color-mix(in srgb,var(--warn) 45%,transparent)">
-<div class="d"><div class="t">${Pend.teaser.time_bj.slice(0,10)}<span class="chip" style="background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)">${Pend.label} · 未落地</span></div><div class="q">${Pend.radar_note}</div></div>
+<div class="d"><div class="t">${Pend.teaser.time_bj.slice(0,10)}<span class="chip" style="background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)">${Pend.label} · 预测未落地</span></div><div class="q">${Pend.radar_note}</div></div>
 <div><div class="lab">预测依据</div>${lk(Pend.teaser.url,Pend.teaser.time_bj)}<div class="q">“${Pend.teaser.quote}”</div>${lk(Pend.reply.url,Pend.reply.time_bj)}<div class="q">“${Pend.reply.quote}”</div><div class="q">${Pend.pred_note}</div><div class="lab" style="margin-top:4px">预测时间</div>${Pend.predicted_bj}<div class="q">备选 ${Pend.predicted_bj_alt}</div></div>
 <div><div class="lab">实际时间</div>${U}<div class="q">${Pend.actual_basis}</div></div>
 <div><div class="lab">偏差</div>${U}<div class="lab" style="margin-top:4px">间隔</div>—</div></div>`:'';
-$('#cnt').textContent=`显示 ${ev.length+(pendHtml?1:0)} / ${D.events.length}${Pend?' + 预告':''}`;
+$('#cnt').textContent=`显示 ${ev.length+(pendHtml?1:0)} / ${D.events.length}${Pend?' + 预测':''}`;
 $('#tb').innerHTML=pendHtml+ev.map(r=>`<div class="ev ${r.label&&r.label.startsWith('Day')?'ch':''}">
-<div class="d"><div class="t">${r.actual_bj.slice(0,10)}${r.label?`<span class="chip">${r.label}</span>`:''}</div><div class="q">${lk(r.radar_url,r.radar_summary.slice(0,80)+'…')}</div></div>
+<div class="d"><div class="t">${r.actual_bj.slice(0,10)}${r.label?`<span class="chip">${r.label}</span>`:''}<span class="chip" style="background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)">已重置</span></div><div class="q">${lk(r.radar_url,r.radar_summary.slice(0,80)+'…')}</div></div>
 <div><div class="lab">预测依据</div>${r.quoted?`<div class="q">引用 ${lk(r.quoted.url,r.quoted.time_bj)}：${r.quoted.quote}</div>`:''}${r.teaser?`${lk(r.teaser.url,r.teaser.time_bj)}<div class="q">“${r.teaser.quote}”</div>`:''}<div class="q">${r.pred_note}</div><div class="lab" style="margin-top:4px">预测时间</div>${r.predicted_bj=='unknown'?U:r.predicted_bj}</div>
 <div><div class="lab">实际时间</div>${r.actual_bj}<div class="q">${r.actual_basis}</div>${r.confirmation?`<div class="q">确认 ${lk(r.confirmation.url,r.confirmation.time_bj)}</div>`:''}${r.lag_teaser_h!=null?`<div class="q">预告后 ${r.lag_teaser_h} h</div>`:''}</div>
 <div><div class="lab">偏差</div>${fmt(r.dev_h)}<div class="lab" style="margin-top:4px">间隔</div>${r.gap_days!=null?r.gap_days+' 天':'—'}</div></div>`).join('')}
@@ -1703,8 +1758,8 @@ $('#chart').innerHTML=s;
 $('#bk').innerHTML=D.banked.map(b=>`<div><b>${b.date_bj}</b> · ${b.summary}<br>${b.url?lk(b.url,'原帖'):'<span class="u">无 X 原帖（Radar 实测）</span>'}</div>`).join('');
 $('#gaps').innerHTML=D.gaps.map(x=>`<li>${x}</li>`).join('');
 $('#nr').innerHTML=`<h2>近期非重置公告</h2>${(D.non_reset||[]).map(n=>`<div class="q" style="margin-bottom:8px"><b>${n.date_bj}</b> · ${n.kind||''}<br>${n.summary}<br>${lk(n.url,'原帖')} · <span class="tag">未计入全局重置</span></div>`).join('')||'<div class="q">暂无</div>'}`;
-$('#ft').innerHTML=`<h2>数据源与图例</h2>数据源：${D.sources.map(u=>lk(u,u)).join(' · ')}　|　共 ${D.events.length} 次全局重置（Radar 归档 + X 原帖核验）、${D.banked.length} 条 banked　|　预测均为估计；unknown = 未能核实　|　生成于 ${D.generated_at_bj}（北京时间）`;
-$('#sf').innerHTML=`生成于 ${D.generated_at_bj}（北京时间）· 预测均为估计，unknown = 未能核实 · <a href="#other">数据源</a>`;
+$('#ft').innerHTML=`<h2>数据源与图例</h2>数据源：${D.sources.map(u=>lk(u,u)).join(' · ')}　|　共 ${D.events.length} 次全局重置（Radar 归档 + X 原帖核验）、${D.banked.length} 条 banked　|　<b style="color:var(--ok)">已重置</b> = 已计入；<b style="color:var(--warn)">预测</b> = 官方/估计窗口未落地　|　生成于 ${D.generated_at_bj}（北京时间）`;
+$('#sf').innerHTML=`生成于 ${D.generated_at_bj}（北京时间）· 已重置 ≠ 预测 · unknown = 未能核实 · <a href="#other">数据源</a>`;
 const TABS=['overview','trend','history','other'];
 function route(){let t=location.hash.slice(1);if(t=='forecast'){history.replaceState(null,'','#overview');t='overview'}if(!TABS.includes(t))t='overview';
  document.querySelectorAll('[data-tab]').forEach(e=>e.classList.toggle('show',e.dataset.tab==t));
