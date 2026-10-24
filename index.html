@@ -1671,7 +1671,7 @@ $('#heroNext').innerHTML=`<div class="hero-pair">
 ${ringSVG(isOff?winPct:pct,isOff?remainLabel:el.toFixed(1)+'d',isOff?'距窗口截止':'/ '+S.median+'d 中位','warn',118)}
 <div class="meta">
   <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div class="k">下一次</div><span class="tag warn">${isOff?'预测 · 官方窗口':'估计窗口'}</span></div>
-  <div class="big grad-warn">${isOff&&Pend?Pend.label:'预测窗口'}</div>
+  <div class="big grad-warn">${isOff&&Pend?Pend.label:'估计窗口'}</div>
   <div class="v" style="font-size:18px">${isOff?`官方窗口 ${F.window_end_bj} 前`:`${F.window_start_bj.slice(5)} → ${F.window_end_bj.slice(5)}`}</div>
   <div class="q" style="margin-top:4px">${isOff&&Pend?`${lk(Pend.teaser.url,'预告帖')} · ${lk(Pend.reply.url,'时点回复')} · 未计入第 ${D.events.length+1} 次`:F.hour_note||''}</div>
   ${isOff?`<div class="cdown" style="color:var(--warn)">⏳ ${remainLabel} · 信心 ${F.confidence}</div>`:''}
