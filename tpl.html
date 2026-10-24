@@ -236,7 +236,7 @@ $('#lag').innerHTML=`<h2>预告→落地</h2>${lags.map((h,i)=>`<div class="q" s
  $('#check').innerHTML=`<h2>预测核对</h2>
  <div class="q">Day15 估计</div><div class="miss" style="font-size:12px">✗ 早 ${Math.round(P.miss_minutes)} 分 → ${P.actual_bj.slice(5)}</div>
  ${Ph?`<div class="q" style="margin-top:8px">Day16–17 估计</div><div class="q" style="color:var(--ok)">✓ ${Ph.verdict.slice(0,18)}…</div>`:''}
- ${Es?`<div class="q" style="margin-top:8px">Day17 后估计</div><div class="q">已被 ${Pend?Pend.label:'官方'} 预告取代</div>`:''}
+ ${Es?`<div class="q" style="margin-top:8px">Day17 后估计</div><div class="q">已被 Day18 官方预告取代</div>`:''}
  <div style="margin-top:10px"><span class="tag warn">当前</span> <span class="q">${isOff?`${Pend.label} 官方预测 · 未落地`:'估计窗口'}</span></div>`;}
 
 // Evidence — compact chips, no quote walls
