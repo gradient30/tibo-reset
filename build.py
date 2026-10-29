@@ -99,27 +99,71 @@ if not (len(sys.argv)>1 and sys.argv[1]=='render'):
   since=(NOW-last).total_seconds()/86400
   ch=[r for r in ev if r['label'] and r['label'].startswith('Day')]
   chg=[r['gap_days'] for r in ch[1:]]
+  # Day 20 (#59): Done 2026-10-25 14:06 BJ; reply "By midnight PST"; Radar measured ~14:10 BJ
+  d20_teaser_at=P('2026-10-25T03:39:31Z'); d20_reply_at=P('2026-10-25T03:40:04Z'); d20_done_at=P('2026-10-25T06:06:16Z'); d20_pred=P('2026-10-25T07:00:00Z')
+  r20=dict(id='2114200152701575656',radar_url=X+'2114200152701575656',radar_summary='Day 20 of the 28-day ship-or-reset series: "Rest and reset" + reply "By midnight PST". Done: "It is all propagated." Radar measured landing ~06:10Z.',reasons=[],
+    actual_utc=d20_done_at.isoformat(),actual_bj=bj(d20_done_at),actual_basis='Tibo Done 帖时间（It is all propagated）；Radar 实测约 06:10Z / 14:10 BJ',
+    window=dict(label='By midnight PST',end_at=d20_pred.isoformat()),label='Day 20',
+    teaser=dict(url=X+'2114200152701575656',time_bj=bj(d20_teaser_at),quote='Day 20/ Rest and reset'),
+    reply=dict(url=X+'2114200291319124163',time_bj=bj(d20_reply_at),quote='By midnight PST'),
+    predicted_bj=bj(d20_pred)+'（截止）',pred_note='官方窗口：By midnight PST（主读 PDT 当日 24:00 = 15:00 BJ）',
+    lag_teaser_h=round((d20_done_at-d20_teaser_at).total_seconds()/3600,2),dev_h=round((d20_done_at-d20_pred).total_seconds()/3600,2),
+    confirmation=dict(url=X+'2114237083652882932',time_bj=bj(d20_done_at),quote='It is all propagated. Enjoy some mad codexing tomorrow. Fun week ahead too.'),
+    gap_days=round((d20_done_at-last).total_seconds()/86400,2))
+  ev.append(r20); last=d20_done_at
+  # Day 21 (#60): "today is a reset" — no Done; Radar measured landing 14:08 BJ
+  d21_teaser_at=P('2026-10-26T05:21:22Z'); d21=P('2026-10-26T06:08:46Z')
+  r21=dict(id='2114588174249071102',radar_url=X+'2114588174249071102',radar_summary='Day 21 of the 28-day ship-or-reset series: "Wonder what happens the remaining seven days. But today is a reset." No separate Done post; Radar operator-observed landing 06:08:46Z.',reasons=[],
+    actual_utc=d21.isoformat(),actual_bj=bj(d21),actual_basis='Radar 实测落地（operator-observed 06:08:46Z）；Tibo 无独立 Done 帖，预告即当日重置',
+    window=None,label='Day 21',
+    teaser=dict(url=X+'2114588174249071102',time_bj=bj(d21_teaser_at),quote='Day 21/ Wonder what happens the remaining seven days. But today is a reset.'),
+    predicted_bj='unknown',pred_note='无独立时点窗口（「today is a reset」即日落地）',
+    lag_teaser_h=round((d21-d21_teaser_at).total_seconds()/3600,2),dev_h=None,confirmation=None,
+    gap_days=round((d21-last).total_seconds()/86400,2))
+  ev.append(r21); last=d21
+  # Day 23 (#61): Done 2026-10-28 14:29 BJ; reply "Lands by midnight PST."
+  d23_teaser_at=P('2026-10-28T02:42:53Z'); d23_reply_at=P('2026-10-28T02:43:38Z'); d23_done_at=P('2026-10-28T06:29:38Z'); d23_pred=P('2026-10-28T07:00:00Z')
+  r23=dict(id='2115273064481218829',radar_url=X+'2115273064481218829',radar_summary='Day 23 of the 28-day ship-or-reset series: teaser "today is a reset" + reply "Lands by midnight PST." Done: "And it\'s done." Radar measured ~06:35Z.',reasons=['launch'],
+    actual_utc=d23_done_at.isoformat(),actual_bj=bj(d23_done_at),actual_basis='Tibo Done 帖时间（And it\'s done. See you tomorrow for some good news.）；Radar 实测约 06:35Z / 14:35 BJ',
+    window=dict(label='Lands by midnight PST',end_at=d23_pred.isoformat()),label='Day 23',
+    teaser=dict(url=X+'2115273064481218829',time_bj=bj(d23_teaser_at),quote='Day 23/ Much requested iCloud Main & Calendar plugins. Just kidding, today is a reset. Still much requested though!'),
+    reply=dict(url=X+'2115273253711409208',time_bj=bj(d23_reply_at),quote='Lands by midnight PST.'),
+    predicted_bj=bj(d23_pred)+'（截止）',pred_note='官方窗口：Lands by midnight PST（主读 PDT 当日 24:00 = 15:00 BJ）',
+    lag_teaser_h=round((d23_done_at-d23_teaser_at).total_seconds()/3600,2),dev_h=round((d23_done_at-d23_pred).total_seconds()/3600,2),
+    confirmation=dict(url=X+'2115330127886463244',time_bj=bj(d23_done_at),quote="And it's done. See you tomorrow for some good news."),
+    gap_days=round((d23_done_at-last).total_seconds()/86400,2))
+  ev.append(r23); last=d23_done_at
+  r30=[r for r in ev if P(r['actual_utc'])>NOW-dt.timedelta(days=30)]
+  s30=stats(r30); sall=stats(ev)
+  hrs=[P(r['actual_utc']).astimezone(BJ).hour for r in r30]
+  lagr=[r for r in ev if r['lag_teaser_h'] is not None and r['label'] and r['label'].startswith('Day')]
+  lags=[r['lag_teaser_h'] for r in lagr]; lag_labels=[r['label'] for r in lagr]
+  since=(NOW-last).total_seconds()/86400
+  ch=[r for r in ev if r['label'] and r['label'].startswith('Day')]
+  chg=[r['gap_days'] for r in ch[1:]]
   pending=None
   # Estimate: start = PT-day start containing last + min challenge gap; width 3 days
   PDT=dt.timezone(dt.timedelta(hours=-7))
   t0=(last+dt.timedelta(days=min(chg))).astimezone(PDT).replace(hour=0,minute=0,second=0,microsecond=0)
   t1=t0+dt.timedelta(days=3)
   fc=dict(kind='estimate',window_start_bj=bj(t0),window_end_bj=bj(t1),confidence='低-中',label='估计（非官方）',
-    basis='估计，非官方。挑战期已兑现 '+'/'.join(r['label'].replace('Day ','').replace('（社区投票）','') for r in ch)+'，间隔 '+'/'.join(str(g) for g in chg)+' 天（中位 '+str(round(st.median(chg),2))+'，最短 '+str(min(chg))+'）；近 30 天中位 '+str(s30['median'])+' 天。最近 Day18 于 '+bj(last)+' 前落地（官方窗口；用户 10-24 08:00 确认，无 Tibo Done 帖）。Day19（10-24 07:12）为小更新 ship，非重置。窗口起点＝上次＋最短间隔所在 PT 日开始，宽 3 天。',
+    basis='估计，非官方。挑战期已兑现 '+'/'.join(r['label'].replace('Day ','').replace('（社区投票）','') for r in ch)+'，间隔 '+'/'.join(str(g) for g in chg)+' 天（中位 '+str(round(st.median(chg),2))+'，最短 '+str(min(chg))+'）；近 30 天中位 '+str(s30['median'])+' 天。最近 Day23 于 '+bj(last)+' 落地（Tibo Done；Radar 实测约 14:35 BJ）。Day19/22/24 为产品 ship，非重置；Day20/21 亦为全局重置。窗口起点＝上次＋最短间隔所在 PT 日开始，宽 3 天。',
     change='出现「Day N/ Reset」帖 → 改为官方窗口；若更早重置，本窗口提前失效；窗口过去仍无帖则撤回，不顺延。',
     hour_note='近 30 天落地时刻（北京）：'+str(sorted(hrs))+' — 多在 12–15 点或 01 点前后（Pacific 上午），不给固定时点',
     sources=['https://x.com/thsottiaux','https://codex-reset.com'])
-  estimate_superseded=dict(made_bj='2026-10-23 03:06',window_start_bj='2026-10-24 15:00',window_end_bj='2026-10-27 15:00',
-    verdict='已被 Day18 官方预告取代；Day18 实际早于该估计窗口约 14 小时',confidence='低-中',
+  estimate_superseded=dict(made_bj='2026-10-24 08:01',window_start_bj='2026-10-24 15:00',window_end_bj='2026-10-27 15:00',
+    verdict='命中：Day20 于 2026-10-25 14:06 BJ 落地，位于该估计窗口内；随后 Day21/23 继续重置',confidence='低-中',
     prior_hit=dict(made_bj='2026-10-21 09:58',window_start_bj='2026-10-21 15:00',window_end_bj='2026-10-24 15:00',
       verdict='命中：Day17 于 2026-10-23 01:00 BJ 前落地，位于该估计窗口内（期间被官方预告取代）',confidence='低-中'))
   data=dict(generated_at_bj=bj(NOW),sources=['https://x.com/thsottiaux','https://codex-reset.com/api/timeline','https://status.openai.com'],
    last_reset=ev[-1],days_since_last=round(since,2),stats_30d=s30,stats_all=sall,teaser_lag_hours_challenge=lags,teaser_lag_labels=lag_labels,forecast=fc,forecast_check=prev,estimate_superseded=estimate_superseded,pending=pending,events=ev,
-   gaps=['status.openai.com 未纳入（仅作故障线，本页未抓取）','多数早期事件只有确认/官宣时间，无独立预告帖，预测时间=unknown','Day 10 未在 X 找到 Tibo 完成帖；实际时间取 Radar 实测 06:13Z','Radar 归档的 Day 8/10/13 时间为 Radar 实测落地时间，非确认帖时间','2026-03-04 的事件仅覆盖约 9% 用户，Radar 仍记为 reset，保留','静默重置仅 2026-08-25 一次被 Radar 收录；其他静默重置未知','banked reset 单独列出，不计入间隔','Day 15（10-20）Radar 只收录了官宣帖、没有实测落地时间，实际时间取帖子时间','2026-10-21 01:10 的 credits 补偿帖（约 4 万账户账单限额错误）不是全局重置，未计入次数','Day 17 已计入 #57：Radar/Tibo 尚无落地确认帖，依据为官方窗口（10:00 PDT = 01:00 BJ 前）＋用户 2026-10-23 03:05 BJ 确认额度刷新；实际时间取窗口上限','Day 18 已计入 #58：Tibo 无 Done 帖（已查 X 至 10-24 08:00），依据为官方窗口（10:00 PDT = 01:00 BJ 前）＋用户 2026-10-24 08:00 BJ 确认；实际时间取窗口上限'],
+   gaps=['status.openai.com 未纳入（仅作故障线；本页核对时 All Systems Operational）','多数早期事件只有确认/官宣时间，无独立预告帖，预测时间=unknown','Day 10 未在 X 找到 Tibo 完成帖；实际时间取 Radar 实测 06:13Z','Radar 归档的 Day 8/10/13 时间为 Radar 实测落地时间，非确认帖时间','2026-03-04 的事件仅覆盖约 9% 用户，Radar 仍记为 reset，保留','静默重置仅 2026-08-25 一次被 Radar 收录；其他静默重置未知','banked reset 单独列出，不计入间隔','Day 15（10-20）实际时间取官宣帖时间','2026-10-21 01:10 的 credits 补偿帖（约 4 万账户账单限额错误）不是全局重置，未计入次数','Day 17 已计入 #57：官方窗口上限 01:00 BJ＋用户确认；Radar 后补实测约 01:10 BJ','Day 18 已计入 #58：官方窗口上限 01:00 BJ＋用户确认；Radar 后补实测约 01:40 BJ','Day 20 已计入 #59：Tibo Done 14:06 BJ（Radar 实测约 14:10 BJ）；窗口 midnight PST','Day 21 已计入 #60：无 Done 帖，取 Radar 实测 14:08 BJ；预告「today is a reset」','Day 22/24 为产品更新（Terra / Text your dot），非重置','Day 23 已计入 #61：Tibo Done 14:29 BJ（Radar 实测约 14:35 BJ）；窗口 midnight PST'],
    banked=[dict(date_bj=bj(P(e['announced_at'])),summary=e['summary'],url=e['url']) for e in radar['events'] if e['type']=='credits'],
    non_reset=[dict(date_bj='2026-10-21 01:10',kind='credits_compensation',summary='约 4 万账户周末账单限额配置错误已修复；受影响用户获 credits 补偿。这不是全局重置。',url='https://x.com/thsottiaux/status/2112592264686149749'),
               dict(date_bj='2026-10-23 12:47',kind='product_ship_teaser',summary='Day18 回复中的「small ship」指同日小产品发布，不是 credits/banked 额度包；Day18 重置已于 10-24 01:00 BJ 前落地。',url='https://x.com/thsottiaux/status/2113492502355562875'),
-              dict(date_bj='2026-10-24 07:12',kind='product_ship',summary='Day19/ Small updates（dots 通话、推理切换不失效缓存、codex cli 更新）——ship 日，非重置。',url='https://x.com/thsottiaux/status/2113770573994299544')])
+              dict(date_bj='2026-10-24 07:12',kind='product_ship',summary='Day19/ Small updates（dots 通话、推理切换不失效缓存、codex cli 更新）——ship 日，非重置。',url='https://x.com/thsottiaux/status/2113770573994299544'),
+              dict(date_bj='2026-10-27 03:24',kind='product_ship',summary='Day22/ Terra is back（GPT-6.1 Terra 模型发布）——ship 日，非重置。',url='https://x.com/thsottiaux/status/2114800277677092936'),
+              dict(date_bj='2026-10-29 09:49',kind='product_ship',summary='Day24/ Text your dot（iMessage/RCS 文本你的 dot）——产品更新，非重置。',url='https://x.com/thsottiaux/status/2115622002581188681')])
   json.dump(data,open('data.json','w'),ensure_ascii=False,indent=1)
   print(s30,sall,lags,fc,len(ev))
 d=open('data.json').read();open('index.html','w').write(open('tpl.html').read().replace('__DATA__',d));print('rendered index.html')
