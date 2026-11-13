@@ -142,28 +142,55 @@ if not (len(sys.argv)>1 and sys.argv[1]=='render'):
   ch=[r for r in ev if r['label'] and r['label'].startswith('Day')]
   chg=[r['gap_days'] for r in ch[1:]]
   pending=None
+  # Banked (not a Day-N global usage reset): teaser 11-11, activated 11-13 05:59 BJ; Radar monitoring accounts observed 06:28 BJ; no Tibo Done as of board gen
+  bp=dict(kind='banked',status='activated_soon',label='Banked reset',counted=False,
+    teaser=dict(url=X+'2120410480204525936',time_bj='2026-11-11 14:57',time_utc='2026-11-11T06:57:08Z',quote='Thursday is feeling codexy to me. Perhaps also a good time for a banked reset.'),
+    parent=dict(url=X+'2120410006273380750',time_bj='2026-11-11 14:55',quote="It's been a while without resets. Maybe I should come back out of the basement"),
+    announcement=dict(url=X+'2120999993079451919',time_bj='2026-11-13 05:59',time_utc='2026-11-12T21:59:39Z',quote='the banked reset has been activated and should land in everyones accounts sometime soon!'),
+    radar=dict(time_bj='2026-11-13 06:28',time_utc='2026-11-12T22:28:26Z',summary='The banked reset Tibo announced landed on our monitoring accounts.',official_done=False),
+    note='储备额度发放，不是 Day-N 全局用量重置，不计入第 62 次。已激活，官方称即将到账；Radar 监测号约 06:28 BJ 已观察到，尚无 Tibo Done 帖。')
   # Estimate: start = PT-day start containing last + min challenge gap; width 3 days
+  # No new global resets since Day23 — keep last + same estimate logic; do not roll the window forward.
   PDT=dt.timezone(dt.timedelta(hours=-7))
   t0=(last+dt.timedelta(days=min(chg))).astimezone(PDT).replace(hour=0,minute=0,second=0,microsecond=0)
   t1=t0+dt.timedelta(days=3)
+  withdrawn = pending is None and t1 < NOW
   fc=dict(kind='estimate',window_start_bj=bj(t0),window_end_bj=bj(t1),confidence='低-中',label='估计（非官方）',
-    basis='估计，非官方。挑战期已兑现 '+'/'.join(r['label'].replace('Day ','').replace('（社区投票）','') for r in ch)+'，间隔 '+'/'.join(str(g) for g in chg)+' 天（中位 '+str(round(st.median(chg),2))+'，最短 '+str(min(chg))+'）；近 30 天中位 '+str(s30['median'])+' 天。最近 Day23 于 '+bj(last)+' 落地（Tibo Done；Radar 实测约 14:35 BJ）。Day19/22/24 为产品 ship，非重置；Day20/21 亦为全局重置。窗口起点＝上次＋最短间隔所在 PT 日开始，宽 3 天。',
-    change='出现「Day N/ Reset」帖 → 改为官方窗口；若更早重置，本窗口提前失效；窗口过去仍无帖则撤回，不顺延。',
+    withdrawn=withdrawn,
+    withdrawn_note=('估计窗口已过且未出现新的全局重置，已撤回，不顺延。' if withdrawn else None),
+    basis='估计，非官方。挑战期已兑现 '+'/'.join(r['label'].replace('Day ','').replace('（社区投票）','') for r in ch)+'，间隔 '+'/'.join(str(g) for g in chg)+' 天（中位 '+str(round(st.median(chg),2))+'，最短 '+str(min(chg))+'）；近 30 天中位 '+str(s30['median'])+' 天。最近全局仍为 Day23（'+bj(last)+'，Tibo Done；Radar 实测约 14:35 BJ）。截至看板生成时未发现新的 Day-N 全局用量重置，故不重算窗口。Day19/22/24/25/26 为产品或额度政策（Day25 为 Pro/Business 限额加倍），非全局重置；Day26 预告随后两日为 banked，已分别在 11-01、11-02 落地（Banked 1/2、Day28 Banked 2/2），不计入全局次数。窗口起点＝上次＋最短间隔所在 PT 日开始，宽 3 天。'+(' 该窗口已过期并撤回，不顺延。' if withdrawn else ''),
+    change='出现「Day N/ Reset」帖 → 改为官方窗口；若更早重置，本窗口提前失效；窗口过去仍无帖则撤回，不顺延。Banked reset 单独展示，不改全局估计、不计入次数。',
     hour_note='近 30 天落地时刻（北京）：'+str(sorted(hrs))+' — 多在 12–15 点或 01 点前后（Pacific 上午），不给固定时点',
     sources=['https://x.com/thsottiaux','https://codex-reset.com'])
   estimate_superseded=dict(made_bj='2026-10-24 08:01',window_start_bj='2026-10-24 15:00',window_end_bj='2026-10-27 15:00',
     verdict='命中：Day20 于 2026-10-25 14:06 BJ 落地，位于该估计窗口内；随后 Day21/23 继续重置',confidence='低-中',
     prior_hit=dict(made_bj='2026-10-21 09:58',window_start_bj='2026-10-21 15:00',window_end_bj='2026-10-24 15:00',
       verdict='命中：Day17 于 2026-10-23 01:00 BJ 前落地，位于该估计窗口内（期间被官方预告取代）',confidence='低-中'))
+  BANKED_LINK={
+    '2116621096580065504':dict(url=X+'2116692529970311254',tibo_bj='2026-11-01 08:43',tibo_quote='Banked 1/2'),
+    '2117022101404096435':dict(url=X+'2117035794678546764',tibo_bj='2026-11-02 07:27',tibo_quote='Day 28/ Banked 2/2'),
+  }
+  PENDING_BANKED={'2120999993079451919','2121007235465577607'}
+  banked=[]
+  for e in radar['events']:
+    if e['type']!='credits' or e['id'] in PENDING_BANKED: continue
+    item=dict(date_bj=bj(P(e['announced_at'])),summary=e['summary'],url=e.get('url'))
+    meta=BANKED_LINK.get(e['id'])
+    if meta:
+      item['url']=meta['url']; item['tibo_bj']=meta['tibo_bj']; item['tibo_quote']=meta['tibo_quote']
+      item['summary']=meta['tibo_quote']+' — Radar 监测号于 '+item['date_bj']+' 观察到落地；Tibo 于 '+meta['tibo_bj']+' 官宣。'
+    banked.append(item)
   data=dict(generated_at_bj=bj(NOW),sources=['https://x.com/thsottiaux','https://codex-reset.com/api/timeline','https://status.openai.com'],
-   last_reset=ev[-1],days_since_last=round(since,2),stats_30d=s30,stats_all=sall,teaser_lag_hours_challenge=lags,teaser_lag_labels=lag_labels,forecast=fc,forecast_check=prev,estimate_superseded=estimate_superseded,pending=pending,events=ev,
-   gaps=['status.openai.com 未纳入（仅作故障线；本页核对时 All Systems Operational）','多数早期事件只有确认/官宣时间，无独立预告帖，预测时间=unknown','Day 10 未在 X 找到 Tibo 完成帖；实际时间取 Radar 实测 06:13Z','Radar 归档的 Day 8/10/13 时间为 Radar 实测落地时间，非确认帖时间','2026-03-04 的事件仅覆盖约 9% 用户，Radar 仍记为 reset，保留','静默重置仅 2026-08-25 一次被 Radar 收录；其他静默重置未知','banked reset 单独列出，不计入间隔','Day 15（10-20）实际时间取官宣帖时间','2026-10-21 01:10 的 credits 补偿帖（约 4 万账户账单限额错误）不是全局重置，未计入次数','Day 17 已计入 #57：官方窗口上限 01:00 BJ＋用户确认；Radar 后补实测约 01:10 BJ','Day 18 已计入 #58：官方窗口上限 01:00 BJ＋用户确认；Radar 后补实测约 01:40 BJ','Day 20 已计入 #59：Tibo Done 14:06 BJ（Radar 实测约 14:10 BJ）；窗口 midnight PST','Day 21 已计入 #60：无 Done 帖，取 Radar 实测 14:08 BJ；预告「today is a reset」','Day 22/24 为产品更新（Terra / Text your dot），非重置','Day 23 已计入 #61：Tibo Done 14:29 BJ（Radar 实测约 14:35 BJ）；窗口 midnight PST'],
-   banked=[dict(date_bj=bj(P(e['announced_at'])),summary=e['summary'],url=e['url']) for e in radar['events'] if e['type']=='credits'],
+   last_reset=ev[-1],days_since_last=round(since,2),stats_30d=s30,stats_all=sall,teaser_lag_hours_challenge=lags,teaser_lag_labels=lag_labels,forecast=fc,forecast_check=prev,estimate_superseded=estimate_superseded,pending=pending,banked_pending=bp,events=ev,
+   gaps=['status.openai.com 未纳入（仅作故障线；本页核对时 All Systems Operational）','多数早期事件只有确认/官宣时间，无独立预告帖，预测时间=unknown','Day 10 未在 X 找到 Tibo 完成帖；实际时间取 Radar 实测 06:13Z','Radar 归档的 Day 8/10/13 时间为 Radar 实测落地时间，非确认帖时间','2026-03-04 的事件仅覆盖约 9% 用户，Radar 仍记为 reset，保留','静默重置仅 2026-08-25 一次被 Radar 收录；其他静默重置未知','banked reset 单独列出，不计入间隔与全局次数','Day 15（10-20）实际时间取官宣帖时间','2026-10-21 01:10 的 credits 补偿帖（约 4 万账户账单限额错误）不是全局重置，未计入次数','Day 17 已计入 #57：官方窗口上限 01:00 BJ＋用户确认；Radar 后补实测约 01:10 BJ','Day 18 已计入 #58：官方窗口上限 01:00 BJ＋用户确认；Radar 后补实测约 01:40 BJ','Day 20 已计入 #59：Tibo Done 14:06 BJ（Radar 实测约 14:10 BJ）；窗口 midnight PST','Day 21 已计入 #60：无 Done 帖，取 Radar 实测 14:08 BJ；预告「today is a reset」','Day 22/24/25/26 为产品或额度政策，非全局重置（Day25 为 Pro/Business 限额加倍）','Day 23 已计入 #61：Tibo Done 14:29 BJ（Radar 实测约 14:35 BJ）；窗口 midnight PST','Day 27 未见独立官宣帖；Banked 1/2 于 11-01、Day 28/ Banked 2/2 于 11-02 落地，均不计入全局次数','2026-11-13 banked 已激活、即将到账：官宣 05:59 BJ，Radar 监测号约 06:28 BJ 已观察到，尚无 Tibo Done，不计入第 62 次','自 Day23 至看板生成时，X + Radar 均未发现新的全局用量重置；估计窗口 10-28 15:00–10-31 15:00 已过期并撤回，不顺延'],
+   banked=banked,
    non_reset=[dict(date_bj='2026-10-21 01:10',kind='credits_compensation',summary='约 4 万账户周末账单限额配置错误已修复；受影响用户获 credits 补偿。这不是全局重置。',url='https://x.com/thsottiaux/status/2112592264686149749'),
               dict(date_bj='2026-10-23 12:47',kind='product_ship_teaser',summary='Day18 回复中的「small ship」指同日小产品发布，不是 credits/banked 额度包；Day18 重置已于 10-24 01:00 BJ 前落地。',url='https://x.com/thsottiaux/status/2113492502355562875'),
               dict(date_bj='2026-10-24 07:12',kind='product_ship',summary='Day19/ Small updates（dots 通话、推理切换不失效缓存、codex cli 更新）——ship 日，非重置。',url='https://x.com/thsottiaux/status/2113770573994299544'),
               dict(date_bj='2026-10-27 03:24',kind='product_ship',summary='Day22/ Terra is back（GPT-6.1 Terra 模型发布）——ship 日，非重置。',url='https://x.com/thsottiaux/status/2114800277677092936'),
-              dict(date_bj='2026-10-29 09:49',kind='product_ship',summary='Day24/ Text your dot（iMessage/RCS 文本你的 dot）——产品更新，非重置。',url='https://x.com/thsottiaux/status/2115622002581188681')])
+              dict(date_bj='2026-10-29 09:49',kind='product_ship',summary='Day24/ Text your dot（iMessage/RCS 文本你的 dot）——产品更新，非重置。',url='https://x.com/thsottiaux/status/2115622002581188681'),
+              dict(date_bj='2026-10-30 00:56',kind='usage_policy',summary='Day25/ 即日起将 Pro 100/200/500 与 Business Premium 全部用量限额加倍；Pro 200 不降额。这是额度政策，不是全局重置。',url='https://x.com/thsottiaux/status/2115850175868727621'),
+              dict(date_bj='2026-10-31 13:42',kind='product_ship_teaser',summary='Day26/ 移动端多账户切换（桌面端即将推出）。预告随后两日为 banked resets，不是全局用量重置。',url='https://x.com/thsottiaux/status/2116405414921384099')])
   json.dump(data,open('data.json','w'),ensure_ascii=False,indent=1)
   print(s30,sall,lags,fc,len(ev))
 d=open('data.json').read();open('index.html','w').write(open('tpl.html').read().replace('__DATA__',d));print('rendered index.html')

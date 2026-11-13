@@ -1,5 +1,5 @@
 {
- "generated_at_bj": "2026-10-29 17:12",
+ "generated_at_bj": "2026-11-13 10:41",
  "sources": [
   "https://x.com/thsottiaux",
   "https://codex-reset.com/api/timeline",
@@ -41,13 +41,13 @@
   },
   "gap_days": 2.01
  },
- "days_since_last": 1.11,
+ "days_since_last": 15.84,
  "stats_30d": {
-  "n": 12,
-  "mean": 2.62,
-  "median": 2.23,
+  "n": 8,
+  "mean": 1.88,
+  "median": 2.03,
   "min": 1.0,
-  "max": 6.13
+  "max": 2.6
  },
  "stats_all": {
   "n": 60,
@@ -86,9 +86,11 @@
   "window_end_bj": "2026-10-31 15:00",
   "confidence": "低-中",
   "label": "估计（非官方）",
-  "basis": "估计，非官方。挑战期已兑现 2/6/8/10/13/15/17/18/20/21/23，间隔 4.02/2.04/2.05/2.6/2.41/2.43/1.0/1.55/1.0/2.01 天（中位 2.04，最短 1.0）；近 30 天中位 2.23 天。最近 Day23 于 2026-10-28 14:29 落地（Tibo Done；Radar 实测约 14:35 BJ）。Day19/22/24 为产品 ship，非重置；Day20/21 亦为全局重置。窗口起点＝上次＋最短间隔所在 PT 日开始，宽 3 天。",
-  "change": "出现「Day N/ Reset」帖 → 改为官方窗口；若更早重置，本窗口提前失效；窗口过去仍无帖则撤回，不顺延。",
-  "hour_note": "近 30 天落地时刻（北京）：[1, 1, 4, 5, 11, 12, 13, 14, 14, 14, 14, 14] — 多在 12–15 点或 01 点前后（Pacific 上午），不给固定时点",
+  "withdrawn": true,
+  "withdrawn_note": "估计窗口已过且未出现新的全局重置，已撤回，不顺延。",
+  "basis": "估计，非官方。挑战期已兑现 2/6/8/10/13/15/17/18/20/21/23，间隔 4.02/2.04/2.05/2.6/2.41/2.43/1.0/1.55/1.0/2.01 天（中位 2.04，最短 1.0）；近 30 天中位 2.03 天。最近全局仍为 Day23（2026-10-28 14:29，Tibo Done；Radar 实测约 14:35 BJ）。截至看板生成时未发现新的 Day-N 全局用量重置，故不重算窗口。Day19/22/24/25/26 为产品或额度政策（Day25 为 Pro/Business 限额加倍），非全局重置；Day26 预告随后两日为 banked，已分别在 11-01、11-02 落地（Banked 1/2、Day28 Banked 2/2），不计入全局次数。窗口起点＝上次＋最短间隔所在 PT 日开始，宽 3 天。 该窗口已过期并撤回，不顺延。",
+  "change": "出现「Day N/ Reset」帖 → 改为官方窗口；若更早重置，本窗口提前失效；窗口过去仍无帖则撤回，不顺延。Banked reset 单独展示，不改全局估计、不计入次数。",
+  "hour_note": "近 30 天落地时刻（北京）：[1, 1, 4, 14, 14, 14, 14, 14] — 多在 12–15 点或 01 点前后（Pacific 上午），不给固定时点",
   "sources": [
    "https://x.com/thsottiaux",
    "https://codex-reset.com"
@@ -119,6 +121,36 @@
   }
  },
  "pending": null,
+ "banked_pending": {
+  "kind": "banked",
+  "status": "activated_soon",
+  "label": "Banked reset",
+  "counted": false,
+  "teaser": {
+   "url": "https://x.com/thsottiaux/status/2120410480204525936",
+   "time_bj": "2026-11-11 14:57",
+   "time_utc": "2026-11-11T06:57:08Z",
+   "quote": "Thursday is feeling codexy to me. Perhaps also a good time for a banked reset."
+  },
+  "parent": {
+   "url": "https://x.com/thsottiaux/status/2120410006273380750",
+   "time_bj": "2026-11-11 14:55",
+   "quote": "It's been a while without resets. Maybe I should come back out of the basement"
+  },
+  "announcement": {
+   "url": "https://x.com/thsottiaux/status/2120999993079451919",
+   "time_bj": "2026-11-13 05:59",
+   "time_utc": "2026-11-12T21:59:39Z",
+   "quote": "the banked reset has been activated and should land in everyones accounts sometime soon!"
+  },
+  "radar": {
+   "time_bj": "2026-11-13 06:28",
+   "time_utc": "2026-11-12T22:28:26Z",
+   "summary": "The banked reset Tibo announced landed on our monitoring accounts.",
+   "official_done": false
+  },
+  "note": "储备额度发放，不是 Day-N 全局用量重置，不计入第 62 次。已激活，官方称即将到账；Radar 监测号约 06:28 BJ 已观察到，尚无 Tibo Done 帖。"
+ },
  "events": [
   {
    "id": "1968163721034994139",
@@ -1491,17 +1523,34 @@
   "Radar 归档的 Day 8/10/13 时间为 Radar 实测落地时间，非确认帖时间",
   "2026-03-04 的事件仅覆盖约 9% 用户，Radar 仍记为 reset，保留",
   "静默重置仅 2026-08-25 一次被 Radar 收录；其他静默重置未知",
-  "banked reset 单独列出，不计入间隔",
+  "banked reset 单独列出，不计入间隔与全局次数",
   "Day 15（10-20）实际时间取官宣帖时间",
   "2026-10-21 01:10 的 credits 补偿帖（约 4 万账户账单限额错误）不是全局重置，未计入次数",
   "Day 17 已计入 #57：官方窗口上限 01:00 BJ＋用户确认；Radar 后补实测约 01:10 BJ",
   "Day 18 已计入 #58：官方窗口上限 01:00 BJ＋用户确认；Radar 后补实测约 01:40 BJ",
   "Day 20 已计入 #59：Tibo Done 14:06 BJ（Radar 实测约 14:10 BJ）；窗口 midnight PST",
   "Day 21 已计入 #60：无 Done 帖，取 Radar 实测 14:08 BJ；预告「today is a reset」",
-  "Day 22/24 为产品更新（Terra / Text your dot），非重置",
-  "Day 23 已计入 #61：Tibo Done 14:29 BJ（Radar 实测约 14:35 BJ）；窗口 midnight PST"
+  "Day 22/24/25/26 为产品或额度政策，非全局重置（Day25 为 Pro/Business 限额加倍）",
+  "Day 23 已计入 #61：Tibo Done 14:29 BJ（Radar 实测约 14:35 BJ）；窗口 midnight PST",
+  "Day 27 未见独立官宣帖；Banked 1/2 于 11-01、Day 28/ Banked 2/2 于 11-02 落地，均不计入全局次数",
+  "2026-11-13 banked 已激活、即将到账：官宣 05:59 BJ，Radar 监测号约 06:28 BJ 已观察到，尚无 Tibo Done，不计入第 62 次",
+  "自 Day23 至看板生成时，X + Radar 均未发现新的全局用量重置；估计窗口 10-28 15:00–10-31 15:00 已过期并撤回，不顺延"
  ],
  "banked": [
+  {
+   "date_bj": "2026-11-02 06:32",
+   "summary": "Day 28/ Banked 2/2 — Radar 监测号于 2026-11-02 06:32 观察到落地；Tibo 于 2026-11-02 07:27 官宣。",
+   "url": "https://x.com/thsottiaux/status/2117035794678546764",
+   "tibo_bj": "2026-11-02 07:27",
+   "tibo_quote": "Day 28/ Banked 2/2"
+  },
+  {
+   "date_bj": "2026-11-01 03:59",
+   "summary": "Banked 1/2 — Radar 监测号于 2026-11-01 03:59 观察到落地；Tibo 于 2026-11-01 08:43 官宣。",
+   "url": "https://x.com/thsottiaux/status/2116692529970311254",
+   "tibo_bj": "2026-11-01 08:43",
+   "tibo_quote": "Banked 1/2"
+  },
   {
    "date_bj": "2026-10-08 07:24",
    "summary": "The banked reset Tibo announced landed on our monitoring accounts.",
@@ -1598,6 +1647,18 @@
    "kind": "product_ship",
    "summary": "Day24/ Text your dot（iMessage/RCS 文本你的 dot）——产品更新，非重置。",
    "url": "https://x.com/thsottiaux/status/2115622002581188681"
+  },
+  {
+   "date_bj": "2026-10-30 00:56",
+   "kind": "usage_policy",
+   "summary": "Day25/ 即日起将 Pro 100/200/500 与 Business Premium 全部用量限额加倍；Pro 200 不降额。这是额度政策，不是全局重置。",
+   "url": "https://x.com/thsottiaux/status/2115850175868727621"
+  },
+  {
+   "date_bj": "2026-10-31 13:42",
+   "kind": "product_ship_teaser",
+   "summary": "Day26/ 移动端多账户切换（桌面端即将推出）。预告随后两日为 banked resets，不是全局用量重置。",
+   "url": "https://x.com/thsottiaux/status/2116405414921384099"
   }
  ]
 }

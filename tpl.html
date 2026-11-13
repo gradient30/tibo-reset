@@ -47,6 +47,7 @@ h2 .tag{text-transform:none;letter-spacing:0}
 .kpi .spark{margin-top:6px;opacity:.9}
 .hero-done{background:linear-gradient(145deg,color-mix(in srgb,var(--ok) 14%,var(--glass)),color-mix(in srgb,var(--acc) 6%,var(--glass)));padding:16px 18px}
 .hero-next{background:linear-gradient(145deg,color-mix(in srgb,var(--warn) 14%,var(--glass)),color-mix(in srgb,var(--acc2) 8%,var(--glass)));padding:16px 18px}
+.hero-banked{background:linear-gradient(145deg,color-mix(in srgb,var(--acc2) 16%,var(--glass)),color-mix(in srgb,var(--warn) 8%,var(--glass)));padding:16px 18px}
 .hero-pair{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 .hero-pair .meta{flex:1;min-width:140px}
 .big{font-size:clamp(22px,3.2vw,32px);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin:6px 0 4px;font-variant-numeric:tabular-nums}
@@ -59,6 +60,7 @@ h2 .tag{text-transform:none;letter-spacing:0}
 .tag.ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok);border-color:color-mix(in srgb,var(--ok) 30%,transparent)}
 .tag.warn{background:color-mix(in srgb,var(--warn) 16%,transparent);color:var(--warn);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
 .tag.acc{background:color-mix(in srgb,var(--acc) 16%,transparent);color:var(--acc);border-color:color-mix(in srgb,var(--acc) 30%,transparent)}
+.tag.banked{background:color-mix(in srgb,var(--acc2) 16%,transparent);color:var(--acc2);border-color:color-mix(in srgb,var(--acc2) 30%,transparent)}
 .bar{height:6px;border-radius:4px;background:color-mix(in srgb,var(--fg) 8%,transparent);overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:4px}
 a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
 .u{color:var(--mut);font-style:italic;opacity:.85}
@@ -160,49 +162,65 @@ function ringSVG(pctVal,labelTop,labelBot,color='ok',size=110){
 function todBucket(bj){const h=parseInt((bj||'').slice(11,13),10);if(isNaN(h))return {cls:'',lab:'—'};
   if(h<5)return{cls:'night',lab:'深夜'};if(h<9)return{cls:'dawn',lab:'清晨'};if(h<12)return{cls:'am',lab:'上午'};if(h<18)return{cls:'pm',lab:'下午'};return{cls:'eve',lab:'晚上'}}
 function srcOf(r){if(r.confirmation)return{t:'官方',c:'ok'};if(r.user_confirm)return{t:'用户确认',c:'warn'};return{t:'Radar',c:'acc'}}
-const Pend=D.pending,isOff=F.kind==='official';
+const Pend=D.pending,BP=D.banked_pending,isOff=F.kind==='official',isWd=!!F.withdrawn;
 const winEnd=BJT(F.window_end_bj),winState=(()=>{if(isOff){if(NOWT<winEnd)return '官方预告中';return '窗口已过·未核实'}const a=BJT(F.window_start_bj);if(NOWT<a)return '未开始';if(NOWT<=winEnd)return '进行中';return '已过期'})();
 const remainMs=Math.max(0,winEnd-NOWT),remainH=(remainMs/36e5),remainLabel=remainMs<=0?'窗口已过':remainH>=24?`${(remainH/24).toFixed(1)} 天`:`${remainH.toFixed(1)} 小时`;
 const winPct=isOff?Math.max(0.05,Math.min(0.95,1-remainMs/Math.max(1,(winEnd-PT(Pend&&Pend.teaser&&Pend.teaser.time_utc||L.actual_utc))))):pct;
 // KPI strip — concise
+const k4=BP?['Banked','已激活','即将到账 · 不计 #'+(D.events.length+1)]:['下一次',isOff?(Pend?Pend.label:'官方'):(isWd?'已撤回':'估计'),isOff?`${F.window_end_bj.slice(5)} 前`:(isWd?'估计窗口已过期':'→ '+F.window_end_bj.slice(5))];
 [['距上次',el.toFixed(1)+' 天',`${L.label||''} · ${L.actual_bj.slice(5,10)}`],
  ['30天中位',S.median+' 天',`均值 ${S.mean} · n=${S.n}`],
  ['已完成',D.events.length+' 次',`banked ${D.banked.length} · 预告不计`],
- ['下一次',isOff?(Pend?Pend.label:'官方'):'估计',isOff?`${F.window_end_bj.slice(5)} 前`:`→ ${F.window_end_bj.slice(5)}`]]
-.forEach(([k,v,s],i)=>$('#k'+(i+1)).innerHTML=`<div class="k">${k}</div><div class="v">${v}</div><div class="q">${s}</div>${i==1?`<div class="spark">${sparkSVG(28)}</div>`:''}${i==3?`<div style="margin-top:4px"><span class="tag ${isOff?'warn':''}">${isOff?'预测 · 未落地':'估计'}</span></div>`:''}`);
+ k4]
+.forEach(([k,v,s],i)=>$('#k'+(i+1)).innerHTML=`<div class="k">${k}</div><div class="v">${v}</div><div class="q">${s}</div>${i==1?`<div class="spark">${sparkSVG(28)}</div>`:''}${i==3?`<div style="margin-top:4px"><span class="tag ${BP?'banked':isOff?'warn':isWd?'':'warn'}">${BP?'非全局':isOff?'预测 · 未落地':isWd?'已撤回':'估计'}</span></div>`:''}`);
 
 // Dual hero
 $('#heroDone').innerHTML=`<div class="hero-pair">
 ${ringSVG(1,'✓','已重置','ok',118)}
 <div class="meta">
-  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div class="k">最近重置</div><span class="tag ok">已重置 · #${D.events.length}</span></div>
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div class="k">最近全局重置</div><span class="tag ok">已重置 · #${D.events.length}</span></div>
   <div class="big grad-ok">${(L.label||'—').replace('（社区投票）','')}</div>
   <div class="v" style="font-size:18px">${L.actual_bj}</div>
   <div class="q" style="margin-top:4px">北京时间 · 间隔 ${L.gap_days!=null?L.gap_days+' 天':'—'}${L.user_confirm?' · 用户确认 '+L.user_confirm.time_bj.slice(11):''}${L.confirmation?' · '+lk(L.confirmation.url,'官宣'):''} · ${lk(L.radar_url,'Radar')}</div>
 </div></div>`;
 
-$('#heroNext').innerHTML=`<div class="hero-pair">
-${ringSVG(isOff?winPct:pct,isOff?remainLabel:el.toFixed(1)+'d',isOff?'距窗口截止':'/ '+S.median+'d 中位','warn',118)}
-<div class="meta">
-  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div class="k">下一次</div><span class="tag warn">${isOff?'预测 · 官方窗口':'估计窗口'}</span></div>
-  <div class="big grad-warn">${isOff&&Pend?Pend.label:'估计窗口'}</div>
-  <div class="v" style="font-size:18px">${isOff?`官方窗口 ${F.window_end_bj} 前`:`${F.window_start_bj.slice(5)} → ${F.window_end_bj.slice(5)}`}</div>
-  <div class="q" style="margin-top:4px">${isOff&&Pend?`${lk(Pend.teaser.url,'预告帖')} · ${lk(Pend.reply.url,'时点回复')} · 未计入第 ${D.events.length+1} 次`:F.hour_note||''}</div>
-  ${isOff?`<div class="cdown" style="color:var(--warn)">⏳ ${remainLabel} · 信心 ${F.confidence}</div>`:''}
-</div></div>`;
+if(BP){
+  $('#heroNext').classList.add('hero-banked');
+  $('#heroNext').innerHTML=`<div class="hero-pair">
+  ${ringSVG(.72,'待到账','Banked','warn',118)}
+  <div class="meta">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div class="k">储备重置</div><span class="tag banked">已激活 · 即将到账</span><span class="tag">非全局 · 不计 #${D.events.length+1}</span></div>
+    <div class="big grad-warn">Banked reset</div>
+    <div class="v" style="font-size:18px">${BP.announcement.time_bj} 已激活</div>
+    <div class="q" style="margin-top:4px">Radar 监测号 ${BP.radar.time_bj} 已观察到 · 尚无 Tibo Done</div>
+    <div class="q" style="margin-top:2px">${lk(BP.teaser.url,'预告 11-11')} · ${lk(BP.announcement.url,'激活帖')} · 不是全局用量重置</div>
+  </div></div>`;
+}else{
+  $('#heroNext').innerHTML=`<div class="hero-pair">
+  ${ringSVG(isOff?winPct:pct,isOff?remainLabel:(isWd?'已撤回':el.toFixed(1)+'d'),isOff?'距窗口截止':(isWd?'估计过期':'/ '+S.median+'d 中位'),'warn',118)}
+  <div class="meta">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div class="k">下一次全局</div><span class="tag warn">${isOff?'预测 · 官方窗口':isWd?'估计已撤回':'估计窗口'}</span></div>
+    <div class="big grad-warn">${isOff&&Pend?Pend.label:(isWd?'暂无官方窗口':'估计窗口')}</div>
+    <div class="v" style="font-size:18px">${isOff?`官方窗口 ${F.window_end_bj} 前`:`${F.window_start_bj.slice(5)} → ${F.window_end_bj.slice(5)}`}</div>
+    <div class="q" style="margin-top:4px">${isOff&&Pend?`${lk(Pend.teaser.url,'预告帖')} · ${lk(Pend.reply.url,'时点回复')} · 未计入第 ${D.events.length+1} 次`:(isWd?(F.withdrawn_note||'窗口已过，不顺延'):(F.hour_note||''))}</div>
+    ${isOff?`<div class="cdown" style="color:var(--warn)">⏳ ${remainLabel} · 信心 ${F.confidence}</div>`:''}
+  </div></div>`;
+}
 
 // Timeline
-{const ch=D.events.filter(r=>PT(r.actual_utc)>Date.now()-16*864e5);
-const F1=BJT(F.window_end_bj),F0=isOff&&Pend?PT(Pend.teaser.time_utc):BJT(F.window_start_bj);
-const t0=PT(ch[0].actual_utc)-864e5/2,t1=Math.max(F1,NOWT)+864e5/2,W=760,H=100,x=t=>20+(t-t0)/(t1-t0)*(W-40);
+{const ch=D.events.filter(r=>PT(r.actual_utc)>Date.now()-28*864e5);
+const F1=isWd?NOWT:(BJT(F.window_end_bj)),F0=isOff&&Pend?PT(Pend.teaser.time_utc):(isWd?NOWT:BJT(F.window_start_bj));
+const tStart=ch.length?PT(ch[0].actual_utc):NOWT-28*864e5;
+const t0=tStart-864e5/2,t1=Math.max(F1,NOWT)+864e5/2,W=760,H=100,x=t=>20+(t-t0)/(t1-t0)*(W-40);
 let g=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="近期重置时间轴">`;
 for(let d=BJT(new Date(t0+8*36e5).toISOString().slice(0,10)+' 00:00')+864e5,k=0;d<t1;d+=864e5,k++){g+=`<line x1=${x(d)} x2=${x(d)} y1=24 y2=68 stroke="currentColor" opacity=".06"/>`;if(k%2==0)g+=`<text x=${x(d)} y=84 text-anchor="middle">${new Date(d+8*36e5).toISOString().slice(5,10)}</text>`}
-g+=`<rect x=${x(F0)} y=36 width=${Math.max(2,x(F1)-x(F0))} height=16 rx=4 fill="${isOff?'var(--warn)':'var(--acc)'}" opacity=".28"/><text x=${x(F1)} y=${H-4} text-anchor="end" style="fill:${isOff?'var(--warn)':'var(--acc2)'};font-weight:700;font-size:9px">${isOff?`${Pend.label} 预测→${F.window_end_bj.slice(5)}`:'估计'}</text>`;
+if(isOff||(!isWd&&!BP)){g+=`<rect x=${x(F0)} y=36 width=${Math.max(2,x(F1)-x(F0))} height=16 rx=4 fill="${isOff?'var(--warn)':'var(--acc)'}" opacity=".28"/><text x=${x(F1)} y=${H-4} text-anchor="end" style="fill:${isOff?'var(--warn)':'var(--acc2)'};font-weight:700;font-size:9px">${isOff?`${Pend.label} 预测→${F.window_end_bj.slice(5)}`:'估计'}</text>`;}
 g+=`<line x1=20 x2=${W-20} y1=44 y2=44 stroke="currentColor" opacity=".2"/>`;
 ch.forEach(r=>{const X=x(PT(r.actual_utc)),c=r.label&&r.label.startsWith('Day');g+=`<circle cx=${X} cy=44 r=5.5 fill="${c?'var(--ok)':'var(--acc)'}" stroke="var(--bg)" stroke-width=2><title>${r.actual_bj} ${r.label||''} 已重置</title></circle><text x=${X} y=18 text-anchor="middle" style="font-size:9px">${(r.label||'').replace('（社区投票）','')}</text>`});
 if(Pend){const Xt=PT(Pend.teaser.time_utc);g+=`<circle cx=${x(Xt)} cy=44 r=6 fill="none" stroke="var(--warn)" stroke-width="2"><title>${Pend.label} 预测 ${Pend.teaser.time_bj}</title></circle><text x=${x(Xt)} y=18 text-anchor="middle" style="fill:var(--warn);font-size:9px;font-weight:700">${Pend.label}</text>`}
+if(BP){const Xb=PT(BP.announcement.time_utc);g+=`<circle cx=${x(Xb)} cy=44 r=6 fill="none" stroke="var(--acc2)" stroke-width="2"><title>Banked 已激活 ${BP.announcement.time_bj}</title></circle><text x=${x(Xb)} y=18 text-anchor="middle" style="fill:var(--acc2);font-size:9px;font-weight:700">Banked</text>`}
 g+=`<line x1=${x(NOWT)} x2=${x(NOWT)} y1=20 y2=70 stroke="var(--acc2)" stroke-width=1.5/><circle cx=${x(NOWT)} cy=44 r=3 fill="var(--acc2)"/><text x=${x(NOWT)} y=96 text-anchor="middle" style="fill:var(--acc2);font-weight:700;font-size:9px">现在</text></svg>`;
-$('#strip').innerHTML=`<h2>近期时间轴</h2>${g}<div class="q">实心绿 = 已重置 · 空心橙 = 预测未落地 · 橙带 = 官方窗口</div>`;}
+$('#strip').innerHTML=`<h2>近期时间轴</h2>${g}<div class="q">实心绿 = 全局已重置 · 空心青 = banked 已激活未官方确认 · 空心橙 = 全局预测</div>`;}
 $('#sparkcard').innerHTML=`<h2>间隔走势 · 近 20 次</h2>${sparkSVG(64)}<div class="q" style="margin-top:6px">截断 20 天 · 全史中位 ${A.median}d · <a href="#trend">趋势 →</a></div>`;
 
 // Comparison table
@@ -225,7 +243,7 @@ $('#sparkcard').innerHTML=`<h2>间隔走势 · 近 20 次</h2>${sparkSVG(64)}<di
    return `<tr class="${hi}"><td><b>${lab}</b></td><td>${r.actual_bj}</td><td class="num">${r.gap_days!=null?r.gap_days:'—'}</td><td><span class="tod ${tod.cls}"><i></i>${tod.lab} ${r.actual_bj.slice(11,16)||''}</span></td><td>${lag}</td><td><span class="tag ${src.c}">${src.t}</span></td></tr>`;
  }).join('')}
  </tbody></table></div>
- <div class="q" style="margin-top:8px">按时间新→旧 · 来源：官方 Done / 用户确认 / Radar 归档 · 预测中的 ${Pend?Pend.label:'下一次'} 未列入（尚未落地）</div>`;}
+ <div class="q" style="margin-top:8px">按时间新→旧 · 仅全局重置 · Banked 不列入${BP?'（当前 banked 已激活，不计 #'+(D.events.length+1)+'）':''} · 来源：官方 Done / 用户确认 / Radar</div>`;}
 
 // Lag — compact
 const lags=D.teaser_lag_hours_challenge,ml=Math.max(...lags,1);
@@ -237,7 +255,8 @@ $('#lag').innerHTML=`<h2>预告→落地</h2>${lags.map((h,i)=>`<div class="q" s
  <div class="q">Day15 估计</div><div class="miss" style="font-size:12px">✗ 早 ${Math.round(P.miss_minutes)} 分 → ${P.actual_bj.slice(5)}</div>
  ${Ph?`<div class="q" style="margin-top:8px">Day16–17 估计</div><div class="q" style="color:var(--ok)">✓ ${Ph.verdict.slice(0,18)}…</div>`:''}
  ${Es?`<div class="q" style="margin-top:8px">Day17 后估计</div><div class="q">已被 Day18 官方预告取代</div>`:''}
- <div style="margin-top:10px"><span class="tag warn">当前</span> <span class="q">${isOff?`${Pend.label} 官方预测 · 未落地`:'估计窗口'}</span></div>`;}
+ <div style="margin-top:10px"><span class="tag ${BP?'banked':isWd?'':'warn'}">当前</span> <span class="q">${BP?'Banked 已激活 · 非全局 · 不计 #'+(D.events.length+1):(isOff?`${Pend.label} 官方预测 · 未落地`:(isWd?(F.withdrawn_note||'估计已撤回'):'估计窗口'))}</span></div>
+ ${isWd?`<div class="q" style="margin-top:6px">${F.window_start_bj.slice(5)} → ${F.window_end_bj.slice(5)} 已过期</div>`:''}`;}
 
 // Evidence — compact chips, no quote walls
 {const st=(c,t)=>`<span class="tag ${c}" style="margin:2px 4px 2px 0">${t}</span>`;
@@ -246,6 +265,10 @@ $('#lag').innerHTML=`<h2>预告→落地</h2>${lags.map((h,i)=>`<div class="q" s
   <div>${st('ok','① 预告核实')} ${st('ok','② 时点核实')} ${st('warn','③ Radar 待落地')} ${st('warn','④ 未计入')}</div>
   <div class="q" style="margin-top:8px">${lk(Pend.teaser.url,'预告')} · ${lk(Pend.reply.url,'回复')} · 最近已完成仍为 ${L.label}</div>
   <details class="fold"><summary>改判条件</summary><div class="q" style="margin-top:4px">${F.change}</div></details>`;
+ }else if(BP){
+  $('#flow').innerHTML=`<h2>证据 · Banked</h2>
+  <div>${st('ok','① 预告核实')} ${st('ok','② 已激活')} ${st('acc','③ Radar 监测号已见')} ${st('warn','④ 无 Done · 不计 #'+(D.events.length+1))}</div>
+  <div class="q" style="margin-top:8px">${lk(BP.teaser.url,'预告')} · ${lk(BP.announcement.url,'激活')} · 最近全局仍为 ${L.label} #${D.events.length}</div>`;
  }else{
   $('#flow').innerHTML=`<h2>证据 · ${L.label||'最近'}</h2>
   <div>${st('ok','已计入 #'+D.events.length)} ${L.user_confirm?st('warn','用户确认'):st('ok','官方')} ${st('acc','Radar')}</div>
@@ -258,7 +281,8 @@ $('#basis').innerHTML=`<h2>预测依据 <span class="tag ${isOff?'warn':''}">${i
 <div class="q">源：${(F.sources||[]).map(u=>lk(u,u.includes('status/')?u.split('/').pop():u.replace('https://',''))).join(' · ')}</div>
 <details class="fold" style="margin-top:10px"><summary>Hour note / 改判</summary><div class="q" style="margin-top:4px">${F.hour_note||''}<br>${F.change||''}</div></details>`;
 
-if(D.non_reset&&D.non_reset.length){$('#note').innerHTML=`<span class="tag">非重置</span><div>${D.non_reset.map(n=>`<b>${n.date_bj}</b> · ${n.summary} ${lk(n.url,'原帖')}`).join('<br>')}</div>`}
+if(D.non_reset&&D.non_reset.length){const nr=[...D.non_reset].slice(-3).reverse();
+ $('#note').innerHTML=`<span class="tag">非重置</span><div>${nr.map(n=>`<b>${n.date_bj}</b> · ${n.summary} ${lk(n.url,'原帖')}`).join('<br>')}${D.non_reset.length>3?`<div class="q" style="margin-top:4px"><a href="#other">全部 ${D.non_reset.length} 条 →</a></div>`:''}</div>`}
 else $('#note').style.display='none';
 $('#ovfoot').innerHTML=`<span>生成于 ${D.generated_at_bj}（北京时间）· <b style="color:var(--ok)">已重置</b> ≠ <b style="color:var(--warn)">预测</b> · unknown = 未能核实</span><span><a href="#other">依据 / 缺口 →</a> · <a href="#history">全部 ${D.events.length} 次 →</a></span>`;
 
@@ -316,10 +340,10 @@ rows('all');document.querySelectorAll('.flt button').forEach(b=>b.onclick=()=>{d
  });
  s+=`</svg>`;
  $('#chartHour').innerHTML=s;}
-$('#bk').innerHTML=D.banked.map(b=>`<div><b>${b.date_bj}</b> · ${b.summary}<br>${b.url?lk(b.url,'原帖'):'<span class="u">无 X 原帖（Radar 实测）</span>'}</div>`).join('');
+$('#bk').innerHTML=(BP?`<div style="border-color:color-mix(in srgb,var(--acc2) 45%,transparent)"><b>${BP.announcement.time_bj}</b> · <span class="tag banked">已激活 · 即将到账</span> 不计 #${D.events.length+1}<br>${BP.note}<br>${lk(BP.teaser.url,'预告')} · ${lk(BP.announcement.url,'激活帖')} · Radar ${BP.radar.time_bj} 监测号已见，尚无 Done</div>`:'')+D.banked.map(b=>`<div><b>${b.date_bj}</b> · ${b.summary}<br>${b.url?lk(b.url,b.tibo_quote||'原帖'):'<span class="u">无 X 原帖（Radar 实测）</span>'}</div>`).join('');
 $('#gaps').innerHTML=D.gaps.map(x=>`<li>${x}</li>`).join('');
 $('#nr').innerHTML=`<h2>近期非重置公告</h2>${(D.non_reset||[]).map(n=>`<div class="q" style="margin-bottom:8px"><b>${n.date_bj}</b> · ${n.kind||''}<br>${n.summary}<br>${lk(n.url,'原帖')} · <span class="tag">未计入全局重置</span></div>`).join('')||'<div class="q">暂无</div>'}`;
-$('#ft').innerHTML=`<h2>数据源与图例</h2>数据源：${D.sources.map(u=>lk(u,u)).join(' · ')}　|　共 ${D.events.length} 次全局重置（Radar 归档 + X 原帖核验）、${D.banked.length} 条 banked　|　<b style="color:var(--ok)">已重置</b> = 已计入；<b style="color:var(--warn)">预测</b> = 官方/估计窗口未落地　|　生成于 ${D.generated_at_bj}（北京时间）`;
+$('#ft').innerHTML=`<h2>数据源与图例</h2>数据源：${D.sources.map(u=>lk(u,u)).join(' · ')}　|　共 ${D.events.length} 次全局重置（Radar 归档 + X 原帖核验）、${D.banked.length} 条已记录 banked${BP?' + 1 条待官方确认':''}　|　<b style="color:var(--ok)">已重置</b> = 已计入全局；<b style="color:var(--acc2)">Banked</b> = 储备额度，不计入次数；<b style="color:var(--warn)">预测</b> = 官方/估计窗口未落地　|　生成于 ${D.generated_at_bj}（北京时间）`;
 $('#sf').innerHTML=`生成于 ${D.generated_at_bj}（北京时间）· 已重置 ≠ 预测 · unknown = 未能核实 · <a href="#other">数据源</a>`;
 const TABS=['overview','trend','history','other'];
 function route(){let t=location.hash.slice(1);if(t=='forecast'){history.replaceState(null,'','#overview');t='overview'}if(!TABS.includes(t))t='overview';
